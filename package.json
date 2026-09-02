@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Koraxdd/modus#readme",
   "description": "",
-  "devDependencies": {
+  "dependencies": {
     "prettier": "^3.9.6"
   }
 }

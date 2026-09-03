@@ -5,8 +5,10 @@ import Link from "next/link"
 
 export default function HeroSection() {
     return (
-        <section className="text-center">
-            <h1 className="text-[58px] md:text-7xl max-w-180 mx-auto tracking-tighter leading-[1.05] font-bold">
+        <section className="relative pt-36 pb-20 px-6 text-center">
+            <div className="absolute inset-0 bg-sphere pointer-events-none" />
+            <div className="absolute inset-0 -z-50 bg-grid pointer-events-none" />
+            <h1 className="text-[58px] md:text-7xl max-w-3xl mx-auto tracking-tighter leading-[1.05] font-bold">
                 Your job search,
                 <span className="bg-linear-to-r from-[#4f46e5] to-[#7c3aed] bg-clip-text text-transparent">
                     {" "}
@@ -14,7 +16,7 @@ export default function HeroSection() {
                 </span>{" "}
                 and effortless
             </h1>
-            <p className="mt-6 text-muted-foreground text-[17px] leading-7 max-w-130 mx-auto">
+            <p className="mt-6 text-muted-foreground text-[17px] leading-7 max-w-lg mx-auto">
                 Track every application, get AI feedback on your CV, and
                 generate tailored cover letters in seconds — all in one place.
             </p>
@@ -33,7 +35,7 @@ export default function HeroSection() {
                     href="/login"
                     className={cn(
                         buttonVariants({ variant: "outline", size: "lg" }),
-                        "shadow-sm p-6 rounded-lg font-semibold isolate"
+                        "shadow-sm p-6 rounded-lg font-semibold"
                     )}
                 >
                     See a demo

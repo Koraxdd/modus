@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 export default function Header() {
     return (
-        <header className="fixed top-0 left-0 right-0 bg-transparent">
+        <header className="fixed top-0 left-0 right-0 bg-transparent z-50">
             <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
                 <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 bg-indigo-600 flex items-center justify-center shadow-sm shadow-indigo-600/25 shrink-0 rounded-md">
@@ -18,7 +18,7 @@ export default function Header() {
                         href="/register"
                         className={cn(
                             buttonVariants({
-                                variant: "default",
+                                variant: "secondary",
                                 size: "lg",
                             }),
                             "px-4 rounded-lg"

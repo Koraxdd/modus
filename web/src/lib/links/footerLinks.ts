@@ -1,7 +1,4 @@
-type FooterColumn = {
-    title: "PRODUCT" | "RESOURCES" | "COMPANY"
-    links: { label: string; href: string }[]
-}
+import type { FooterColumn, Link } from "@/types/navigation.types"
 
 export const footerColumns: FooterColumn[] = [
     {
@@ -34,4 +31,10 @@ export const footerColumns: FooterColumn[] = [
             { label: "Legal", href: "/company/legal" },
         ],
     },
+]
+
+export const footerLegalLinks: Link[] = [
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
+    { label: "Cookies", href: "/cookies" },
 ]

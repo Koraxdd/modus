@@ -1,6 +1,6 @@
 import Link from "next/link"
 import BrandIcon from "../BrandIcon"
-import { footerColumns } from "@/lib/links/footerColumns"
+import { footerColumns, footerLegalLinks } from "@/lib/links/footerLinks"
 
 export default function Footer() {
     return (
@@ -19,30 +19,24 @@ export default function Footer() {
                             role with less stress.
                         </p>
                     </div>
-                    {footerColumns.map((column) => {
-                        const { title, links } = column
-                        return (
-                            <nav key={title}>
-                                <h3 className="mb-4 text-xs font-semibold tracking-wider text-zinc-400">
-                                    {title}
-                                </h3>
-                                <div className="flex flex-col gap-3">
-                                    {links.map((link) => {
-                                        const { label, href } = link
-                                        return (
-                                            <Link
-                                                key={label}
-                                                href={href}
-                                                className="text-[13px] text-zinc-600 hover:text-foreground transition-colors"
-                                            >
-                                                {label}
-                                            </Link>
-                                        )
-                                    })}
-                                </div>
-                            </nav>
-                        )
-                    })}
+                    {footerColumns.map((column) => (
+                        <nav key={column.title}>
+                            <h3 className="mb-4 text-xs font-semibold tracking-wider text-zinc-400">
+                                {column.title}
+                            </h3>
+                            <div className="flex flex-col gap-3">
+                                {column.links.map((link) => (
+                                    <Link
+                                        key={link.label}
+                                        href={link.href}
+                                        className="text-[13px] text-zinc-600 hover:text-foreground transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </nav>
+                    ))}
                 </div>
                 <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-xs text-zinc-400">
@@ -50,24 +44,15 @@ export default function Footer() {
                         reserved.
                     </p>
                     <nav className="flex items-center gap-5">
-                        <Link
-                            href={"/privacy"}
-                            className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
-                        >
-                            Privacy
-                        </Link>
-                        <Link
-                            href={"/terms"}
-                            className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
-                        >
-                            Terms
-                        </Link>
-                        <Link
-                            href={"/cookies"}
-                            className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
-                        >
-                            Cookies
-                        </Link>
+                        {footerLegalLinks.map((link) => (
+                            <Link
+                                key={link.label}
+                                href={link.href}
+                                className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
                     </nav>
                 </div>
             </div>

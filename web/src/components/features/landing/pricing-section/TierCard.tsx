@@ -94,10 +94,9 @@ export default function TierCard({ card, isAnnual }: TierCardProps) {
             </CardContent>
             <CardFooter className="mt-auto">
                 <Button
-                    className={cn(
-                        buttonVariants({ variant: buttonVariant, size: "lg" }),
-                        "w-full py-6 rounded-lg cursor-pointer font-semibold"
-                    )}
+                    variant={buttonVariant}
+                    size="lg"
+                    className="w-full py-6 rounded-lg cursor-pointer font-semibold"
                 >
                     {buttonText}
                 </Button>

@@ -9,7 +9,7 @@ export default function CTASection() {
         <section className="py-28 px-6 border-t border-zinc-100">
             <div className="max-w-2xl mx-auto text-center">
                 <div className="w-14 h-14 mb-8 bg-indigo-600 inline-flex items-center justify-center shrink-0 shadow-lg shadow-indigo-600/25 rounded-xl">
-                    <BrandIcon size={24} />
+                    <BrandIcon size={22} />
                 </div>
                 <h2 className="text-[40px] md:text-5xl font-bold tracking-tighter leading-[1.1]">
                     Ready to organise your job search?

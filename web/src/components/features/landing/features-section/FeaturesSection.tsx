@@ -12,25 +12,15 @@ export default function FeaturesSection() {
                     <h2 className="text-[40px] md:text-5xl font-bold tracking-tighter leading-[1.1]">
                         Everything your job search needs
                     </h2>
-                    <p className="text-muted-foreground text-[17px] mt-4 max-w-md mx-auto">
+                    <p className="text-muted-foreground mt-4 max-w-md mx-auto">
                         From first application to signed offer, Modus keeps you
                         organised and one step ahead.
                     </p>
                 </div>
                 <div className="grid md:grid-cols-3 gap-5">
-                    {featureCards.map((card) => {
-                        const { icon, title, description, points } = card
-                        const Icon = icon
-                        return (
-                            <FeatureCard
-                                key={card.title}
-                                icon={<Icon className="text-primary w-5 h-5" />}
-                                title={title}
-                                description={description}
-                                points={points}
-                            />
-                        )
-                    })}
+                    {featureCards.map((card) => (
+                        <FeatureCard key={card.title} card={card} />
+                    ))}
                 </div>
             </div>
         </section>

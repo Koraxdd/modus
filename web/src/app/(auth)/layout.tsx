@@ -1,4 +1,3 @@
-import BrandIcon from "@/components/BrandIcon"
 import AuthBrandPanel from "@/components/layout/AuthBrandPanel"
 import type { ReactNode } from "react"
 
@@ -9,7 +8,9 @@ type AuthLayoutProps = {
 export default function AuthLayout({ children }: AuthLayoutProps) {
     return (
         <div className="min-h-screen w-full flex">
-            <div className="w-full">{children}</div>
+            <div className="w-full flex items-center justify-center">
+                {children}
+            </div>
             <AuthBrandPanel />
         </div>
     )

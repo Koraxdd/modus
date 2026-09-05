@@ -4,6 +4,7 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -12,12 +13,14 @@ import type { ReactNode } from "react"
 type AuthCardProps = {
     title: string
     description: string
+    footer?: ReactNode
     children: ReactNode
 }
 
 export default function AuthCard({
     title,
     description,
+    footer,
     children,
 }: AuthCardProps) {
     return (
@@ -60,6 +63,7 @@ export default function AuthCard({
                 </div>
             </CardHeader>
             <CardContent>{children}</CardContent>
+            <CardFooter>{footer}</CardFooter>
         </Card>
     )
 }

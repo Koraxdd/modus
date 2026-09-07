@@ -5,7 +5,7 @@ export const LoginSchema = z.object({
         .string()
         .trim()
         .pipe(z.email("Please enter a valid email address")),
-    password: z.string(),
+    password: z.string().min(1, "Password is required"),
 })
 
 export type LoginInput = z.infer<typeof LoginSchema>

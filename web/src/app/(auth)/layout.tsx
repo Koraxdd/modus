@@ -8,7 +8,7 @@ type AuthLayoutProps = {
 export default function AuthLayout({ children }: AuthLayoutProps) {
     return (
         <div className="min-h-screen w-full flex">
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex items-center justify-center px-6 py-12">
                 {children}
             </div>
             <AuthBrandPanel />

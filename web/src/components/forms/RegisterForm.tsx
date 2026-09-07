@@ -35,7 +35,6 @@ export default function RegisterForm() {
                 const result = (await res.json()) as ApiErrorResponse
                 console.error(result)
                 form.setError("email", {
-                    type: "server",
                     message: result.error,
                 })
                 return

@@ -1,8 +1,10 @@
 import express from "express"
-import { createAccount } from "./auth.controller"
+import { register } from "./auth.controller"
+import { validate } from "../../middleware/validate"
+import { RegisterSchema } from "./auth.schemas"
 
 const authRouter = express.Router()
 
-authRouter.post("/register", createAccount)
+authRouter.post("/register", validate(RegisterSchema), register)
 
 export default authRouter

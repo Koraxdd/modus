@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import authRouter from "./modules/auth/auth.routes"
+import { errorHandler } from "./middleware/errorHandler"
 
 const app = express()
 
@@ -15,5 +16,7 @@ app.use(
 )
 
 app.use("/api/v1/auth", authRouter)
+
+app.use(errorHandler)
 
 export default app

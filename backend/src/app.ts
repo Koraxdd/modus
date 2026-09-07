@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 app.use(
     cors({
-        origin: process.env.API_URL,
+        origin: process.env.CLIENT_URL,
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
         optionsSuccessStatus: 200,

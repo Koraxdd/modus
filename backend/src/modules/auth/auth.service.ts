@@ -1,10 +1,8 @@
 import argon2 from "argon2"
 import { authRepository } from "./auth.repository"
 import type { RegisterInput } from "./auth.schemas"
-import type { User } from "../../generated/prisma/client"
 import { AppError } from "../../errors/AppError"
-
-type PublicUser = Omit<User, "passwordHash">
+import type { PublicUser } from "../../types/user.types"
 
 export const authService = {
     async registerUser(data: RegisterInput): Promise<PublicUser> {
@@ -23,8 +21,11 @@ export const authService = {
             passwordHash,
         })
 
-        const { passwordHash: _, ...publicUser } = user
-
-        return publicUser
+        return {
+            id: user.id,
+            fullName: user.fullName,
+            email: user.email,
+            createdAt: user.createdAt,
+        }
     },
 }

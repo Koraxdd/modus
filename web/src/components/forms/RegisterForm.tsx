@@ -7,6 +7,8 @@ import { FieldGroup } from "../ui/field"
 import { type RegisterInput, RegisterSchema } from "@/schemas/register.schema"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
+import { PublicUser } from "@/types/user.types"
+import type { ApiErrorResponse } from "@/types/api.types"
 
 export default function RegisterForm() {
     const form = useForm<RegisterInput>({
@@ -18,7 +20,31 @@ export default function RegisterForm() {
         },
     })
 
-    const onSubmit = (data: RegisterInput) => {}
+    const onSubmit = async (data: RegisterInput) => {
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                }
+            )
+
+            if (!res.ok) {
+                const result = (await res.json()) as ApiErrorResponse
+                console.error(result)
+                form.setError("email", {
+                    type: "server",
+                    message: result.error,
+                })
+                return
+            }
+            form.reset()
+        } catch (err) {
+            console.error("Registration failed:", err)
+        }
+    }
 
     return (
         <form noValidate onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,5 +1,5 @@
 import type { NextFunction, Response } from "express"
-import type { TypedRequest } from "../../types/types"
+import type { TypedRequest } from "../../types/api.types"
 import type { RegisterInput } from "./auth.schemas"
 import { authService } from "./auth.service"
 

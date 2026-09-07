@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import BrandIcon from "../BrandIcon"
+import BrandIcon from "../icons/BrandIcon"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"

@@ -1,4 +1,6 @@
-import BrandIcon from "@/components/BrandIcon"
+import BrandIcon from "@/components/icons/BrandIcon"
+import GithubIcon from "@/components/icons/GithubIcon"
+import GoogleIcon from "@/components/icons/GoogleIcon"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -42,15 +44,17 @@ export default function AuthCard({
                     <Button
                         variant="outline"
                         size="lg"
-                        className="shadow-xs rounded-lg"
+                        className="shadow-xs rounded-lg gap-2.5"
                     >
+                        <GoogleIcon className="size-4.5 shrink-0" />
                         Continue with Google
                     </Button>
                     <Button
                         variant="outline"
                         size="lg"
-                        className="shadow-xs rounded-lg"
+                        className="shadow-xs rounded-lg gap-2.5"
                     >
+                        <GithubIcon className="size-4.5 shrink-0" />
                         Continue with GitHub
                     </Button>
                 </div>

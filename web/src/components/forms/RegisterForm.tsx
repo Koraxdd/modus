@@ -46,7 +46,7 @@ export default function RegisterForm() {
                 <Button
                     type="submit"
                     size="lg"
-                    className="cursor-pointer rounded-lg font-semibold py-5 hover:bg-indigo-700"
+                    className="rounded-lg font-semibold py-5 hover:bg-indigo-700 mt-1"
                 >
                     Create account
                 </Button>

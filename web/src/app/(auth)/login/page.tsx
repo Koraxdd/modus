@@ -8,7 +8,7 @@ export default function LoginPage() {
             title="Welcome back"
             description="Sign in to continue to Modus."
             footer={
-                <p className="text-muted-foreground text-sm mt-6 mx-auto">
+                <p className="text-muted-foreground text-sm mx-auto">
                     Don't have an account?
                     <Link
                         href="/register"

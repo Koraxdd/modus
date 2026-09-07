@@ -8,7 +8,7 @@ export default function RegisterPage() {
             title="Create your account"
             description="Start organising your job search today."
             footer={
-                <p className="text-muted-foreground text-sm mt-6 mx-auto">
+                <p className="text-muted-foreground text-sm mx-auto">
                     Already have an account?
                     <Link
                         href="/login"

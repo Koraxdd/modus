@@ -2,10 +2,11 @@ import express from "express"
 import cors from "cors"
 import authRouter from "./modules/auth/auth.routes"
 import { errorHandler } from "./middleware/errorHandler"
+import helmet from "helmet"
 
 const app = express()
 
-app.use(express.json())
+app.use(helmet())
 app.use(
     cors({
         origin: process.env.CLIENT_URL,
@@ -14,6 +15,7 @@ app.use(
         optionsSuccessStatus: 200,
     })
 )
+app.use(express.json())
 
 app.use("/api/v1/auth", authRouter)
 

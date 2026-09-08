@@ -7,7 +7,6 @@ import { FieldGroup } from "../ui/field"
 import { type RegisterInput, RegisterSchema } from "@/schemas/register.schema"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
-import { PublicUser } from "@/types/user.types"
 import type { ApiErrorResponse } from "@/types/api.types"
 
 export default function RegisterForm() {

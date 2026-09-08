@@ -7,7 +7,7 @@ import { FieldGroup } from "../ui/field"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
 import { Button } from "../ui/button"
-import { ApiErrorResponse } from "@/types/api.types"
+import type { ApiErrorResponse } from "@/types/api.types"
 import { useRouter } from "next/navigation"
 
 export default function LoginForm() {

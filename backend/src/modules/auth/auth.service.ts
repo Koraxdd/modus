@@ -68,4 +68,17 @@ export const authService = {
             },
         }
     },
+    async getCurrentUser(id: string): Promise<PublicUser> {
+        const user = await authRepository.getUserById(id)
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        return {
+            id: user.id,
+            fullName: user.fullName,
+            email: user.email,
+            createdAt: user.createdAt,
+        }
+    },
 }

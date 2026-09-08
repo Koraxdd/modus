@@ -8,8 +8,12 @@ import { type RegisterInput, RegisterSchema } from "@/schemas/register.schema"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
 import type { ApiErrorResponse } from "@/types/api.types"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export default function RegisterForm() {
+    const router = useRouter()
+
     const form = useForm<RegisterInput>({
         resolver: zodResolver(RegisterSchema),
         defaultValues: {
@@ -38,7 +42,9 @@ export default function RegisterForm() {
                 })
                 return
             }
-            form.reset()
+
+            toast.success("Account created — please log in")
+            router.push("/login")
         } catch (err) {
             console.error("Registration failed:", err)
         }

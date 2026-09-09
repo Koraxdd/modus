@@ -1,5 +1,5 @@
 import Link from "next/link"
-import BrandIcon from "../icons/BrandIcon"
+import BrandIcon from "../../icons/BrandIcon"
 import { footerColumns, footerLegalLinks } from "@/lib/links/footerLinks"
 
 export default function Footer() {

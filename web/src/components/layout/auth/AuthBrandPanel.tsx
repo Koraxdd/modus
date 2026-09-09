@@ -1,4 +1,4 @@
-import BrandIcon from "../icons/BrandIcon"
+import BrandIcon from "@/components/icons/BrandIcon"
 
 export default function AuthBrandPanel() {
     return (

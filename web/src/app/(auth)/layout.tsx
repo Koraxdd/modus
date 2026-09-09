@@ -1,4 +1,4 @@
-import AuthBrandPanel from "@/components/layout/AuthBrandPanel"
+import AuthBrandPanel from "@/components/layout/auth/AuthBrandPanel"
 import type { ReactNode } from "react"
 
 type AuthLayoutProps = {

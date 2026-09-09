@@ -1,6 +1,6 @@
 "use client"
 
-import { LoginInput, LoginSchema } from "@/schemas/login.schema"
+import { type LoginInput, LoginSchema } from "@/schemas/login.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { FieldGroup } from "../ui/field"
@@ -9,6 +9,7 @@ import FormPasswordField from "./form-fields/FormPasswordField"
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation"
 import type { AuthResponse } from "@shared/types/api.types"
+import { toast } from "sonner"
 
 export default function LoginForm() {
     const router = useRouter()
@@ -46,6 +47,7 @@ export default function LoginForm() {
             router.push("/onboarding")
         } catch (err) {
             console.error("Login failed:", err)
+            toast.error("Something went wrong — please try again")
         }
     }
 

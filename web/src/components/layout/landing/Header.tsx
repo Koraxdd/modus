@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import BrandIcon from "../icons/BrandIcon"
-import { buttonVariants } from "../ui/button"
+import BrandIcon from "../../icons/BrandIcon"
+import { buttonVariants } from "../../ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { headerLinks } from "@/lib/links/headerLinks"

@@ -2,8 +2,8 @@ import CTASection from "@/components/features/landing/cta-section/CTASection"
 import FeaturesSection from "@/components/features/landing/features-section/FeaturesSection"
 import HeroSection from "@/components/features/landing/hero-section/HeroSection"
 import PricingSection from "@/components/features/landing/pricing-section/PricingSection"
-import Footer from "@/components/layout/Footer"
-import Header from "@/components/layout/Header"
+import Footer from "@/components/layout/landing/Footer"
+import Header from "@/components/layout/landing/Header"
 
 export default function LandingPage() {
     return (

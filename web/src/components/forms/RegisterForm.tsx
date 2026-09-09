@@ -7,9 +7,9 @@ import { FieldGroup } from "../ui/field"
 import { type RegisterInput, RegisterSchema } from "@/schemas/register.schema"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
-import type { ApiErrorResponse } from "@/types/api.types"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import type { AuthResponse } from "@shared/types/api.types"
 
 export default function RegisterForm() {
     const router = useRouter()
@@ -34,12 +34,15 @@ export default function RegisterForm() {
                 }
             )
 
+            const result = (await res.json()) as AuthResponse
+
             if (!res.ok) {
-                const result = (await res.json()) as ApiErrorResponse
-                console.error(result)
-                form.setError("email", {
-                    message: result.error,
-                })
+                if ("error" in result) {
+                    console.error("Registration failed:", result.error)
+                    form.setError("email", {
+                        message: result.error,
+                    })
+                }
                 return
             }
 
@@ -47,6 +50,7 @@ export default function RegisterForm() {
             router.push("/login")
         } catch (err) {
             console.error("Registration failed:", err)
+            toast.error("Something went wrong — please try again")
         }
     }
 

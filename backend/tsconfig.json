@@ -10,7 +10,10 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "sourceMap": true,
-        "types": ["node"]
+        "types": ["node"],
+        "paths": {
+            "@shared/*": ["../shared/*"]
+        }
     },
-    "include": ["src/**/*", "prisma7.config.ts"]
+    "include": ["src/**/*", "prisma7.config.ts", "../shared/**/*"]
 }

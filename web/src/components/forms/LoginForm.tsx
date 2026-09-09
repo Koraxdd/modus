@@ -7,8 +7,8 @@ import { FieldGroup } from "../ui/field"
 import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
 import { Button } from "../ui/button"
-import type { ApiErrorResponse } from "@/types/api.types"
 import { useRouter } from "next/navigation"
+import type { AuthResponse } from "@shared/types/api.types"
 
 export default function LoginForm() {
     const router = useRouter()
@@ -33,10 +33,13 @@ export default function LoginForm() {
                 }
             )
 
+            const result = (await res.json()) as AuthResponse
+
             if (!res.ok) {
-                const result = (await res.json()) as ApiErrorResponse
-                console.error(result)
-                form.setError("root", { message: result.error })
+                if ("error" in result) {
+                    console.error("Login failed:", result.error)
+                    form.setError("root", { message: result.error })
+                }
                 return
             }
 

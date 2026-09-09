@@ -784,6 +784,10 @@
     margin-top: var(--spacing);
   }
 
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+
   .mt-2\.5 {
     margin-top: calc(var(--spacing) * 2.5);
   }

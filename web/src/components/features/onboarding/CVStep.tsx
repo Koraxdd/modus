@@ -106,7 +106,8 @@ export default function CVStep({ next }: { next: () => void }) {
                 <Button
                     size="lg"
                     onClick={next}
-                    className="w-full mt-2 p-6.5 text-[15px] transition-all rounded-xl font-semibold shadow-indigo-600/25 hover:shadow-lg hover:shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-0.5"
+                    disabled={!file}
+                    className="w-full mt-2 p-6.5 text-[15px] transition-all rounded-xl font-semibold shadow-indigo-600/25 enabled:hover:shadow-lg enabled:hover:shadow-indigo-600/30 enabled:hover:bg-indigo-700 enabled:hover:-translate-y-0.5 disabled:bg-zinc-100 disabled:text-zinc-400"
                 >
                     Continue
                     <ArrowRight />

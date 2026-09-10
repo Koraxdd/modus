@@ -1042,6 +1042,10 @@
     cursor: none;
   }
 
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }
@@ -2524,12 +2528,61 @@
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
 
+  @media (hover: hover) {
+    .enabled\:hover\:-translate-y-0\.5:enabled:hover {
+      --tw-translate-y: calc(var(--spacing) * -.5);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+
+    .enabled\:hover\:bg-indigo-700:enabled:hover {
+      background-color: var(--color-indigo-700);
+    }
+
+    .enabled\:hover\:bg-primary\/80:enabled:hover {
+      background-color: var(--primary);
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .enabled\:hover\:bg-primary\/80:enabled:hover {
+        background-color: color-mix(in oklab, var(--primary) 80%, transparent);
+      }
+    }
+
+    .enabled\:hover\:shadow-lg:enabled:hover {
+      --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, #0000001a), 0 4px 6px -4px var(--tw-shadow-color, #0000001a);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+
+    .enabled\:hover\:shadow-indigo-600\/30:enabled:hover {
+      --tw-shadow-color: #4f39f64d;
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .enabled\:hover\:shadow-indigo-600\/30:enabled:hover {
+        --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-indigo-600) 30%, transparent) var(--tw-shadow-alpha), transparent);
+      }
+    }
+  }
+
+  .enabled\:active\:not-aria-\[haspopup\]\:translate-y-px:enabled:active:not([aria-haspopup]) {
+    --tw-translate-y: 1px;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+
   .disabled\:pointer-events-none:disabled {
     pointer-events: none;
   }
 
   .disabled\:cursor-not-allowed:disabled {
     cursor: not-allowed;
+  }
+
+  .disabled\:bg-zinc-100:disabled {
+    background-color: var(--color-zinc-100);
+  }
+
+  .disabled\:text-zinc-400:disabled {
+    color: var(--color-zinc-400);
   }
 
   .disabled\:opacity-50:disabled {

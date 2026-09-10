@@ -8,8 +8,9 @@ import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation"
-import type { AuthResponse } from "@shared/types/api.types"
 import { toast } from "sonner"
+import type { ApiResult } from "@shared/types/api.types"
+import type { PublicUser } from "@shared/types/user.types"
 
 export default function LoginForm() {
     const router = useRouter()
@@ -34,20 +35,22 @@ export default function LoginForm() {
                 }
             )
 
-            const result = (await res.json()) as AuthResponse
+            const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-            if (!res.ok) {
-                if ("error" in result) {
-                    console.error("Login failed:", result.error)
-                    form.setError("root", { message: result.error })
-                }
+            if ("error" in result) {
+                console.error("Login failed:", result.error)
+                form.setError("root", { message: result.error })
                 return
             }
 
-            router.push("/onboarding")
+            if (result.user.hasCompletedOnboarding) {
+                router.push("/dashboard")
+            } else {
+                router.push("/onboarding")
+            }
         } catch (err) {
             console.error("Login failed:", err)
-            toast.error("Something went wrong — please try again")
+            toast.error("Something went wrong. Please try again.")
         }
     }
 

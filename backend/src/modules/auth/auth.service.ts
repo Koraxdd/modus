@@ -2,8 +2,8 @@ import argon2 from "argon2"
 import { authRepository } from "./auth.repository"
 import type { LoginInput, RegisterInput } from "./auth.schemas"
 import { AppError } from "../../errors/AppError"
-import type { PublicUser } from "../../types/user.types"
 import jwt from "jsonwebtoken"
+import type { PublicUser } from "@shared/types/user.types"
 
 export const authService = {
     async registerUser(data: RegisterInput): Promise<PublicUser> {
@@ -14,20 +14,17 @@ export const authService = {
             throw new AppError(409, "Email already in use")
         }
 
-        const passwordHash = await argon2.hash(password)
+        const hashedPassword = await argon2.hash(password)
 
         const user = await authRepository.createUser({
             fullName,
             email,
-            passwordHash,
+            passwordHash: hashedPassword,
         })
 
-        return {
-            id: user.id,
-            fullName: user.fullName,
-            email: user.email,
-            createdAt: user.createdAt,
-        }
+        const { passwordHash, updatedAt, ...publicUser } = user
+
+        return publicUser
     },
     async loginUser(
         data: LoginInput
@@ -58,14 +55,11 @@ export const authService = {
             { expiresIn: "15m" }
         )
 
+        const { passwordHash, updatedAt, ...publicUser } = user
+
         return {
             token,
-            user: {
-                id: user.id,
-                fullName: user.fullName,
-                email: user.email,
-                createdAt: user.createdAt,
-            },
+            user: publicUser,
         }
     },
     async getCurrentUser(id: string): Promise<PublicUser> {
@@ -74,11 +68,8 @@ export const authService = {
             throw new AppError(404, "User not found")
         }
 
-        return {
-            id: user.id,
-            fullName: user.fullName,
-            email: user.email,
-            createdAt: user.createdAt,
-        }
+        const { passwordHash, updatedAt, ...publicUser } = user
+
+        return publicUser
     },
 }

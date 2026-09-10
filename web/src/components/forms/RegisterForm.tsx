@@ -9,7 +9,8 @@ import FormField from "./form-fields/FormField"
 import FormPasswordField from "./form-fields/FormPasswordField"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import type { AuthResponse } from "@shared/types/api.types"
+import type { ApiResult } from "@shared/types/api.types"
+import type { PublicUser } from "@shared/types/user.types"
 
 export default function RegisterForm() {
     const router = useRouter()
@@ -34,23 +35,21 @@ export default function RegisterForm() {
                 }
             )
 
-            const result = (await res.json()) as AuthResponse
+            const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-            if (!res.ok) {
-                if ("error" in result) {
-                    console.error("Registration failed:", result.error)
-                    form.setError("email", {
-                        message: result.error,
-                    })
-                }
+            if ("error" in result) {
+                console.error("Registration failed:", result.error)
+                form.setError("email", {
+                    message: result.error,
+                })
                 return
             }
 
-            toast.success("Account created — please log in")
+            toast.success("Account created. Please log in.")
             router.push("/login")
         } catch (err) {
             console.error("Registration failed:", err)
-            toast.error("Something went wrong — please try again")
+            toast.error("Something went wrong. Please try again.")
         }
     }
 

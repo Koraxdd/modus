@@ -14,6 +14,10 @@ import {
     SquareText,
 } from "lucide-react"
 import OnboardingMiniDashboard from "./OnboardingMiniDashboard"
+import type { ApiResult } from "@shared/types/api.types"
+import type { PublicUser } from "@shared/types/user.types"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 const features = [
     {
@@ -35,6 +39,32 @@ const features = [
 ] as const
 
 export default function DoneStep() {
+    const router = useRouter()
+
+    const completeOnboarding = async () => {
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/onboarding`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
+            )
+
+            const result = (await res.json()) as ApiResult<{ user: PublicUser }>
+
+            if ("error" in result) {
+                console.error("Completion failed:", result.error)
+                return
+            }
+
+            router.push("/dashboard")
+        } catch (err) {
+            console.error("Completion failed:", err)
+            toast.error("Something went wrong. Please try again.")
+        }
+    }
+
     return (
         <>
             <CardHeader className="text-center">
@@ -83,6 +113,7 @@ export default function DoneStep() {
             <CardFooter className="flex flex-col">
                 <Button
                     size="lg"
+                    onClick={async () => await completeOnboarding()}
                     className="w-full mt-2 p-6.5 text-[15px] transition-all rounded-xl font-semibold shadow-indigo-600/25 hover:shadow-lg hover:shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-0.5"
                 >
                     Open my dashboard

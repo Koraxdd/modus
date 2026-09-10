@@ -80,7 +80,7 @@ export default function OnboardingPage() {
                     {step === "welcome" && (
                         <WelcomeStep next={() => setStep("cv")} />
                     )}
-                    {step === "cv" && <CVStep next={() => setStep("cv")} />}
+                    {step === "cv" && <CVStep next={() => setStep("done")} />}
                 </OnboardingCard>
             </div>
         </div>

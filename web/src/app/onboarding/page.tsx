@@ -1,6 +1,7 @@
 "use client"
 
 import CVStep from "@/components/features/onboarding/CVStep"
+import DoneStep from "@/components/features/onboarding/DoneStep"
 import OnboardingCard from "@/components/features/onboarding/OnboardingCard"
 import WelcomeStep from "@/components/features/onboarding/WelcomeStep"
 import OnboardingHeader from "@/components/layout/onboarding/OnboardingHeader"
@@ -81,6 +82,7 @@ export default function OnboardingPage() {
                         <WelcomeStep next={() => setStep("cv")} />
                     )}
                     {step === "cv" && <CVStep next={() => setStep("done")} />}
+                    {step === "done" && <DoneStep />}
                 </OnboardingCard>
             </div>
         </div>

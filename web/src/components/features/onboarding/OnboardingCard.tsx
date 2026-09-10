@@ -3,7 +3,7 @@ import type { ReactNode } from "react"
 
 export default function OnboardingCard({ children }: { children: ReactNode }) {
     return (
-        <Card className="md:p-8 max-w-lg mx-auto shadow-lg shadow-zinc-900/10 ring-zinc-100/80">
+        <Card className="md:p-8 max-w-lg mx-auto shadow-lg shadow-zinc-900/10 ring-zinc-100/80 rounded-4xl">
             {children}
         </Card>
     )

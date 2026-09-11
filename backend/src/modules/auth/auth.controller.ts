@@ -9,7 +9,7 @@ export async function register(
     next: NextFunction
 ) {
     try {
-        const user = await authService.registerUser(req.body)
+        const user = await authService.register(req.body)
         res.status(201).json({ user })
     } catch (err) {
         next(err)
@@ -22,7 +22,7 @@ export async function login(
     next: NextFunction
 ) {
     try {
-        const { token, user } = await authService.loginUser(req.body)
+        const { token, user } = await authService.login(req.body)
 
         res.cookie("token", token, {
             httpOnly: true,

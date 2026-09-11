@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 import type { PublicUser } from "@shared/types/user.types"
 
 export const authService = {
-    async registerUser(data: RegisterInput): Promise<PublicUser> {
+    async register(data: RegisterInput): Promise<PublicUser> {
         const { fullName, email, password } = data
 
         const emailExists = await authRepository.getUserByEmail(email)
@@ -26,7 +26,7 @@ export const authService = {
 
         return publicUser
     },
-    async loginUser(
+    async login(
         data: LoginInput
     ): Promise<{ token: string; user: PublicUser }> {
         const { email, password } = data

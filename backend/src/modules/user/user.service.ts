@@ -13,4 +13,14 @@ export const userService = {
 
         return publicUser
     },
+    async getCurrentUser(id: string): Promise<PublicUser> {
+        const user = await userRepository.getUserById(id)
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        const { passwordHash, updatedAt, ...publicUser } = user
+
+        return publicUser
+    },
 }

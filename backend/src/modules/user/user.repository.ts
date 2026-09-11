@@ -8,4 +8,7 @@ export const userRepository = {
             data: { hasCompletedOnboarding: true },
         })
     },
+    async getUserById(id: string): Promise<User | null> {
+        return await prisma.user.findUnique({ where: { id } })
+    },
 }

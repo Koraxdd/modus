@@ -62,14 +62,4 @@ export const authService = {
             user: publicUser,
         }
     },
-    async getCurrentUser(id: string): Promise<PublicUser> {
-        const user = await authRepository.getUserById(id)
-        if (!user) {
-            throw new AppError(404, "User not found")
-        }
-
-        const { passwordHash, updatedAt, ...publicUser } = user
-
-        return publicUser
-    },
 }

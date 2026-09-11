@@ -5,9 +5,6 @@ export const authRepository = {
     async getUserByEmail(email: string): Promise<User | null> {
         return await prisma.user.findUnique({ where: { email } })
     },
-    async getUserById(id: string): Promise<User | null> {
-        return await prisma.user.findUnique({ where: { id } })
-    },
     async createUser(data: {
         fullName: string
         email: string

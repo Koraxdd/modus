@@ -51,9 +51,7 @@ describe("Login", () => {
             await user.click(submitButton)
 
             expect(mockFetch).toHaveBeenCalledTimes(1)
-            await waitFor(() => {
-                expect(mockPush).toHaveBeenCalledWith(data.expectedPath)
-            })
+            expect(mockPush).toHaveBeenCalledWith(data.expectedPath)
         }
     )
 
@@ -80,6 +78,7 @@ describe("Login", () => {
             ok: false,
             status: 401,
             json: async () => ({
+                success: false,
                 error: "Invalid email or password",
             }),
         })

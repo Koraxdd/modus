@@ -26,13 +26,14 @@ describe("Login", () => {
     ])(
         "redirects to onboarding if onboarding incomplete/or dashboard if complete",
         async (data) => {
-            vi.stubGlobal("fetch", mockFetch)
-
             mockFetch.mockResolvedValue({
                 ok: true,
                 json: async () => ({
-                    user: {
-                        hasCompletedOnboarding: data.hasCompletedOnboarding,
+                    success: true,
+                    data: {
+                        user: {
+                            hasCompletedOnboarding: data.hasCompletedOnboarding,
+                        },
                     },
                 }),
             })
@@ -55,4 +56,49 @@ describe("Login", () => {
             })
         }
     )
+
+    it("displays correct validation errors on invalid inputs", async () => {
+        const user = userEvent.setup()
+
+        render(<LoginForm />)
+
+        const submitButton = screen.getByRole("button", { name: "Sign in" })
+
+        await user.click(submitButton)
+
+        expect(
+            await screen.findByText("Please enter a valid email address")
+        ).toBeInTheDocument()
+        expect(
+            await screen.findByText("Password is required")
+        ).toBeInTheDocument()
+        expect(mockFetch).not.toHaveBeenCalled()
+    })
+
+    it("displays an error if credentials are invalid", async () => {
+        mockFetch.mockResolvedValue({
+            ok: false,
+            status: 401,
+            json: async () => ({
+                error: "Invalid email or password",
+            }),
+        })
+
+        const user = userEvent.setup()
+
+        render(<LoginForm />)
+
+        const emailInput = screen.getByLabelText("Email address")
+        const passwordInput = screen.getByLabelText("Password")
+        const submitButton = screen.getByRole("button", { name: "Sign in" })
+
+        await user.type(emailInput, "test@gmail.com")
+        await user.type(passwordInput, "password123")
+        await user.click(submitButton)
+
+        expect(mockFetch).toHaveBeenCalledTimes(1)
+        expect(
+            await screen.findByText("Invalid email or password")
+        ).toBeInTheDocument()
+    })
 })

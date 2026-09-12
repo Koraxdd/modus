@@ -17,7 +17,7 @@ describe("POST /api/v1/auth/register", () => {
         })
 
         expect(res.status).toBe(201)
-        expect(res.body.user.email).toBe("test@gmail.com")
+        expect(res.body.data.user.email).toBe("test@gmail.com")
     })
 
     it("returns 409 if email already exists", async () => {
@@ -62,7 +62,7 @@ describe("POST /api/v1/auth/login", () => {
         })
 
         expect(res.status).toBe(200)
-        expect(res.body.user.email).toBe("test@gmail.com")
+        expect(res.body.data.user.email).toBe("test@gmail.com")
     })
 
     it.each([

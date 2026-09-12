@@ -33,7 +33,7 @@ describe("GET /api/v1/users", () => {
     it("returns 200 and user on success", async () => {
         const res = await request(app).get("/api/v1/users")
         expect(res.status).toBe(200)
-        expect(res.body.user.email).toBe("test@gmail.com")
+        expect(res.body.data.user.email).toBe("test@gmail.com")
     })
 
     it("returns 401 if doesnt include a JWT", async () => {

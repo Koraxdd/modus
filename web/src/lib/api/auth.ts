@@ -11,7 +11,7 @@ export async function getCurrentUser() {
 
     const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-    if (!res.ok || "error" in result) return null
+    if (!result.success) return null
 
-    return result.user
+    return result.data.user
 }

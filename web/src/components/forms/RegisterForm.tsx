@@ -37,7 +37,7 @@ export default function RegisterForm() {
 
             const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-            if ("error" in result) {
+            if (!result.success) {
                 console.error("Registration failed:", result.error)
                 form.setError("email", {
                     message: result.error,

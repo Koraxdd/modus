@@ -8,11 +8,13 @@ export async function completeOnboarding(
 ) {
     try {
         if (!req.user?.sub) {
-            return res.status(401).json({ error: "Not authenticated" })
+            return res
+                .status(401)
+                .json({ success: false, error: "Not authenticated" })
         }
 
         const user = await usersService.completeOnboarding(req.user.sub)
-        return res.status(200).json({ user })
+        return res.status(200).json({ success: true, data: { user } })
     } catch (err) {
         next(err)
     }
@@ -25,11 +27,13 @@ export async function getCurrentUser(
 ) {
     try {
         if (!req.user?.sub) {
-            return res.status(401).json({ error: "Not authenticated" })
+            return res
+                .status(401)
+                .json({ success: false, error: "Not authenticated" })
         }
 
         const user = await usersService.getCurrentUser(req.user.sub)
-        res.status(200).json({ user })
+        res.status(200).json({ success: true, data: { user } })
     } catch (err) {
         next(err)
     }

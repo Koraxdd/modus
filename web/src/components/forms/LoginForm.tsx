@@ -37,13 +37,13 @@ export default function LoginForm() {
 
             const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-            if ("error" in result) {
+            if (!result.success) {
                 console.error("Login failed:", result.error)
                 form.setError("root", { message: result.error })
                 return
             }
 
-            if (result.user.hasCompletedOnboarding) {
+            if (result.data.user.hasCompletedOnboarding) {
                 router.push("/dashboard")
             } else {
                 router.push("/onboarding")

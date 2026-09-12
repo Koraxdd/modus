@@ -8,8 +8,10 @@ export function errorHandler(
     next: NextFunction
 ) {
     if (err instanceof AppError) {
-        return res.status(err.statusCode).json({ error: err.message })
+        return res
+            .status(err.statusCode)
+            .json({ success: false, error: err.message })
     }
     console.error(err)
-    res.status(500).json({ error: "Something went wrong" })
+    res.status(500).json({ success: false, error: "Something went wrong" })
 }

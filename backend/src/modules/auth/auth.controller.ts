@@ -10,7 +10,7 @@ export async function register(
 ) {
     try {
         const user = await authService.register(req.body)
-        res.status(201).json({ user })
+        res.status(201).json({ success: true, data: { user } })
     } catch (err) {
         next(err)
     }
@@ -31,7 +31,7 @@ export async function login(
             maxAge: 15 * 60 * 1000,
         })
 
-        res.status(200).json({ user })
+        res.status(200).json({ sucess: true, data: { user } })
     } catch (err) {
         next(err)
     }

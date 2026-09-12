@@ -53,7 +53,7 @@ export default function DoneStep() {
 
             const result = (await res.json()) as ApiResult<{ user: PublicUser }>
 
-            if ("error" in result) {
+            if (!result.success) {
                 console.error("Completion failed:", result.error)
                 return
             }

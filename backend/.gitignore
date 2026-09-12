@@ -4,4 +4,3 @@ node_modules
 .env.test
 
 /src/generated/prisma
-test.http

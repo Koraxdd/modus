@@ -1,10 +1,10 @@
 import type { PublicUser } from "@shared/types/user.types"
 import { AppError } from "../../errors/AppError"
-import { userRepository } from "./user.repository"
+import { usersRepository } from "./users.repository"
 
-export const userService = {
-    async completeOnboarding(id: string): Promise<PublicUser> {
-        const user = await userRepository.updateOnboarding(id)
+export const usersService = {
+    async getCurrentUser(id: string): Promise<PublicUser> {
+        const user = await usersRepository.getUserById(id)
         if (!user) {
             throw new AppError(404, "User not found")
         }
@@ -13,8 +13,8 @@ export const userService = {
 
         return publicUser
     },
-    async getCurrentUser(id: string): Promise<PublicUser> {
-        const user = await userRepository.getUserById(id)
+    async completeOnboarding(id: string): Promise<PublicUser> {
+        const user = await usersRepository.updateOnboarding(id)
         if (!user) {
             throw new AppError(404, "User not found")
         }

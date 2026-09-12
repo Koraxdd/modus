@@ -1,7 +1,7 @@
 import type { User } from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 
-export const userRepository = {
+export const usersRepository = {
     async updateOnboarding(id: string): Promise<User> {
         return await prisma.user.update({
             where: { id },

@@ -26,9 +26,11 @@ export const authService = {
 
         return publicUser
     },
-    async login(
-        data: LoginInput
-    ): Promise<{ token: string; user: PublicUser }> {
+    async login(data: LoginInput): Promise<{
+        accessToken: string
+        refreshToken: string
+        user: PublicUser
+    }> {
         const { email, password } = data
 
         const user = await authRepository.getUserByEmail(email)
@@ -41,24 +43,31 @@ export const authService = {
             throw new AppError(401, "Invalid email or password")
         }
 
-        if (!process.env.JWT_SECRET) {
-            throw new Error("JWT_SECRET is not configured")
-        }
-
-        const token = jwt.sign(
+        const accessToken = jwt.sign(
             {
                 sub: user.id,
                 iss: process.env.API_URL,
                 aud: process.env.API_URL,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_ACCESS_SECRET!,
             { expiresIn: "15m" }
+        )
+
+        const refreshToken = jwt.sign(
+            {
+                sub: user.id,
+                iss: process.env.API_URL,
+                aud: process.env.API_URL,
+            },
+            process.env.JWT_REFRESH_SECRET!,
+            { expiresIn: "14d" }
         )
 
         const { passwordHash, updatedAt, ...publicUser } = user
 
         return {
-            token,
+            accessToken,
+            refreshToken,
             user: publicUser,
         }
     },

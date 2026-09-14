@@ -3,6 +3,7 @@ import request from "supertest"
 import app from "../../app"
 import { prisma } from "../../lib/prisma"
 import argon2 from "argon2"
+import jwt from "jsonwebtoken"
 
 describe("POST /api/v1/auth/register", () => {
     afterEach(async () => {
@@ -72,5 +73,36 @@ describe("POST /api/v1/auth/login", () => {
         const res = await request(app).post("/api/v1/auth/login").send(body)
         expect(res.status).toBe(401)
         expect(res.body.error).toBe("Invalid email or password")
+    })
+})
+
+describe("POST /api/v1/auth/refresh", () => {
+    it("returns 200 on success", async () => {
+        const refreshToken = jwt.sign(
+            { sub: "1" },
+            process.env.JWT_REFRESH_SECRET!
+        )
+
+        const res = await request(app)
+            .post("/api/v1/auth/refresh")
+            .set("Cookie", `refreshToken=${refreshToken}`)
+
+        expect(res.status).toBe(200)
+    })
+
+    it("returns 401 if no refresh token", async () => {
+        const res = await request(app).post("/api/v1/auth/refresh")
+
+        expect(res.status).toBe(401)
+        expect(res.body.error).toBe("No refresh token provided")
+    })
+
+    it("returns 401 if refresh token is invalid", async () => {
+        const res = await request(app)
+            .post("/api/v1/auth/refresh")
+            .set("Cookie", "refreshToken=fake-refresh-token")
+
+        expect(res.status).toBe(401)
+        expect(res.body.error).toBe("Invalid token")
     })
 })

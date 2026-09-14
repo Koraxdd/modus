@@ -31,7 +31,7 @@ export async function login(
             maxAge: 15 * 60 * 1000,
         })
 
-        res.status(200).json({ sucess: true, data: { user } })
+        res.status(200).json({ success: true, data: { user } })
     } catch (err) {
         next(err)
     }

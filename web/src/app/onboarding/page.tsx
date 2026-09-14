@@ -8,6 +8,7 @@ import OnboardingHeader from "@/components/layout/onboarding/OnboardingHeader"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 import { useState } from "react"
+import { AnimatePresence, motion } from "motion/react"
 
 const steps = [
     { id: "welcome", label: "Welcome" },
@@ -78,11 +79,26 @@ export default function OnboardingPage() {
                     })}
                 </div>
                 <OnboardingCard>
-                    {step === "welcome" && (
-                        <WelcomeStep next={() => setStep("cv")} />
-                    )}
-                    {step === "cv" && <CVStep next={() => setStep("done")} />}
-                    {step === "done" && <DoneStep />}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={step}
+                            initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                            transition={{
+                                duration: 0.4,
+                                ease: [0.22, 1, 0.36, 1],
+                            }}
+                        >
+                            {step === "welcome" && (
+                                <WelcomeStep next={() => setStep("cv")} />
+                            )}
+                            {step === "cv" && (
+                                <CVStep next={() => setStep("done")} />
+                            )}
+                            {step === "done" && <DoneStep />}
+                        </motion.div>
+                    </AnimatePresence>
                 </OnboardingCard>
             </div>
         </div>

@@ -14,7 +14,7 @@ export default function WelcomeStep({ next }: { next: () => void }) {
         <>
             <CardHeader className="text-center">
                 <BouncingCards />
-                <CardTitle className="font-bold text-3xl mb-3">
+                <CardTitle className="font-bold text-3xl mb-2">
                     Welcome to Modus
                 </CardTitle>
                 <CardDescription className="text-[15px] text-muted-foreground leading-[1.7]">
@@ -35,7 +35,7 @@ export default function WelcomeStep({ next }: { next: () => void }) {
                     </span>
                 </div>
             </CardContent>
-            <CardFooter className="flex flex-col">
+            <CardFooter className="flex flex-col mt-6">
                 <Button
                     size="lg"
                     onClick={next}

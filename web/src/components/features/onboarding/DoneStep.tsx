@@ -78,7 +78,7 @@ export default function DoneStep() {
                     </div>
                 </div>
 
-                <CardTitle className="font-bold text-3xl mb-3">
+                <CardTitle className="font-bold text-3xl mb-1">
                     You're all set!
                 </CardTitle>
                 <CardDescription className="text-[15px] text-muted-foreground leading-[1.7]">
@@ -86,7 +86,7 @@ export default function DoneStep() {
                     and let the AI do the heavy lifting.
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="mt-6">
                 {features.map((feature) => {
                     const Icon = feature.icon
                     return (
@@ -110,7 +110,7 @@ export default function DoneStep() {
                 })}
                 <OnboardingMiniDashboard />
             </CardContent>
-            <CardFooter className="flex flex-col">
+            <CardFooter className="flex flex-col mt-6">
                 <Button
                     size="lg"
                     onClick={async () => await completeOnboarding()}

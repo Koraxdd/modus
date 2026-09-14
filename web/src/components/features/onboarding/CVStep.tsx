@@ -31,7 +31,7 @@ export default function CVStep({ next }: { next: () => void }) {
                         <FileCheck className="text-primary w-6 h-6" />
                     </div>
                 </div>
-                <CardTitle className="font-bold text-2xl mb-3">
+                <CardTitle className="font-bold text-2xl mb-1">
                     Upload your CV
                 </CardTitle>
                 <CardDescription className="text-[15px] text-muted-foreground leading-[1.7]">
@@ -39,7 +39,7 @@ export default function CVStep({ next }: { next: () => void }) {
                     with job descriptions.
                 </CardDescription>
             </CardHeader>
-            <CardContent className="mt-2">
+            <CardContent className="mt-7">
                 <button
                     onClick={() => fileInputRef.current?.click()}
                     className={cn(
@@ -102,7 +102,7 @@ export default function CVStep({ next }: { next: () => void }) {
                     </p>
                 </div>
             </CardContent>
-            <CardFooter className="flex flex-col gap-4">
+            <CardFooter className="flex flex-col gap-4 mt-6">
                 <Button
                     size="lg"
                     onClick={next}

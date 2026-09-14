@@ -11,7 +11,7 @@ const displayLinks = [
 
 export default function OnboardingMiniDashboard() {
     return (
-        <div className="border border-border bg-white shadow-lg shadow-zinc-900/6 mt-6 rounded-2xl flex">
+        <div className="border border-border bg-white shadow-lg shadow-zinc-900/6 mt-3 rounded-2xl flex">
             <div className="w-36 bg-zinc-50/80 border-r rounded-l-2xl border-zinc-100 flex flex-col gap-3">
                 <div className="flex items-center gap-1.5 mb-1 px-4 pt-4">
                     <div className="bg-primary w-4 h-4 rounded-[4] flex items-center justify-center shrink-0">

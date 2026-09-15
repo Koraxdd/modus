@@ -27,13 +27,6 @@ export async function login(
             req.body
         )
 
-        res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 15 * 60 * 1000,
-        })
-
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -41,7 +34,10 @@ export async function login(
             maxAge: 14 * 24 * 60 * 60 * 1000,
         })
 
-        res.status(200).json({ success: true, data: { user } })
+        res.status(200).json({
+            success: true,
+            data: { accessToken, user },
+        })
     } catch (err) {
         next(err)
     }
@@ -76,14 +72,10 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
             { expiresIn: "15m" }
         )
 
-        res.cookie("accessToken", newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 15 * 60 * 1000,
+        res.status(200).json({
+            success: true,
+            data: { accessToken: newAccessToken },
         })
-
-        res.status(200).json({ success: true })
     } catch (err) {
         if (err instanceof jwt.JsonWebTokenError) {
             return res

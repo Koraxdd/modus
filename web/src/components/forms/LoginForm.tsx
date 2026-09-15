@@ -11,9 +11,11 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
+import { useAuth } from "@/lib/stores/authStore"
 
 export default function LoginForm() {
     const router = useRouter()
+    const { setAccessToken } = useAuth()
 
     const form = useForm<LoginInput>({
         resolver: zodResolver(LoginSchema),
@@ -35,13 +37,18 @@ export default function LoginForm() {
                 }
             )
 
-            const result = (await res.json()) as ApiResult<{ user: PublicUser }>
+            const result = (await res.json()) as ApiResult<{
+                accessToken: string
+                user: PublicUser
+            }>
 
             if (!result.success) {
                 console.error("Login failed:", result.error)
                 form.setError("root", { message: result.error })
                 return
             }
+
+            setAccessToken(result.data.accessToken)
 
             if (result.data.user.hasCompletedOnboarding) {
                 router.push("/dashboard")

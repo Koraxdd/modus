@@ -5,17 +5,17 @@ const authPaths = ["/login", "/register"]
 const publicOnlyPaths = ["/", ...authPaths]
 
 export function proxy(request: NextRequest) {
-    const token = request.cookies.get("token")?.value
+    const refreshToken = request.cookies.get("refreshToken")?.value
     const { pathname } = request.nextUrl
 
     const isProtected = protectedPaths.some((path) => pathname.startsWith(path))
     const isPublicOnly = publicOnlyPaths.includes(pathname)
 
-    if (isProtected && !token) {
+    if (isProtected && !refreshToken) {
         return NextResponse.redirect(new URL("/login", request.url))
     }
 
-    if (isPublicOnly && token) {
+    if (isPublicOnly && refreshToken) {
         return NextResponse.redirect(new URL("/dashboard", request.url))
     }
 

@@ -2,7 +2,10 @@ import type { NextFunction, Request, Response } from "express"
 import jwt from "jsonwebtoken"
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
-    const accessToken: string | undefined = req.cookies.accessToken
+    const authHeader = req.headers.authorization
+    const accessToken = authHeader?.startsWith("Bearer ")
+        ? authHeader.slice(7)
+        : undefined
     if (!accessToken) {
         return res
             .status(401)

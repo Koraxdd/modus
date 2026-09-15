@@ -18,6 +18,8 @@ import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/lib/stores/authStore"
+import { useApiFetch } from "@/hooks/useApiFetch"
 
 const features = [
     {
@@ -40,14 +42,14 @@ const features = [
 
 export default function DoneStep() {
     const router = useRouter()
+    const apiFetch = useApiFetch()
 
     const completeOnboarding = async () => {
         try {
-            const res = await fetch(
+            const res = await apiFetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/onboarding`,
                 {
                     method: "POST",
-                    credentials: "include",
                 }
             )
 

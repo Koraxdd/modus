@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/api/auth"
+import { getCurrentUser } from "@/lib/api/getCurrentUser"
 import { redirect } from "next/navigation"
 import type { ReactNode } from "react"
 

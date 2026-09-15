@@ -45,6 +45,7 @@ describe("POST /api/v1/auth/login", () => {
 
         await prisma.user.create({
             data: {
+                id: "1",
                 fullName: "Test",
                 email: "test@gmail.com",
                 passwordHash: hash,
@@ -56,13 +57,14 @@ describe("POST /api/v1/auth/login", () => {
         await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
     })
 
-    it("returns 200 and user on success", async () => {
+    it("returns 200, token and user on success", async () => {
         const res = await request(app).post("/api/v1/auth/login").send({
             email: "test@gmail.com",
             password: "password123",
         })
 
         expect(res.status).toBe(200)
+        expect(res.body.data.accessToken).toBeDefined()
         expect(res.body.data.user.email).toBe("test@gmail.com")
     })
 
@@ -77,7 +79,7 @@ describe("POST /api/v1/auth/login", () => {
 })
 
 describe("POST /api/v1/auth/refresh", () => {
-    it("returns 200 on success", async () => {
+    it("returns 200 and new access token on success", async () => {
         const refreshToken = jwt.sign(
             { sub: "1" },
             process.env.JWT_REFRESH_SECRET!
@@ -88,6 +90,8 @@ describe("POST /api/v1/auth/refresh", () => {
             .set("Cookie", `refreshToken=${refreshToken}`)
 
         expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        expect(res.body.data.accessToken).toBeDefined()
     })
 
     it("returns 401 if no refresh token", async () => {

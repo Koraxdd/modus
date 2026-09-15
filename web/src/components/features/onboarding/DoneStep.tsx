@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
     CardContent,
@@ -18,8 +20,9 @@ import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/lib/stores/authStore"
 import { useApiFetch } from "@/hooks/useApiFetch"
+import { motion } from "motion/react"
+import AnimatedCheckCircle from "@/components/icons/animations/AnimatedCheckCircle"
 
 const features = [
     {
@@ -70,16 +73,18 @@ export default function DoneStep() {
     return (
         <>
             <CardHeader className="text-center">
-                <div className="relative w-24 h-24 mx-auto mb-5 mt-3">
-                    <div className="absolute inset-0 bg-indigo-50 animate-ping animation-duration-[2s] rounded-full" />
-                    <div className="absolute w-full h-full flex items-center justify-center rounded-full bg-indigo-50 border-3 border-primary">
-                        <Check
-                            strokeWidth={1.75}
-                            className="text-primary w-12 h-12"
-                        />
-                    </div>
-                </div>
-
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.5,
+                        ease: [0.34, 1.56, 0.64, 1],
+                    }}
+                    className="relative w-24 h-24 mx-auto mb-5 mt-3"
+                >
+                    <div className="absolute inset-0 bg-indigo-50 opacity-50 animate-ping animation-duration-[2s] rounded-full" />
+                    <AnimatedCheckCircle />
+                </motion.div>
                 <CardTitle className="font-bold text-3xl mb-1">
                     You're all set!
                 </CardTitle>

@@ -1507,6 +1507,14 @@
     background-clip: text;
   }
 
+  .fill-indigo-50 {
+    fill: var(--color-indigo-50);
+  }
+
+  .stroke-indigo-200 {
+    stroke: var(--color-indigo-200);
+  }
+
   .p-3\.5 {
     padding: calc(var(--spacing) * 3.5);
   }
@@ -1935,6 +1943,10 @@
     opacity: .1;
   }
 
+  .opacity-50 {
+    opacity: .5;
+  }
+
   .shadow-lg {
     --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, #0000001a), 0 4px 6px -4px var(--tw-shadow-color, #0000001a);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -2142,6 +2154,10 @@
 
   .\[--card-spacing\:--spacing\(6\)\] {
     --card-spacing: calc(var(--spacing) * 6);
+  }
+
+  .running {
+    animation-play-state: running;
   }
 
   :is(.\*\:w-full > *) {

@@ -7,10 +7,11 @@ export default function BouncingCards() {
                 <div className="w-30 h-30 rounded-full bg-indigo-200/80 blur-2xl" />
             </div>
             <motion.div
-                animate={{ y: [-5, 5, -5] }}
+                animate={{ y: [-9, 0, -9] }}
                 transition={{
-                    duration: 5,
+                    duration: 4.5,
                     repeat: Infinity,
+                    delay: 0.4,
                     ease: "easeInOut",
                 }}
                 className="absolute -rotate-5 top-8 left-5 scale-90 sm:scale-100"
@@ -30,9 +31,9 @@ export default function BouncingCards() {
                 </div>
             </motion.div>
             <motion.div
-                animate={{ y: [-8, 8, -8] }}
+                animate={{ y: [-6, 0, -6] }}
                 transition={{
-                    duration: 7,
+                    duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
@@ -59,10 +60,11 @@ export default function BouncingCards() {
                 </div>
             </motion.div>
             <motion.div
-                animate={{ y: [-3, 3, -3] }}
+                animate={{ y: [-5, 0, -5] }}
                 transition={{
-                    duration: 4,
+                    duration: 3.5,
                     repeat: Infinity,
+                    delay: 0.8,
                     ease: "easeInOut",
                 }}
                 className="absolute bottom-5 left-15 rotate-6 scale-90 sm:scale-100"

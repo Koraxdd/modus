@@ -1,4 +1,4 @@
-import { featureCards } from "@/lib/features/featureCards"
+import { featureCards } from "@/lib/cards/featureCards"
 import FeatureCard from "./FeatureCard"
 
 export default function FeaturesSection() {

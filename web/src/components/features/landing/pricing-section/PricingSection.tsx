@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import PricingSwitchMenu from "./PricingSwitchMenu"
-import { tierCards } from "@/lib/pricing/tierCards"
+import { tierCards } from "@/lib/cards/tierCards"
 import TierCard from "./TierCard"
 
 export default function PricingSection() {

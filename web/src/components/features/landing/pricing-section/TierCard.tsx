@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import type { TierCard } from "@/lib/pricing/tierCards"
+import type { TierCard } from "@/lib/cards/tierCards"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 

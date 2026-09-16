@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import type { FeatureCard } from "@/lib/features/featureCards"
+import type { FeatureCard } from "@/lib/cards/featureCards"
 import { Check } from "lucide-react"
 
 type FeatureCardProps = {

@@ -76,6 +76,37 @@ describe("POST /api/v1/auth/login", () => {
         expect(res.status).toBe(401)
         expect(res.body.error).toBe("Invalid email or password")
     })
+
+    it("returns 429 after attempting to log in too many times", async () => {
+        await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+        await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+        await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+        await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+        await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+        const res = await request(app).post("/api/v1/auth/login").send({
+            email: "test@gmail.com",
+            password: "wrongpassword123",
+        })
+
+        expect(res.status).toBe(429)
+        expect(res.body.success).toBe(false)
+        expect(res.body.error).toBe("Too many login attempts, try again later.")
+    })
 })
 
 describe("POST /api/v1/auth/refresh", () => {

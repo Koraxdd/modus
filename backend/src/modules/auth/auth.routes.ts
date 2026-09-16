@@ -1,5 +1,5 @@
 import express from "express"
-import { login, refresh, register } from "./auth.controller"
+import { login, logout, refresh, register } from "./auth.controller"
 import { validate } from "../../middleware/validate"
 import { LoginSchema, RegisterSchema } from "./auth.schemas"
 import {
@@ -24,5 +24,6 @@ authRouter.post(
     login
 )
 authRouter.post("/refresh", refresh)
+authRouter.post("/logout", logout)
 
 export default authRouter

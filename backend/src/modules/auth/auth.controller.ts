@@ -32,6 +32,7 @@ export async function login(
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 14 * 24 * 60 * 60 * 1000,
+            path: "/",
         })
 
         res.status(200).json({
@@ -82,6 +83,21 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
                 .status(401)
                 .json({ success: false, error: "Invalid token" })
         }
+        next(err)
+    }
+}
+
+export async function logout(req: Request, res: Response, next: NextFunction) {
+    try {
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+        })
+
+        res.status(204).send()
+    } catch (err) {
         next(err)
     }
 }

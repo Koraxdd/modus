@@ -1,3 +1,4 @@
+import Sidebar from "@/components/layout/dashboard/Sidebar"
 import { getCurrentUser } from "@/lib/api/getCurrentUser"
 import { redirect } from "next/navigation"
 import type { ReactNode } from "react"
@@ -11,5 +12,10 @@ export default async function DashboardLayout({
 
     if (!user?.hasCompletedOnboarding) redirect("/onboarding")
 
-    return children
+    return (
+        <div className="flex h-screen">
+            <Sidebar />
+            <main>{children}</main>
+        </div>
+    )
 }

@@ -141,3 +141,20 @@ describe("POST /api/v1/auth/refresh", () => {
         expect(res.body.error).toBe("Invalid token")
     })
 })
+
+describe("POST /api/v1/auth/logout", () => {
+    it("returns 204 and cookie gets cleared on success", async () => {
+        const res = await request(app).post("/api/v1/auth/logout")
+        const cookie = res.headers["set-cookie"]
+
+        expect(res.status).toBe(204)
+        expect(cookie).toEqual(
+            expect.arrayContaining([expect.stringContaining("refreshToken=")])
+        )
+        expect(cookie).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(/Max-Age=0|Expires=/i),
+            ])
+        )
+    })
+})

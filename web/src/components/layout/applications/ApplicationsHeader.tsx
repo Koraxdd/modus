@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useUI } from "@/lib/stores/UIStore"
 import { cn } from "@/lib/utils"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
@@ -49,6 +50,7 @@ type Status = (typeof statuses)[number]["label"]
 
 export default function ApplicationsHeader() {
     const [status, setStatus] = useState<Status>("all")
+    const { openApplication } = useUI()
 
     return (
         <header className="flex flex-col">
@@ -80,7 +82,10 @@ export default function ApplicationsHeader() {
                         </Link>
                     </div>
                     <div className="w-px h-5 bg-border hidden md:block" />
-                    <Button className="px-3 py-1 text-sm transition-all rounded-lg font-semibold hover:bg-indigo-700">
+                    <Button
+                        onClick={openApplication}
+                        className="px-3 py-1 text-sm transition-all rounded-lg font-semibold hover:bg-indigo-700"
+                    >
                         <Plus />
                         Add Application
                     </Button>

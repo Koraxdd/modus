@@ -1,3 +1,4 @@
+import ApplicationDialog from "@/components/features/applications/ApplicationDialog"
 import Sidebar from "@/components/layout/dashboard/Sidebar"
 import { getCurrentUser } from "@/lib/api/getCurrentUser"
 import { redirect } from "next/navigation"
@@ -15,7 +16,10 @@ export default async function DashboardLayout({
     return (
         <div className="flex h-screen">
             <Sidebar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+                {children}
+                <ApplicationDialog />
+            </main>
         </div>
     )
 }

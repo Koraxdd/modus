@@ -7,7 +7,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import FormField from "./form-fields/FormField"
-import ColorPicker from "./form-fields/ColorPicker"
+import ColorPicker, { COLOR_OPTIONS } from "./form-fields/ColorPicker"
 import { FieldLabel } from "../ui/field"
 
 export default function ApplicationForm() {
@@ -15,7 +15,7 @@ export default function ApplicationForm() {
         resolver: zodResolver(ApplicationSchema),
         defaultValues: {
             company: "",
-            color: "#6366F1",
+            color: COLOR_OPTIONS[0],
             role: "",
             status: "SAVED",
             location: "",

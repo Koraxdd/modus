@@ -5,7 +5,7 @@ type ColorPickerProps<T extends FieldValues> = {
     control: Control<T>
 }
 
-const COLOR_OPTIONS = [
+export const COLOR_OPTIONS = [
     "#6366F1",
     "#10B981",
     "#EF4444",

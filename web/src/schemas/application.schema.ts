@@ -1,18 +1,9 @@
+import { COLOR_OPTIONS } from "@/components/forms/form-fields/ColorPicker"
 import { z } from "zod"
 
 export const ApplicationSchema = z.object({
     company: z.string("Company is required"),
-    color: z
-        .enum([
-            "#6366F1",
-            "#10B981",
-            "#EF4444",
-            "#F59E0B",
-            "#3B82F6",
-            "#EC4899",
-            "#22C55E",
-        ])
-        .default("#6366F1"),
+    color: z.enum(COLOR_OPTIONS).default(COLOR_OPTIONS[0]),
     role: z.string("Role is required"),
     status: z
         .enum(["SAVED", "APPLIED", "INTERVIEWING", "OFFER", "REJECTED"])

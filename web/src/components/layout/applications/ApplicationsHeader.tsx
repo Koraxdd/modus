@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { useUI } from "@/lib/stores/UIStore"
+import { useUIStore } from "@/lib/stores/UIStore"
 import { cn } from "@/lib/utils"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
@@ -50,14 +50,14 @@ type Status = (typeof statuses)[number]["label"]
 
 export default function ApplicationsHeader() {
     const [status, setStatus] = useState<Status>("all")
-    const { openApplication } = useUI()
+    const { openApplication } = useUIStore()
 
     return (
         <header className="flex flex-col">
-            <div className="border-b border-border flex flex-col gap-4 md:flex-row justify-between md:items-center px-6 py-3">
+            <div className="border-b border-border flex flex-col gap-4 md:flex-row md:justify-between md:items-center px-6 py-3">
                 <div className="flex items-center gap-4">
                     <h3 className="text-[15px] font-semibold">Applications</h3>
-                    <div className="flex items-center gap-2 px-3 py-1 border border-border bg-zinc-100 rounded-md">
+                    <div className="w-full flex items-center gap-2 px-3 py-1 border border-border bg-zinc-100 rounded-md">
                         <Search className="w-3 h-3 text-muted-foreground" />
                         <input
                             type="text"
@@ -91,7 +91,7 @@ export default function ApplicationsHeader() {
                     </Button>
                 </div>
             </div>
-            <div className="flex items-center gap-2 px-6 py-3 border-b border-border">
+            <div className="flex items-center gap-2 px-6 py-3 border-b border-border overflow-x-auto">
                 {statuses.map((s) => {
                     const { label, dot, background, text } = s
                     return (

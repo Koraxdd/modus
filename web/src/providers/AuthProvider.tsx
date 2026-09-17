@@ -1,11 +1,11 @@
 "use client"
 
-import { useAuth } from "@/lib/stores/authStore"
+import { useAuthStore } from "@/lib/stores/authStore"
 import { ApiResult } from "@shared/types/api.types"
 import { type ReactNode, useEffect } from "react"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const { setAccessToken } = useAuth()
+    const { setAccessToken } = useAuthStore()
 
     useEffect(() => {
         const refresh = async () => {

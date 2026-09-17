@@ -6,7 +6,7 @@ type UIState = {
     closeApplication: () => void
 }
 
-export const useUI = create<UIState>((set) => ({
+export const useUIStore = create<UIState>((set) => ({
     isApplicationOpen: false,
 
     openApplication: () => set({ isApplicationOpen: true }),

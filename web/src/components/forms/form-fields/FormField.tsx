@@ -12,7 +12,7 @@ type FormFieldProps<T extends FieldValues> = {
     label: string
     placeholder: string
     control: Control<T>
-    type?: "text" | "email"
+    type?: "text" | "email" | "url"
     autoComplete?: string
 }
 

@@ -1,5 +1,7 @@
 "use client"
 
+import ApplicationForm from "@/components/forms/ApplicationForm"
+import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -7,10 +9,10 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { useUI } from "@/lib/stores/UIStore"
+import { useUIStore } from "@/lib/stores/UIStore"
 
 export default function ApplicationDialog() {
-    const { isApplicationOpen, closeApplication } = useUI()
+    const { isApplicationOpen, closeApplication } = useUIStore()
 
     return (
         <Dialog
@@ -18,12 +20,23 @@ export default function ApplicationDialog() {
             onOpenChange={(open) => !open && closeApplication()}
         >
             <DialogContent className="max-w-sm">
-                <DialogHeader>
+                <DialogHeader className="-mx-6 -mt-6 px-6 py-4 border-b border-border">
                     <DialogTitle className="text-base font-bold">
                         Add Application
                     </DialogTitle>
                 </DialogHeader>
-                <DialogFooter></DialogFooter>
+                <ApplicationForm />
+                <DialogFooter className="-mx-6 -mb-6 px-6 py-4 border-t border-border">
+                    <button
+                        onClick={closeApplication}
+                        className="bg-mauve-100 rounded-lg px-4 font-medium transition-colors text-zinc-400 hover:text-slate-800"
+                    >
+                        Cancel
+                    </button>
+                    <Button type="submit" className="hover:bg-indigo-700 px-5">
+                        Add Application
+                    </Button>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     )

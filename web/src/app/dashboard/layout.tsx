@@ -14,9 +14,9 @@ export default async function DashboardLayout({
     if (!user?.hasCompletedOnboarding) redirect("/onboarding")
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen w-full">
             <Sidebar />
-            <main className="flex-1">
+            <main className="w-full">
                 {children}
                 <ApplicationDialog />
             </main>

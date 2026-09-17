@@ -1,10 +1,10 @@
 "use client"
 
-import { useAuth } from "@/lib/stores/authStore"
+import { useAuthStore } from "@/lib/stores/authStore"
 import { ApiResult } from "@shared/types/api.types"
 
 export function useApiFetch() {
-    const { accessToken, setAccessToken } = useAuth()
+    const { accessToken, setAccessToken } = useAuthStore()
 
     return async function apiFetch(url: string, options: RequestInit = {}) {
         const res = await fetch(url, {

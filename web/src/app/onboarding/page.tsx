@@ -16,7 +16,7 @@ const steps = [
     { id: "done", label: "All done" },
 ] as const
 
-type OnboardingStep = (typeof steps)[number]["id"]
+export type OnboardingStep = (typeof steps)[number]["id"]
 
 export default function OnboardingPage() {
     const [step, setStep] = useState<OnboardingStep>("welcome")

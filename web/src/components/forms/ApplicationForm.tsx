@@ -9,8 +9,15 @@ import { useForm } from "react-hook-form"
 import FormField from "./form-fields/FormField"
 import ColorPicker, { COLOR_OPTIONS } from "./form-fields/ColorPicker"
 import { FieldLabel } from "../ui/field"
+import { toast } from "sonner"
+import { useApiFetch } from "@/hooks/useApiFetch"
+import { Button } from "../ui/button"
+import { useUIStore } from "@/lib/stores/UIStore"
 
 export default function ApplicationForm() {
+    const apiFetch = useApiFetch()
+    const { closeApplication } = useUIStore()
+
     const form = useForm<ApplicationInput>({
         resolver: zodResolver(ApplicationSchema),
         defaultValues: {
@@ -24,7 +31,16 @@ export default function ApplicationForm() {
         },
     })
 
-    const onSubmit = async (data: ApplicationInput) => {}
+    const onSubmit = async (data: ApplicationInput) => {
+        try {
+            const res = await apiFetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs`,
+                { method: "POST" }
+            )
+        } catch (err) {
+            toast.error("Something went wrong. Please try again.")
+        }
+    }
 
     return (
         <form
@@ -73,6 +89,18 @@ export default function ApplicationForm() {
                 control={form.control}
                 type="url"
             />
+            <div className="grid grid-cols-2 md:flex md:justify-end gap-4 border-t border-border -mx-6 -mb-6 px-6 py-4">
+                <button
+                    type="button"
+                    onClick={closeApplication}
+                    className="bg-mauve-100 rounded-lg px-4 font-medium transition-colors text-zinc-400 hover:text-slate-800"
+                >
+                    Cancel
+                </button>
+                <Button type="submit" className="hover:bg-indigo-700 px-5">
+                    Add Application
+                </Button>
+            </div>
         </form>
     )
 }

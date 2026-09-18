@@ -5,6 +5,7 @@ import { errorHandler } from "./middleware/errorHandler"
 import helmet from "helmet"
 import cookieParser from "cookie-parser"
 import usersRouter from "./modules/users/users.routes"
+import jobsRouter from "./modules/jobs/jobs.routes"
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", usersRouter)
+app.use("/api/v1/jobs", jobsRouter)
 
 app.use(errorHandler)
 

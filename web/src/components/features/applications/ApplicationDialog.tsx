@@ -26,17 +26,6 @@ export default function ApplicationDialog() {
                     </DialogTitle>
                 </DialogHeader>
                 <ApplicationForm />
-                <DialogFooter className="-mx-6 -mb-6 px-6 py-4 border-t border-border">
-                    <button
-                        onClick={closeApplication}
-                        className="bg-mauve-100 rounded-lg px-4 font-medium transition-colors text-zinc-400 hover:text-slate-800"
-                    >
-                        Cancel
-                    </button>
-                    <Button type="submit" className="hover:bg-indigo-700 px-5">
-                        Add Application
-                    </Button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     )

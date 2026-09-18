@@ -31,7 +31,7 @@ describe("POST /api/v1/jobs", () => {
             company: "testcompany",
             color: "#6366F1",
             role: "testrole",
-            status: "SAVED",
+            status: "saved",
             location: undefined,
             salary: undefined,
             url: undefined,

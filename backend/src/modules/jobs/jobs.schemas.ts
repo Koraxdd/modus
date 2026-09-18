@@ -15,11 +15,14 @@ export const ApplicationSchema = z.object({
     color: z.enum(COLOR_OPTIONS).default(COLOR_OPTIONS[0]),
     role: z.string(),
     status: z
-        .enum(["SAVED", "APPLIED", "INTERVIEWING", "OFFER", "REJECTED"])
-        .default("SAVED"),
+        .enum(["saved", "applied", "interviewing", "offer", "rejected"])
+        .default("saved"),
     location: z.string().optional(),
     salary: z.string().optional(),
-    url: z.url().optional(),
+    url: z.preprocess(
+        (val) => (val === "" ? undefined : val),
+        z.url().optional()
+    ),
 })
 
 export type ApplicationInput = z.input<typeof ApplicationSchema>

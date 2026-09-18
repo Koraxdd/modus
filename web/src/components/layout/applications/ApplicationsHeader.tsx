@@ -1,55 +1,26 @@
 "use client"
 
+import StatusButton from "@/components/features/applications/StatusButton"
 import { Button } from "@/components/ui/button"
 import { useUIStore } from "@/lib/stores/UIStore"
-import { cn } from "@/lib/utils"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
 const statuses = [
-    {
-        label: "all",
-        background: "bg-primary",
-        text: "text-white",
-        dot: "",
-    },
-    {
-        label: "saved",
-        background: "bg-zinc-200/80",
-        text: "text-muted-foreground",
-        dot: "bg-muted-foreground",
-    },
-    {
-        label: "applied",
-        background: "bg-indigo-50",
-        text: "text-primary",
-        dot: "bg-primary",
-    },
-    {
-        label: "interviewing",
-        background: "bg-yellow-50",
-        text: "text-yellow-600",
-        dot: "bg-amber-500",
-    },
-    {
-        label: "offer",
-        background: "bg-emerald-50",
-        text: "text-emerald-600",
-        dot: "bg-emerald-500",
-    },
-    {
-        label: "rejected",
-        background: "bg-rose-50",
-        text: "text-red-600",
-        dot: "bg-red-500",
-    },
+    "all",
+    "saved",
+    "applied",
+    "interviewing",
+    "offer",
+    "rejected",
 ] as const
 
-type Status = (typeof statuses)[number]["label"]
+export type StatusFilter = (typeof statuses)[number]
+export type ApplicationStatus = Exclude<StatusFilter, "all">
 
 export default function ApplicationsHeader() {
-    const [status, setStatus] = useState<Status>("all")
+    const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
     const { openApplication } = useUIStore()
 
     return (
@@ -92,45 +63,16 @@ export default function ApplicationsHeader() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-6 py-3 border-b border-border overflow-x-auto">
-                {statuses.map((s) => {
-                    const { label, dot, background, text } = s
-                    return (
-                        <button
-                            key={label}
-                            className={cn(
-                                "flex items-center gap-1.5 transition-all rounded-full font-semibold px-3 py-1.5",
-                                label === status
-                                    ? background
-                                    : "bg-zinc-200 hover:bg-zinc-200/50 ring-1 ring-border"
-                            )}
-                            onClick={() => setStatus(label)}
-                        >
-                            <div
-                                className={cn(
-                                    "w-1.5 h-1.5 rounded-full",
-                                    dot,
-                                    label === "all" && "hidden"
-                                )}
-                            />
-                            <span
-                                className={cn(
-                                    "capitalize text-xs",
-                                    label === status ? text : "text-zinc-400"
-                                )}
-                            >
-                                {label}
-                            </span>
-                            <span
-                                className={cn(
-                                    "text-[10px] opacity-60 ml-0.5",
-                                    label === status ? text : "text-zinc-400"
-                                )}
-                            >
-                                1
-                            </span>
-                        </button>
-                    )
-                })}
+                {statuses.map((status) => (
+                    <StatusButton
+                        key={status}
+                        status={status}
+                        active={status === statusFilter}
+                        count={10}
+                        countEnabled={true}
+                        toggleStatus={setStatusFilter}
+                    />
+                ))}
             </div>
         </header>
     )

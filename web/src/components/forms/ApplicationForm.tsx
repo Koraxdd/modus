@@ -1,7 +1,7 @@
 "use client"
 
 import {
-    ApplicationInput,
+    type ApplicationInput,
     ApplicationSchema,
 } from "@/schemas/application.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,6 +13,9 @@ import { toast } from "sonner"
 import { useApiFetch } from "@/hooks/useApiFetch"
 import { Button } from "../ui/button"
 import { useUIStore } from "@/lib/stores/UIStore"
+import type { ApiResult } from "@shared/types/api.types"
+import type { Job } from "@/types/job.types"
+import StatusPicker from "./form-fields/StatusPicker"
 
 export default function ApplicationForm() {
     const apiFetch = useApiFetch()
@@ -24,7 +27,7 @@ export default function ApplicationForm() {
             company: "",
             color: COLOR_OPTIONS[0],
             role: "",
-            status: "SAVED",
+            status: "saved",
             location: "",
             salary: "",
             url: "",
@@ -35,8 +38,24 @@ export default function ApplicationForm() {
         try {
             const res = await apiFetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs`,
-                { method: "POST" }
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                }
             )
+
+            const result = (await res.json()) as ApiResult<{ job: Job }>
+
+            if (!result.success) {
+                toast.error(result.error)
+                return
+            }
+
+            toast.success(
+                `New job added - ${result.data.job.company} (${result.data.job.role})`
+            )
+            closeApplication()
         } catch (err) {
             toast.error("Something went wrong. Please try again.")
         }
@@ -68,6 +87,12 @@ export default function ApplicationForm() {
                 placeholder="e.g. Senior Product Designer"
                 control={form.control}
             />
+            <div className="flex flex-col gap-2">
+                <FieldLabel className="text-xs text-zinc-600">
+                    STATUS
+                </FieldLabel>
+                <StatusPicker name="status" control={form.control} />
+            </div>
             <div className="flex gap-3">
                 <FormField
                     name="location"

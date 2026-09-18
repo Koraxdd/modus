@@ -1,6 +1,6 @@
-import { Job } from "../../generated/prisma/client"
+import type { Job } from "../../generated/prisma/client"
 import { jobsRepository } from "./jobs.repository"
-import { ApplicationOutput } from "./jobs.schemas"
+import type { ApplicationOutput } from "./jobs.schemas"
 
 export const jobsService = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {

@@ -8,11 +8,11 @@ datasource db {
 }
 
 enum JobStatus {
-  SAVED
-  APPLIED
-  INTERVIEWING
-  OFFER
-  REJECTED
+  saved
+  applied
+  interviewing
+  offer
+  rejected
 }
 
 model User {
@@ -33,7 +33,7 @@ model Job {
   id        String    @id @default(uuid())
   company   String
   role      String
-  status    JobStatus @default(SAVED)
+  status    JobStatus @default(saved)
   color     String
   location  String?
   salary    String?

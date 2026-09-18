@@ -1,4 +1,4 @@
-import { Job } from "../../generated/prisma/client"
+import type { Job } from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 import type { ApplicationOutput } from "./jobs.schemas"
 

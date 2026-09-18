@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express"
 import { usersService } from "./users.service"
+import { getUserId } from "../../utils/getUserId"
 
 export async function completeOnboarding(
     req: Request,
@@ -7,13 +8,7 @@ export async function completeOnboarding(
     next: NextFunction
 ) {
     try {
-        if (!req.user?.sub) {
-            return res
-                .status(401)
-                .json({ success: false, error: "Not authenticated" })
-        }
-
-        const user = await usersService.completeOnboarding(req.user.sub)
+        const user = await usersService.completeOnboarding(getUserId(req))
         return res.status(200).json({ success: true, data: { user } })
     } catch (err) {
         next(err)
@@ -26,13 +21,7 @@ export async function getCurrentUser(
     next: NextFunction
 ) {
     try {
-        if (!req.user?.sub) {
-            return res
-                .status(401)
-                .json({ success: false, error: "Not authenticated" })
-        }
-
-        const user = await usersService.getCurrentUser(req.user.sub)
+        const user = await usersService.getCurrentUser(getUserId(req))
         res.status(200).json({ success: true, data: { user } })
     } catch (err) {
         next(err)

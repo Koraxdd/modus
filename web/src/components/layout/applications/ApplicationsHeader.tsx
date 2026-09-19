@@ -1,27 +1,23 @@
 "use client"
 
+import { statuses, type StatusFilter } from "@/app/dashboard/applications/page"
 import StatusButton from "@/components/features/applications/StatusButton"
 import { Button } from "@/components/ui/button"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 
-const statuses = [
-    "all",
-    "saved",
-    "applied",
-    "interviewing",
-    "offer",
-    "rejected",
-] as const
+type ApplicationsHeaderProps = {
+    statusFilter: StatusFilter
+    setStatusFilter: (status: StatusFilter) => void
+}
 
-export type StatusFilter = (typeof statuses)[number]
-export type ApplicationStatus = Exclude<StatusFilter, "all">
-
-export default function ApplicationsHeader() {
-    const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
+export default function ApplicationsHeader({
+    statusFilter,
+    setStatusFilter,
+}: ApplicationsHeaderProps) {
     const openApplication = useUIStore((state) => state.openApplication)
     const { data: jobs = [] } = useJobs()
 
@@ -91,7 +87,7 @@ export default function ApplicationsHeader() {
                         active={status === statusFilter}
                         count={jobCounts[status]}
                         countEnabled={true}
-                        toggleStatus={setStatusFilter}
+                        toggleStatus={() => setStatusFilter(status)}
                     />
                 ))}
             </div>

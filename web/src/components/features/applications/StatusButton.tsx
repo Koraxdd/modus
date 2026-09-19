@@ -3,7 +3,7 @@
 import type {
     ApplicationStatus,
     StatusFilter,
-} from "@/components/layout/applications/ApplicationsHeader"
+} from "@/app/dashboard/applications/page"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import { cn } from "@/lib/utils"
 
@@ -12,7 +12,7 @@ type StatusButtonProps = {
     active: boolean
     count?: number
     countEnabled: boolean
-    toggleStatus: (status: StatusFilter) => void
+    toggleStatus: () => void
 }
 
 export default function StatusButton({
@@ -33,7 +33,7 @@ export default function StatusButton({
                     ? background
                     : "bg-zinc-200 hover:bg-zinc-200/50 ring-1 ring-zinc-300"
             )}
-            onClick={() => toggleStatus(status)}
+            onClick={toggleStatus}
         >
             {status !== "all" && (
                 <div className={cn("w-1.5 h-1.5 rounded-full", dot)} />

@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from "@/components/layout/applications/ApplicationsHeader"
+import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 
 export type Job = {
     company: string

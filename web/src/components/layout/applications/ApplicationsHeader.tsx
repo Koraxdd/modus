@@ -2,10 +2,11 @@
 
 import StatusButton from "@/components/features/applications/StatusButton"
 import { Button } from "@/components/ui/button"
+import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 const statuses = [
     "all",
@@ -21,7 +22,27 @@ export type ApplicationStatus = Exclude<StatusFilter, "all">
 
 export default function ApplicationsHeader() {
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
-    const { openApplication } = useUIStore()
+    const openApplication = useUIStore((state) => state.openApplication)
+    const { data: jobs = [] } = useJobs()
+
+    const jobCounts: Record<StatusFilter, number> = useMemo(
+        () =>
+            jobs.reduce(
+                (counts, job) => {
+                    counts[job.status]++
+                    return counts
+                },
+                {
+                    all: jobs.length,
+                    saved: 0,
+                    applied: 0,
+                    interviewing: 0,
+                    offer: 0,
+                    rejected: 0,
+                }
+            ),
+        [jobs]
+    )
 
     return (
         <header className="flex flex-col">
@@ -68,7 +89,7 @@ export default function ApplicationsHeader() {
                         key={status}
                         status={status}
                         active={status === statusFilter}
-                        count={10}
+                        count={jobCounts[status]}
                         countEnabled={true}
                         toggleStatus={setStatusFilter}
                     />

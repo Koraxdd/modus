@@ -10,16 +10,14 @@ import FormField from "./form-fields/FormField"
 import ColorPicker, { COLOR_OPTIONS } from "./form-fields/ColorPicker"
 import { FieldLabel } from "../ui/field"
 import { toast } from "sonner"
-import { useApiFetch } from "@/hooks/useApiFetch"
 import { Button } from "../ui/button"
 import { useUIStore } from "@/lib/stores/UIStore"
-import type { ApiResult } from "@shared/types/api.types"
-import type { Job } from "@/types/job.types"
 import StatusPicker from "./form-fields/StatusPicker"
+import { useCreateJob } from "@/hooks/jobs/useCreateJob"
 
 export default function ApplicationForm() {
-    const apiFetch = useApiFetch()
-    const { closeApplication } = useUIStore()
+    const closeApplication = useUIStore((state) => state.closeApplication)
+    const { mutate: createJob } = useCreateJob()
 
     const form = useForm<ApplicationInput>({
         resolver: zodResolver(ApplicationSchema),
@@ -35,30 +33,15 @@ export default function ApplicationForm() {
     })
 
     const onSubmit = async (data: ApplicationInput) => {
-        try {
-            const res = await apiFetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                }
-            )
-
-            const result = (await res.json()) as ApiResult<{ job: Job }>
-
-            if (!result.success) {
-                toast.error(result.error)
-                return
-            }
-
-            toast.success(
-                `New job added - ${result.data.job.company} (${result.data.job.role})`
-            )
-            closeApplication()
-        } catch (err) {
-            toast.error("Something went wrong. Please try again.")
-        }
+        createJob(data, {
+            onSuccess: () => {
+                closeApplication()
+                toast.success(`Job added - ${data.company} (${data.role})`)
+            },
+            onError: (error) => {
+                toast.error(error.message)
+            },
+        })
     }
 
     return (

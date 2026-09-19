@@ -20,7 +20,7 @@ import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { useApiFetch } from "@/hooks/useApiFetch"
+import { useApiFetch } from "@/hooks/auth/useApiFetch"
 import { motion } from "motion/react"
 import AnimatedCheckCircle from "@/components/icons/animations/AnimatedCheckCircle"
 

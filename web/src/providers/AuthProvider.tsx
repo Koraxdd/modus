@@ -5,7 +5,7 @@ import { ApiResult } from "@shared/types/api.types"
 import { type ReactNode, useEffect } from "react"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const { setAccessToken } = useAuthStore()
+    const setAccessToken = useAuthStore((state) => state.setAccessToken)
 
     useEffect(() => {
         const refresh = async () => {

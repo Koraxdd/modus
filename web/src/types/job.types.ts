@@ -1,5 +1,5 @@
 export type JobStatus =
-    "SAVED" | "APPLIED" | "INTERVIEWING" | "OFFER" | "REJECTED"
+    "saved" | "applied" | "interviewing" | "offer" | "rejected"
 
 export type Job = {
     company: string

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
-import { AuthProvider } from "@/providers/AuthProvider"
+import Providers from "./providers"
 
 const inter = Inter({
     subsets: ["latin"],
@@ -17,10 +17,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="en" className={`${inter.variable} h-full antialiased`}>
             <body className="min-h-full flex flex-col">
-                <AuthProvider>
+                <Providers>
                     {children}
                     <Toaster position="top-right" richColors theme="system" />
-                </AuthProvider>
+                </Providers>
             </body>
         </html>
     )

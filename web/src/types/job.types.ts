@@ -1,11 +1,10 @@
-export type JobStatus =
-    "saved" | "applied" | "interviewing" | "offer" | "rejected"
+import type { ApplicationStatus } from "@/components/layout/applications/ApplicationsHeader"
 
 export type Job = {
     company: string
     color: string
     role: string
-    status: JobStatus
+    status: ApplicationStatus
     location: string | null
     salary: string | null
     id: string

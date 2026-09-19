@@ -38,12 +38,7 @@ export default function StatusButton({
             {status !== "all" && (
                 <div className={cn("w-1.5 h-1.5 rounded-full", dot)} />
             )}
-            <span
-                className={cn(
-                    "capitalize text-xs",
-                    active ? text : "text-zinc-400"
-                )}
-            >
+            <span className={cn("text-xs", active ? text : "text-zinc-400")}>
                 {label}
             </span>
             {countEnabled && (

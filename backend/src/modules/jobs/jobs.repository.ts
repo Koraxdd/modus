@@ -11,4 +11,7 @@ export const jobsRepository = {
             },
         })
     },
+    async getJobs(userId: string): Promise<Job[]> {
+        return await prisma.job.findMany({ where: { userId } })
+    },
 }

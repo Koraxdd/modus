@@ -6,4 +6,7 @@ export const jobsService = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
         return await jobsRepository.createJob(userId, data)
     },
+    async getJobs(userId: string): Promise<Job[]> {
+        return await jobsRepository.getJobs(userId)
+    },
 }

@@ -34,9 +34,9 @@ export default function ApplicationsTableHeader({
                             {sortField !== field ? (
                                 <ArrowUpDown className="size-3 text-zinc-400" />
                             ) : sortOrder === "desc" ? (
-                                <ArrowUp className="size-3 text-zinc-400" />
+                                <ArrowUp className="size-3 text-primary" />
                             ) : (
-                                <ArrowDown className="size-3 text-zinc-400" />
+                                <ArrowDown className="size-3 text-primary" />
                             )}
                         </div>
                     </th>

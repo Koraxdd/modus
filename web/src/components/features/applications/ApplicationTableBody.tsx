@@ -3,9 +3,14 @@
 import { useJobs } from "@/hooks/jobs/useJobs"
 import StatusBadge from "./StatusBadge"
 import { format } from "date-fns"
+import type { StatusFilter } from "@/app/dashboard/applications/page"
 
-export default function ApplicationTableBody() {
-    const { data: jobs = [] } = useJobs()
+export default function ApplicationTableBody({
+    statusFilter,
+}: {
+    statusFilter: StatusFilter
+}) {
+    const { data: jobs = [] } = useJobs(statusFilter)
 
     return (
         <tbody>

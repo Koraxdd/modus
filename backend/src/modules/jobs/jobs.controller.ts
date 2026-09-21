@@ -3,6 +3,7 @@ import type { ApplicationOutput } from "./jobs.schemas"
 import { jobsService } from "./jobs.service"
 import type { TypedRequest } from "../../types/api.types"
 import { getUserId } from "../../utils/getUserId"
+import type { StatusFilter } from "@shared/types/jobs.types"
 
 export async function createJob(
     req: TypedRequest<ApplicationOutput>,
@@ -19,7 +20,9 @@ export async function createJob(
 
 export async function getJobs(req: Request, res: Response, next: NextFunction) {
     try {
-        const jobs = await jobsService.getJobs(getUserId(req))
+        const filter = req.query.status as StatusFilter
+
+        const jobs = await jobsService.getJobs(getUserId(req), filter)
         res.status(200).json({ success: true, data: { jobs } })
     } catch (err) {
         next(err)

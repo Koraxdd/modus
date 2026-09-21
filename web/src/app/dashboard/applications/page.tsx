@@ -25,7 +25,7 @@ export default function ApplicationsPage() {
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
             />
-            <ApplicationsTable />
+            <ApplicationsTable statusFilter={statusFilter} />
         </div>
     )
 }

@@ -19,7 +19,7 @@ export default function ApplicationsHeader({
     setStatusFilter,
 }: ApplicationsHeaderProps) {
     const openApplication = useUIStore((state) => state.openApplication)
-    const { data: jobs = [] } = useJobs()
+    const { data: jobs = [] } = useJobs("all")
 
     const jobCounts: Record<StatusFilter, number> = useMemo(
         () =>

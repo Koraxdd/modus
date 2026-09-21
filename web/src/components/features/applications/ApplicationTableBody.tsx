@@ -4,17 +4,52 @@ import { useJobs } from "@/hooks/jobs/useJobs"
 import StatusBadge from "./StatusBadge"
 import { format } from "date-fns"
 import type { StatusFilter } from "@/app/dashboard/applications/page"
+import type { SortField, SortOrder } from "./ApplicationsTable"
+
+type ApplicationTableBodyProps = {
+    statusFilter: StatusFilter
+    sortField: SortField
+    sortOrder: SortOrder
+}
 
 export default function ApplicationTableBody({
     statusFilter,
-}: {
-    statusFilter: StatusFilter
-}) {
+    sortField,
+    sortOrder,
+}: ApplicationTableBodyProps) {
     const { data: jobs = [] } = useJobs(statusFilter)
+
+    const sortedJobs = [...jobs].sort((a, b) => {
+        let comparison = 0
+
+        switch (sortField) {
+            case "company":
+                comparison = a.company.localeCompare(b.company)
+                break
+            case "role":
+                comparison = a.role.localeCompare(b.role)
+                break
+            case "status":
+                comparison = a.status.localeCompare(b.status)
+                break
+            case "dateApplied":
+                comparison =
+                    new Date(a.createdAt).getTime() -
+                    new Date(b.createdAt).getTime()
+                break
+            case "lastUpdate":
+                comparison =
+                    new Date(a.updatedAt).getTime() -
+                    new Date(b.updatedAt).getTime()
+                break
+        }
+
+        return sortOrder === "asc" ? comparison : -comparison
+    })
 
     return (
         <tbody>
-            {jobs.map((job) => (
+            {sortedJobs.map((job) => (
                 <tr
                     key={job.id}
                     className="border-b border-border cursor-pointer transition-colors hover:bg-zinc-50"

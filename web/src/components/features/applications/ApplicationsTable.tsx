@@ -8,7 +8,7 @@ export default function ApplicationsTable({
     statusFilter: StatusFilter
 }) {
     return (
-        <div className="flex-1 bg-zinc-100">
+        <div className="bg-zinc-100 overflow-auto flex-1">
             <table className="w-full">
                 <ApplicationsTableHeader />
                 <ApplicationTableBody statusFilter={statusFilter} />

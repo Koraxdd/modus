@@ -1,7 +1,7 @@
 "use client"
 
+import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 import StatusButton from "@/components/features/applications/StatusButton"
-import type { ApplicationStatus } from "@/components/layout/applications/ApplicationsHeader"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import {
     type Control,

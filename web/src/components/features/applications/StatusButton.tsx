@@ -12,7 +12,7 @@ type StatusButtonProps = {
     active: boolean
     count?: number
     countEnabled: boolean
-    toggleStatus: () => void
+    toggleStatus: (status: StatusFilter | ApplicationStatus) => void
 }
 
 export default function StatusButton({
@@ -33,7 +33,7 @@ export default function StatusButton({
                     ? background
                     : "bg-zinc-200 hover:bg-zinc-200/50 ring-1 ring-zinc-300"
             )}
-            onClick={toggleStatus}
+            onClick={() => toggleStatus(status)}
         >
             {status !== "all" && (
                 <div className={cn("w-1.5 h-1.5 rounded-full", dot)} />

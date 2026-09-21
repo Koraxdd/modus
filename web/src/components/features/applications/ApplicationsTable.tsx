@@ -9,11 +9,15 @@ export type SortField =
     "company" | "role" | "status" | "dateApplied" | "lastUpdate"
 export type SortOrder = "asc" | "desc"
 
+type ApplicationTableProps = {
+    statusFilter: StatusFilter
+    searchQuery: string
+}
+
 export default function ApplicationsTable({
     statusFilter,
-}: {
-    statusFilter: StatusFilter
-}) {
+    searchQuery,
+}: ApplicationTableProps) {
     const [sortField, setSortField] = useState<SortField>("dateApplied")
     const [sortOrder, setSortOrder] = useState<SortOrder>("desc")
 
@@ -38,6 +42,7 @@ export default function ApplicationsTable({
                     statusFilter={statusFilter}
                     sortField={sortField}
                     sortOrder={sortOrder}
+                    searchQuery={searchQuery}
                 />
             </table>
         </div>

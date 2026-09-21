@@ -11,11 +11,15 @@ import { useMemo } from "react"
 
 type ApplicationsHeaderProps = {
     statusFilter: StatusFilter
+    searchQuery: string
+    setSearchQuery: (query: string) => void
     setStatusFilter: (status: StatusFilter) => void
 }
 
 export default function ApplicationsHeader({
     statusFilter,
+    searchQuery,
+    setSearchQuery,
     setStatusFilter,
 }: ApplicationsHeaderProps) {
     const openApplication = useUIStore((state) => state.openApplication)
@@ -52,6 +56,8 @@ export default function ApplicationsHeader({
                         <input
                             type="text"
                             placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="min-w-0 text-sm outline-none px-2 py-0.5 transition-shadow focus:ring-2 ring-primary rounded-md"
                         />
                     </div>

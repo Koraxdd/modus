@@ -18,14 +18,20 @@ export type ApplicationStatus = Exclude<StatusFilter, "all">
 
 export default function ApplicationsPage() {
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
+    const [searchQuery, setSearchQuery] = useState<string>("")
 
     return (
         <div className="flex flex-col min-h-screen">
             <ApplicationsHeader
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
             />
-            <ApplicationsTable statusFilter={statusFilter} />
+            <ApplicationsTable
+                statusFilter={statusFilter}
+                searchQuery={searchQuery}
+            />
         </div>
     )
 }

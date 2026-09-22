@@ -31,7 +31,7 @@ export default function ApplicationsTable({
     }
 
     return (
-        <div className="bg-zinc-100 overflow-auto flex-1">
+        <div className="overflow-auto flex-1">
             <table className="w-full">
                 <ApplicationsTableHeader
                     sortField={sortField}

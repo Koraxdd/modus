@@ -28,7 +28,7 @@ export default function ApplicationForm() {
             status: "saved",
             location: "",
             salary: "",
-            url: "",
+            jobUrl: "",
         },
     })
 
@@ -91,7 +91,7 @@ export default function ApplicationForm() {
                 />
             </div>
             <FormField
-                name="url"
+                name="jobUrl"
                 label="JOB URL"
                 placeholder="https://company.com/jobs/..."
                 control={form.control}

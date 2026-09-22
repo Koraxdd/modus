@@ -5,6 +5,10 @@ import type { TypedRequest } from "../../types/api.types"
 import { getUserId } from "../../utils/getUserId"
 import type { StatusFilter } from "@shared/types/jobs.types"
 
+type GetJobsQuery = {
+    status: StatusFilter
+}
+
 export async function createJob(
     req: TypedRequest<ApplicationOutput>,
     res: Response,
@@ -18,12 +22,27 @@ export async function createJob(
     }
 }
 
-export async function getJobs(req: Request, res: Response, next: NextFunction) {
+export async function getJobs(
+    req: Request<{}, {}, {}, GetJobsQuery>,
+    res: Response,
+    next: NextFunction
+) {
     try {
-        const filter = req.query.status as StatusFilter
-
-        const jobs = await jobsService.getJobs(getUserId(req), filter)
+        const jobs = await jobsService.getJobs(getUserId(req), req.query.status)
         res.status(200).json({ success: true, data: { jobs } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function getJob(
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.getJob(getUserId(req), req.params.id)
+        res.status(200).json({ success: true, data: { job } })
     } catch (err) {
         next(err)
     }

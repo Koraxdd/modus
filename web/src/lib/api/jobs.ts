@@ -20,6 +20,19 @@ export async function fetchJobs(
     return result.data.jobs
 }
 
+export async function fetchJob(apiFetch: ApiFetch, id: string): Promise<Job> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}`
+    )
+    const result = (await res.json()) as ApiResult<{ job: Job }>
+
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+
+    return result.data.job
+}
+
 export async function createJob(
     apiFetch: ApiFetch,
     data: ApplicationInput

@@ -7,6 +7,7 @@ import type { StatusFilter } from "@/app/dashboard/applications/page"
 import type { SortField, SortOrder } from "./ApplicationsTable"
 import { useMemo } from "react"
 import { Search } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type ApplicationTableBodyProps = {
     statusFilter: StatusFilter
@@ -21,6 +22,7 @@ export default function ApplicationTableBody({
     sortOrder,
     searchQuery,
 }: ApplicationTableBodyProps) {
+    const router = useRouter()
     const { data: jobs = [] } = useJobs(statusFilter)
 
     const filteredJobs = useMemo(() => {
@@ -70,6 +72,9 @@ export default function ApplicationTableBody({
                 sortedJobs.map((job) => (
                     <tr
                         key={job.id}
+                        onClick={() =>
+                            router.push(`/dashboard/applications/${job.id}`)
+                        }
                         className="border-b border-border cursor-pointer transition-colors hover:bg-zinc-50"
                     >
                         <td className="px-4 py-3 flex items-center gap-3">

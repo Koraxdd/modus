@@ -19,7 +19,7 @@ export const ApplicationSchema = z.object({
         .default("saved"),
     location: z.string().optional(),
     salary: z.string().optional(),
-    url: z.preprocess(
+    jobUrl: z.preprocess(
         (val) => (val === "" ? undefined : val),
         z.url().optional()
     ),

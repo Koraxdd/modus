@@ -17,4 +17,7 @@ export const jobsRepository = {
             where: { userId, status: filter !== "all" ? filter : undefined },
         })
     },
+    async getJob(userId: string, jobId: string): Promise<Job | null> {
+        return await prisma.job.findFirst({ where: { userId, id: jobId } })
+    },
 }

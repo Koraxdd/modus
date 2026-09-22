@@ -5,7 +5,7 @@ import { Clipboard, FileText, LayoutGrid, Mail, Settings } from "lucide-react"
 
 export default function Sidebar() {
     return (
-        <aside className="flex flex-col fixed inset-y-0 items-center py-4 gap-1 shrink-0 w-14 border-r border-border">
+        <aside className="flex flex-col fixed inset-y-0 items-center py-4 gap-1 shrink-0 w-14 border-r border-border bg-white">
             <div className="w-8 h-8 mb-4 bg-indigo-600 flex items-center justify-center shadow-sm shadow-indigo-600/25 shrink-0 rounded-md">
                 <BrandIcon size={16} />
             </div>

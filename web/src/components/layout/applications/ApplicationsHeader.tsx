@@ -45,7 +45,7 @@ export default function ApplicationsHeader({
     )
 
     return (
-        <header className="flex flex-col">
+        <header className="flex flex-col bg-white">
             <div className="border-b border-border flex flex-col gap-4 md:flex-row md:justify-between md:items-center px-6 py-3">
                 <div className="flex items-center min-w-0 gap-4">
                     <h3 className="shrink-0 text-[15px] font-semibold">

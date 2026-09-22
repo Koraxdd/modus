@@ -61,7 +61,7 @@ export default function ApplicationTableBody({
 
                 return sortOrder === "asc" ? comparison : -comparison
             }),
-        [filteredJobs]
+        [filteredJobs, sortField, sortOrder]
     )
 
     return (

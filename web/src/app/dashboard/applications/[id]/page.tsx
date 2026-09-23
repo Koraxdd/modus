@@ -1,5 +1,6 @@
 "use client"
 
+import ApplicationPostingContent from "@/components/features/applications/ApplicationPostingContent"
 import ApplicationPostingHeader from "@/components/features/applications/ApplicationPostingHeader"
 import { useJob } from "@/hooks/jobs/useJob"
 import { notFound, useParams } from "next/navigation"
@@ -35,6 +36,7 @@ export default function ApplicationPosting() {
     return (
         <div className="animate-in fade-in duration-300">
             <ApplicationPostingHeader job={job} />
+            <ApplicationPostingContent job={job} />
         </div>
     )
 }

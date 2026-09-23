@@ -1,8 +1,18 @@
 import express from "express"
 import { validate } from "../../middleware/validate"
-import { ApplicationSchema, UpdateStatusSchema } from "./jobs.schemas"
+import {
+    ApplicationSchema,
+    UpdateNotesSchema,
+    UpdateStatusSchema,
+} from "./jobs.schemas"
 import { requireAuth } from "../../middleware/requireAuth"
-import { createJob, getJob, getJobs, updateJobStatus } from "./jobs.controller"
+import {
+    createJob,
+    getJob,
+    getJobs,
+    updateJobNotes,
+    updateJobStatus,
+} from "./jobs.controller"
 
 const jobsRouter = express.Router()
 
@@ -14,6 +24,12 @@ jobsRouter.patch(
     requireAuth,
     validate(UpdateStatusSchema),
     updateJobStatus
+)
+jobsRouter.patch(
+    "/:id/notes",
+    requireAuth,
+    validate(UpdateNotesSchema),
+    updateJobNotes
 )
 
 export default jobsRouter

@@ -39,3 +39,9 @@ export const UpdateStatusSchema = z.object({
 })
 
 export type UpdateStatusInput = z.input<typeof UpdateStatusSchema>
+
+export const UpdateNotesSchema = z.object({
+    notes: z.string().max(2000).optional(),
+})
+
+export type UpdateNotesInput = z.input<typeof UpdateNotesSchema>

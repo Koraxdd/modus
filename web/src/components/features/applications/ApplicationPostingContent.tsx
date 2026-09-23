@@ -1,13 +1,16 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useUpdateJobNotes } from "@/hooks/jobs/useUpdateJobNotes"
 import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
 import { Download, File, MapPin, SquarePen } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
-    const [notes, setNotes] = useState<string>("")
+    const [notes, setNotes] = useState<string>(job.notes || "")
+    const { mutate: updateNotes, isError } = useUpdateJobNotes()
 
     return (
         <div className="max-w-215 mx-auto grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-8 p-6">
@@ -64,7 +67,19 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                             <h2 className="text-muted-foreground font-semibold text-sm">
                                 NOTES
                             </h2>
-                            <button className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <button
+                                onClick={() => {
+                                    updateNotes({ id: job.id, notes })
+                                    if (!isError) {
+                                        toast.success("Updated your notes!")
+                                    } else {
+                                        toast.error(
+                                            "Something went wrong. Try again."
+                                        )
+                                    }
+                                }}
+                                className="flex items-center gap-1.5 transition-opacity text-xs text-muted-foreground hover:opacity-80"
+                            >
                                 <SquarePen className="size-3.5" />
                                 Edit
                             </button>
@@ -87,12 +102,16 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
-                            <span className="text-muted-foreground">
-                                Location
-                            </span>
-                            <span className="font-medium">{job.location}</span>
-                        </div>
+                        {job.location && (
+                            <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
+                                <span className="text-muted-foreground">
+                                    Location
+                                </span>
+                                <span className="font-medium">
+                                    {job.location}
+                                </span>
+                            </div>
+                        )}
                         <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
                             <span className="text-muted-foreground">
                                 Applied

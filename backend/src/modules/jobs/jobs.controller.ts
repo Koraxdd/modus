@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express"
-import type { ApplicationOutput } from "./jobs.schemas"
+import type { ApplicationOutput, UpdateStatusInput } from "./jobs.schemas"
 import { jobsService } from "./jobs.service"
 import type { TypedRequest } from "../../types/api.types"
 import { getUserId } from "../../utils/getUserId"
@@ -42,6 +42,23 @@ export async function getJob(
 ) {
     try {
         const job = await jobsService.getJob(getUserId(req), req.params.id)
+        res.status(200).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function updateJobStatus(
+    req: Request<{ id: string }, {}, UpdateStatusInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.updateJobStatus(
+            getUserId(req),
+            req.params.id,
+            req.body.status
+        )
         res.status(200).json({ success: true, data: { job } })
     } catch (err) {
         next(err)

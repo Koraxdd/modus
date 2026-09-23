@@ -10,13 +10,19 @@ const COLOR_OPTIONS = [
     "#22C55E",
 ] as const
 
+const JOB_STATUSES = [
+    "saved",
+    "applied",
+    "interviewing",
+    "offer",
+    "rejected",
+] as const
+
 export const ApplicationSchema = z.object({
     company: z.string(),
     color: z.enum(COLOR_OPTIONS).default(COLOR_OPTIONS[0]),
     role: z.string(),
-    status: z
-        .enum(["saved", "applied", "interviewing", "offer", "rejected"])
-        .default("saved"),
+    status: z.enum(JOB_STATUSES).default(JOB_STATUSES[0]),
     location: z.string().optional(),
     salary: z.string().optional(),
     jobUrl: z.preprocess(
@@ -27,3 +33,9 @@ export const ApplicationSchema = z.object({
 
 export type ApplicationInput = z.input<typeof ApplicationSchema>
 export type ApplicationOutput = z.output<typeof ApplicationSchema>
+
+export const UpdateStatusSchema = z.object({
+    status: z.enum(JOB_STATUSES),
+})
+
+export type UpdateStatusInput = z.input<typeof UpdateStatusSchema>

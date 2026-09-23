@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from "@/components/layout/applications/ApplicationsHeader"
+import { ApplicationStatus } from "@/app/dashboard/applications/page"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import { cn } from "@/lib/utils"
 

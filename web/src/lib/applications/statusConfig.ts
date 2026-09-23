@@ -1,4 +1,4 @@
-import type { StatusFilter } from "@/components/layout/applications/ApplicationsHeader"
+import type { StatusFilter } from "@/app/dashboard/applications/page"
 
 export const statusConfig: Record<
     StatusFilter,

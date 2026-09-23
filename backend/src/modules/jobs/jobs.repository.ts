@@ -1,5 +1,5 @@
 import type { StatusFilter } from "@shared/types/jobs.types"
-import type { Job } from "../../generated/prisma/client"
+import type { Job, JobStatus } from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 import type { ApplicationOutput } from "./jobs.schemas"
 
@@ -19,5 +19,15 @@ export const jobsRepository = {
     },
     async getJob(userId: string, jobId: string): Promise<Job | null> {
         return await prisma.job.findFirst({ where: { userId, id: jobId } })
+    },
+    async updateJobStatus(
+        userId: string,
+        jobId: string,
+        status: JobStatus
+    ): Promise<Job> {
+        return await prisma.job.update({
+            where: { userId, id: jobId },
+            data: { status },
+        })
     },
 }

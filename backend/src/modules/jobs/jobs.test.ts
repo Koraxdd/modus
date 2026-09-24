@@ -235,13 +235,13 @@ describe("PATCH /api/v1/jobs/:id", () => {
 
     it("returns 200 and updated job on success", async () => {
         const res = await request(app).patch("/api/v1/jobs/job123").send({
-            company: "newcompany2",
+            company: "newcompany",
             color: "#6366F1",
             role: "testrole",
             status: "saved",
         })
 
         expect(res.status).toBe(200)
-        expect(res.body.data.job.company).toBe("newcompany2")
+        expect(res.body.data.job.company).toBe("newcompany")
     })
 })

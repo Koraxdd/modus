@@ -1,6 +1,7 @@
 import BrandIcon from "@/components/icons/BrandIcon"
 import CustomLink from "@/components/ui/CustomLink"
 import LogoutButton from "@/components/ui/LogoutButton"
+import ThemeToggle from "@/components/ui/ThemeToggle"
 import { Clipboard, FileText, LayoutGrid, Mail, Settings } from "lucide-react"
 
 export default function Sidebar() {
@@ -27,6 +28,7 @@ export default function Sidebar() {
                 <CustomLink title="Settings" href="/dashboard/settings">
                     <Settings className="w-4 h-4" />
                 </CustomLink>
+                <ThemeToggle />
                 <LogoutButton />
             </div>
         </aside>

@@ -1,18 +1,17 @@
 "use client"
 
 import ApplicationForm from "@/components/forms/ApplicationForm"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
 import { useUIStore } from "@/lib/stores/UIStore"
 
 export default function ApplicationDialog() {
-    const { isApplicationOpen, closeApplication } = useUIStore()
+    const isApplicationOpen = useUIStore((state) => state.isApplicationOpen)
+    const closeApplication = useUIStore((state) => state.closeApplication)
 
     return (
         <Dialog

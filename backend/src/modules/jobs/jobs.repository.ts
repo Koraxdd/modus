@@ -40,4 +40,14 @@ export const jobsRepository = {
             data: { notes },
         })
     },
+    async updateJob(
+        userId: string,
+        jobId: string,
+        data: ApplicationOutput
+    ): Promise<Job> {
+        return await prisma.job.update({
+            where: { userId, id: jobId },
+            data,
+        })
+    },
 }

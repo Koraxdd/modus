@@ -100,3 +100,25 @@ export async function updateJobNotes(
 
     return result.data.job
 }
+
+export async function updateJob(
+    apiFetch: ApiFetch,
+    id: string,
+    data: ApplicationInput
+): Promise<Job> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}`,
+        {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        }
+    )
+
+    const result = (await res.json()) as ApiResult<{ job: Job }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+
+    return result.data.job
+}

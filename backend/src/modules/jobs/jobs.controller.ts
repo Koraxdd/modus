@@ -85,3 +85,20 @@ export async function updateJobNotes(
         next(err)
     }
 }
+
+export async function updateJob(
+    req: Request<{ id: string }, {}, ApplicationOutput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.updateJob(
+            getUserId(req),
+            req.params.id,
+            req.body
+        )
+        res.status(200).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}

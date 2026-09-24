@@ -14,11 +14,15 @@ import { statusConfig } from "@/lib/applications/statusConfig"
 import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 import { cn } from "@/lib/utils"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
+import { useUIStore } from "@/lib/stores/UIStore"
 
 export default function ApplicationPostingHeader({ job }: { job: Job }) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const { all, ...statuses } = statusConfig
     const { mutate: updateStatus } = useUpdateJobStatus()
+
+    const openEditApplication = useUIStore((state) => state.openEditApplication)
+
+    const { all, ...statuses } = statusConfig
 
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-white">
@@ -95,13 +99,16 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                     <Link
                         href={job.jobUrl}
                         target="_blank"
-                        className="flex items-center gap-1.5 transition-colors bg-zinc-50 px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border"
+                        className="flex items-center gap-1.5 transition-colors hover:bg-zinc-100 bg-zinc-50 px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border"
                     >
                         <SquareArrowOutUpRight className="size-3" />
                         Job posting
                     </Link>
                 )}
-                <button className="text-muted-foreground bg-zinc-50 rounded-md px-2 py-2 border border-border">
+                <button
+                    onClick={() => openEditApplication(job)}
+                    className="transition-colors hover:bg-zinc-100 text-muted-foreground bg-zinc-50 rounded-md px-2 py-2 border border-border"
+                >
                     <EllipsisVertical className="size-4" />
                 </button>
             </div>

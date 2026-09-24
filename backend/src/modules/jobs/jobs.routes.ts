@@ -10,6 +10,7 @@ import {
     createJob,
     getJob,
     getJobs,
+    updateJob,
     updateJobNotes,
     updateJobStatus,
 } from "./jobs.controller"
@@ -19,6 +20,7 @@ const jobsRouter = express.Router()
 jobsRouter.post("/", requireAuth, validate(ApplicationSchema), createJob)
 jobsRouter.get("/", requireAuth, getJobs)
 jobsRouter.get("/:id", requireAuth, getJob)
+jobsRouter.patch("/:id", requireAuth, validate(ApplicationSchema), updateJob)
 jobsRouter.patch(
     "/:id/status",
     requireAuth,

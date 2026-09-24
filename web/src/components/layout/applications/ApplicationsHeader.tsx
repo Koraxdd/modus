@@ -22,7 +22,9 @@ export default function ApplicationsHeader({
     setSearchQuery,
     setStatusFilter,
 }: ApplicationsHeaderProps) {
-    const openApplication = useUIStore((state) => state.openApplication)
+    const openCreateApplication = useUIStore(
+        (state) => state.openCreateApplication
+    )
     const { data: jobs = [] } = useJobs("all")
 
     const jobCounts: Record<StatusFilter, number> = useMemo(
@@ -79,7 +81,7 @@ export default function ApplicationsHeader({
                     </div>
                     <div className="w-px h-5 bg-border hidden md:block" />
                     <Button
-                        onClick={openApplication}
+                        onClick={openCreateApplication}
                         className="px-3 py-1 text-sm transition-all rounded-lg font-semibold hover:bg-indigo-700"
                     >
                         <Plus />

@@ -14,34 +14,64 @@ import { Button } from "../ui/button"
 import { useUIStore } from "@/lib/stores/UIStore"
 import StatusPicker from "./form-fields/StatusPicker"
 import { useCreateJob } from "@/hooks/jobs/useCreateJob"
+import { useUpdateJob } from "@/hooks/jobs/useUpdateJob"
 
-export default function ApplicationForm() {
+export default function Application() {
     const closeApplication = useUIStore((state) => state.closeApplication)
+    const job = useUIStore((state) => state.editingJob)
+    const isEditing = !!job
+
     const { mutate: createJob } = useCreateJob()
+    const { mutate: updateJob } = useUpdateJob()
 
     const form = useForm<ApplicationInput>({
         resolver: zodResolver(ApplicationSchema),
-        defaultValues: {
-            company: "",
-            color: COLOR_OPTIONS[0],
-            role: "",
-            status: "saved",
-            location: "",
-            salary: "",
-            jobUrl: "",
-        },
+        defaultValues: job
+            ? {
+                  company: job.company,
+                  color: job.color as ApplicationInput["color"],
+                  role: job.role,
+                  status: job.status,
+                  location: job.location ?? "",
+                  salary: job.salary ?? "",
+                  jobUrl: job.jobUrl ?? "",
+              }
+            : {
+                  company: "",
+                  color: COLOR_OPTIONS[0],
+                  role: "",
+                  status: "saved",
+                  location: "",
+                  salary: "",
+                  jobUrl: "",
+              },
     })
 
     const onSubmit = async (data: ApplicationInput) => {
-        createJob(data, {
-            onSuccess: () => {
-                closeApplication()
-                toast.success(`Job added - ${data.company} (${data.role})`)
-            },
-            onError: (error) => {
-                toast.error(error.message)
-            },
-        })
+        if (isEditing) {
+            updateJob(
+                { id: job.id, data },
+                {
+                    onSuccess: () => {
+                        closeApplication()
+                        toast.success("Job updated!")
+                    },
+                    onError: (error) => {
+                        toast.error(error.message)
+                    },
+                }
+            )
+        } else {
+            createJob(data, {
+                onSuccess: () => {
+                    closeApplication()
+                    toast.success(`Job added - ${data.company} (${data.role})`)
+                },
+                onError: (error) => {
+                    toast.error(error.message)
+                },
+            })
+        }
     }
 
     return (
@@ -106,7 +136,7 @@ export default function ApplicationForm() {
                     Cancel
                 </button>
                 <Button type="submit" className="hover:bg-indigo-700 px-5">
-                    Add Application
+                    {isEditing ? "Edit Application" : "Add Application"}
                 </Button>
             </div>
         </form>

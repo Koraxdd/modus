@@ -34,4 +34,11 @@ export const jobsService = {
     ): Promise<Job> {
         return await jobsRepository.updateJobNotes(userId, jobId, notes)
     },
+    async updateJob(
+        userId: string,
+        jobId: string,
+        data: ApplicationOutput
+    ): Promise<Job> {
+        return await jobsRepository.updateJob(userId, jobId, data)
+    },
 }

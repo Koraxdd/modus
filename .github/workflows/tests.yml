@@ -32,6 +32,8 @@ jobs:
             - working-directory: backend
               run: npm ci
             - working-directory: backend
+              run: npx prisma generate
+            - working-directory: backend
               run: npx prisma migrate deploy
               env:
                   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/modus_test

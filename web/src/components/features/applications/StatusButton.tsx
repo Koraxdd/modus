@@ -28,24 +28,29 @@ export default function StatusButton({
         <button
             type="button"
             className={cn(
-                "flex items-center gap-1.5 transition-all rounded-full font-semibold px-3 py-1.5",
+                "h-7 flex items-center gap-1.5 transition-all rounded-full font-semibold px-3",
                 active
                     ? background
-                    : "bg-zinc-200 hover:bg-zinc-200/50 ring-1 ring-zinc-300"
+                    : "bg-badge hover:bg-badge/50 border border-[#e8e8f2] dark:border-[#24242f]"
             )}
             onClick={() => toggleStatus(status)}
         >
             {status !== "all" && (
                 <div className={cn("w-1.5 h-1.5 rounded-full", dot)} />
             )}
-            <span className={cn("text-xs", active ? text : "text-zinc-400")}>
+            <span
+                className={cn(
+                    "text-xs",
+                    active ? text : "text-zinc-400 dark:text-[#4a4a62]"
+                )}
+            >
                 {label}
             </span>
             {countEnabled && (
                 <span
                     className={cn(
                         "text-[10px] opacity-60 ml-0.5",
-                        active ? text : "text-zinc-400"
+                        active ? text : "text-zinc-400 dark:text-[#4a4a62]"
                     )}
                 >
                     {count}

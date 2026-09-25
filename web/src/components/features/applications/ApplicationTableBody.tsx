@@ -75,7 +75,7 @@ export default function ApplicationTableBody({
                         onClick={() =>
                             router.push(`/dashboard/applications/${job.id}`)
                         }
-                        className="border-b border-border cursor-pointer transition-colors hover:bg-zinc-50"
+                        className="border-b border-border cursor-pointer transition-colors hover:bg-[#f8f8ff] dark:hover:bg-[#161622]"
                     >
                         <td className="px-4 py-3 flex items-center gap-3">
                             <div
@@ -86,21 +86,23 @@ export default function ApplicationTableBody({
                                     {job.company.slice(0, 2).toUpperCase()}
                                 </span>
                             </div>
-                            <span className="text-sm font-semibold">
+                            <span className="text-[13px] font-semibold">
                                 {job.company}
                             </span>
                         </td>
-                        <td className="px-4 py-3 text-sm">{job.role}</td>
+                        <td className="px-4 py-3 text-[13px] dark:text-[#c8c8dc]">
+                            {job.role}
+                        </td>
                         <td className="px-4 py-3">
                             <StatusBadge status={job.status} />
                         </td>
                         <td className="px-4 py-3">
-                            <span className="text-xs text-muted-foreground font-medium">
+                            <span className="text-xs text-muted-foreground dark:text-[#50506a] font-medium">
                                 {format(job.createdAt, "MMM dd")}
                             </span>
                         </td>
                         <td className="px-4 py-3">
-                            <span className="text-xs text-zinc-400 font-medium">
+                            <span className="text-xs text-zinc-400 dark:text-[#3e3e58] font-medium">
                                 {format(job.updatedAt, "MMM dd")}
                             </span>
                         </td>

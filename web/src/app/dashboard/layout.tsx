@@ -16,7 +16,7 @@ export default async function DashboardLayout({
     return (
         <div className="min-h-dvh">
             <Sidebar />
-            <main className="min-w-0 ml-14 bg-zinc-100 min-h-screen">
+            <main className="min-w-0 ml-14 bg-dashboard min-h-screen">
                 {children}
                 <ApplicationDialog />
             </main>

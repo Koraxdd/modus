@@ -12,6 +12,8 @@ import { useUIStore } from "@/lib/stores/UIStore"
 export default function ApplicationDialog() {
     const isApplicationOpen = useUIStore((state) => state.isApplicationOpen)
     const closeApplication = useUIStore((state) => state.closeApplication)
+    const job = useUIStore((state) => state.editingJob)
+    const isEditing = !!job
 
     return (
         <Dialog
@@ -19,9 +21,9 @@ export default function ApplicationDialog() {
             onOpenChange={(open) => !open && closeApplication()}
         >
             <DialogContent className="max-w-sm">
-                <DialogHeader className="-mx-6 -mt-6 px-6 py-4 border-b border-border">
+                <DialogHeader className="-mx-6 -mt-6 px-6 py-4 border-b border-border dark:border-[#24242f]">
                     <DialogTitle className="text-base font-bold">
-                        Add Application
+                        {isEditing ? "Edit Application" : "Add Application"}
                     </DialogTitle>
                 </DialogHeader>
                 <ApplicationForm />

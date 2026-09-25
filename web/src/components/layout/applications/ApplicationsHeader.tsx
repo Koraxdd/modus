@@ -47,20 +47,20 @@ export default function ApplicationsHeader({
     )
 
     return (
-        <header className="flex flex-col bg-white">
+        <header className="flex flex-col bg-header">
             <div className="border-b border-border flex flex-col gap-4 md:flex-row md:justify-between md:items-center px-6 py-3">
                 <div className="flex items-center min-w-0 gap-4">
                     <h3 className="shrink-0 text-[15px] font-semibold">
                         Applications
                     </h3>
-                    <div className="min-w-0 flex items-center gap-2 px-3 py-1 border border-border bg-zinc-100 rounded-md">
+                    <div className="min-w-0 flex items-center gap-2 px-3 py-1 border border-border bg-zinc-100 dark:bg-[#16161e] rounded-md">
                         <Search className="w-3 h-3 shrink-0 text-muted-foreground" />
                         <input
                             type="text"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="min-w-0 text-sm outline-none px-2 py-0.5 transition-shadow focus:ring-2 ring-primary rounded-md"
+                            className="min-w-0 text-[13px] outline-none px-2 py-0.5 dark:text-[#c8c8dc] transition-shadow focus:ring-2 ring-primary rounded-md"
                         />
                     </div>
                 </div>
@@ -68,13 +68,13 @@ export default function ApplicationsHeader({
                     <div className="flex rounded-md border border-border text-xs font-medium">
                         <Link
                             href="/dashboard"
-                            className="px-3 py-1.5 border-r border-border text-muted-foreground transition-colors hover:bg-zinc-200/50"
+                            className="px-3 py-1.5 border-r border-border rounded-l-md text-muted-foreground hover:text-zinc-700 dark:hover:text-[#9898b0] dark:text-[#44445a] transition-colors hover:bg-zinc-200/50 dark:hover:bg-[#18181f]"
                         >
                             Board
                         </Link>
                         <Link
                             href="/dashboard/applications"
-                            className="px-3 py-1.5 text-primary bg-indigo-50"
+                            className="px-3 py-1.5 text-primary dark:text-[#7b6ff0] rounded-r-md bg-indigo-50 dark:bg-[#1e1e2e]"
                         >
                             List
                         </Link>

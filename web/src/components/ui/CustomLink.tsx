@@ -24,8 +24,8 @@ export default function CustomLink({
             className={cn(
                 "relative w-full flex items-center justify-center h-9 rounded-md transition-colors",
                 isActive
-                    ? "text-indigo-500 bg-indigo-50"
-                    : "text-zinc-400 hover:bg-zinc-200/50 hover:text-zinc-500",
+                    ? "text-indigo-500 bg-indigo-50 dark:bg-[#1e1e2e]"
+                    : "text-zinc-400 dark:text-[#5a5a72] hover:bg-zinc-200/50 dark:hover:bg-[#18181f] hover:text-zinc-500 dark:hover:text-[#9898b0]",
                 className
             )}
         >

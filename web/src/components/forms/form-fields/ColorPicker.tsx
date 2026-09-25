@@ -38,7 +38,7 @@ export default function ColorPicker<T extends FieldValues>({
                             style={{
                                 backgroundColor: color,
                                 ...(field.value === color && {
-                                    boxShadow: `0 0 0 2px white, 0 0 0 4px ${color}`,
+                                    boxShadow: `0 0 0 2px var(--background), 0 0 0 4px ${color}`,
                                 }),
                             }}
                             className="w-5 h-5 rounded-full transition-transform hover:scale-110"

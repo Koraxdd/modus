@@ -25,21 +25,25 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
     const { all, ...statuses } = statusConfig
 
     return (
-        <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-white">
+        <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">
             <div className="flex items-center gap-3">
                 <Link
                     href="/dashboard/applications"
-                    className="flex items-center gap-1.5 text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
+                    className="flex items-center gap-1.5 text-[13px] font-medium transition-colors text-muted-foreground dark:text-[#50506a] hover:text-foreground dark:hover:text-[#c8c8dc]"
                 >
                     <ArrowLeft className="size-3.5" />
                     Back
                 </Link>
-                <span className="text-zinc-200 shrink-0">·</span>
-                <span className="text-sm text-muted-foreground font-medium min-w-0">
+                <span className="text-zinc-200 dark:text-[#1f1f28] shrink-0">
+                    ·
+                </span>
+                <span className="text-[13px] text-muted-foreground dark:text-[#50506a] font-medium min-w-0">
                     {job.company}
                 </span>
-                <span className="text-zinc-200 shrink-0">·</span>
-                <span className="text-sm font-semibold min-w-0 truncate">
+                <span className="text-zinc-200 dark:text-[#1f1f28] shrink-0">
+                    ·
+                </span>
+                <span className="text-[13px] font-semibold min-w-0 truncate">
                     {job.role}
                 </span>
             </div>
@@ -53,7 +57,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                         <ChevronDown className="text-muted-foreground size-3" />
                     </button>
                     {isOpen && (
-                        <div className="absolute top-full left-0 mt-1 rounded-xl py-1 z-20 min-w-40 bg-white border border-border shadow-md">
+                        <div className="absolute top-full left-0 mt-1 rounded-xl py-1 z-20 min-w-40 bg-white dark:bg-[#1c1c26] border border-border shadow-md">
                             {(
                                 Object.entries(statuses) as [
                                     ApplicationStatus,
@@ -73,9 +77,9 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                                             setIsOpen(false)
                                         }}
                                         className={cn(
-                                            "flex items-center gap-2 px-3 py-2 transition-colors hover:bg-zinc-50 w-full text-sm",
+                                            "flex items-center gap-2 px-3 py-2 transition-colors hover:bg-[#fafaff] dark:hover:bg-[#222230] w-full text-[13px] first:rounded-t-md last:rounded-b-md",
                                             status === job.status &&
-                                                "bg-zinc-50"
+                                                "bg-[#fafaff] dark:bg-[#222230]"
                                         )}
                                     >
                                         <div
@@ -84,7 +88,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                                                 dot
                                             )}
                                         />
-                                        <span className="capitalize">
+                                        <span className="capitalize dark:text-[#c8c8dc]">
                                             {status}
                                         </span>
                                     </button>
@@ -99,7 +103,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                     <Link
                         href={job.jobUrl}
                         target="_blank"
-                        className="flex items-center gap-1.5 transition-colors hover:bg-zinc-100 bg-zinc-50 px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border"
+                        className="flex items-center gap-1.5 transition-colors hover:bg-zinc-100 dark:hover:bg-[#16161e]/70 bg-zinc-50 dark:bg-[#16161e] px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground dark:text-[#50506a] border border-border"
                     >
                         <SquareArrowOutUpRight className="size-3" />
                         Job posting
@@ -107,7 +111,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                 )}
                 <button
                     onClick={() => openEditApplication(job)}
-                    className="transition-colors hover:bg-zinc-100 text-muted-foreground bg-zinc-50 rounded-md px-2 py-2 border border-border"
+                    className="transition-colors hover:bg-zinc-100 dark:hover:bg-[#16161e]/70 text-muted-foreground dark:text-[#50506a] bg-zinc-50 dark:bg-[#16161e] rounded-md px-2 py-2 border border-border"
                 >
                     <EllipsisVertical className="size-4" />
                 </button>

@@ -13,7 +13,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
     const { mutate: updateNotes, isError } = useUpdateJobNotes()
 
     return (
-        <div className="max-w-215 mx-auto grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-8 p-6">
+        <div className="max-w-225 mx-auto grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-8 p-6">
             <div className="flex flex-col gap-6">
                 <Card>
                     <CardHeader className="flex items-center gap-5">
@@ -30,13 +30,15 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                 {job.role}
                             </span>
                             <div className="min-w-0 flex items-center gap-3 mt-1.5 flex-wrap">
-                                <span className="text-sm font-medium">
+                                <span className="text-sm font-medium dark:text-[#c8c8dc]">
                                     {job.company}
                                 </span>
                                 {job.location && (
                                     <>
-                                        <span className="text-zinc-400">·</span>
-                                        <span className="flex items-center gap-1 text-sm text-muted-foreground">
+                                        <span className="text-zinc-400 dark:text-[#3e3e58]">
+                                            ·
+                                        </span>
+                                        <span className="flex items-center gap-1 text-sm text-muted-foreground dark:text-[#50506a]">
                                             <MapPin className="size-3.5" />
                                             {job.location}
                                         </span>
@@ -44,8 +46,10 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                 )}
                                 {job.salary && (
                                     <>
-                                        <span className="text-zinc-400">·</span>
-                                        <span className="text-xs px-2 py-1 rounded-md text-primary bg-indigo-50">
+                                        <span className="text-zinc-400 dark:text-[#3e3e58]">
+                                            ·
+                                        </span>
+                                        <span className="text-xs px-2 py-1 rounded-md text-primary dark:text-[#6b7fcc] bg-[#eef0ff] dark:bg-[#1a2035]">
                                             {job.salary}
                                         </span>
                                     </>
@@ -56,7 +60,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                 </Card>
                 <Card className="h-100">
                     <CardHeader>
-                        <CardTitle className="text-sm font-semibold text-muted-foreground">
+                        <CardTitle className="text-sm font-semibold text-muted-foreground dark:text-[#50506a]">
                             TIMELINE
                         </CardTitle>
                     </CardHeader>
@@ -64,7 +68,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-between">
-                            <h2 className="text-muted-foreground font-semibold text-sm">
+                            <h2 className="text-muted-foreground dark:text-[#50506a] font-semibold text-sm">
                                 NOTES
                             </h2>
                             <button
@@ -78,7 +82,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                         )
                                     }
                                 }}
-                                className="flex items-center gap-1.5 transition-opacity text-xs text-muted-foreground hover:opacity-80"
+                                className="flex items-center gap-1.5 transition-opacity text-xs text-muted-foreground dark:text-[#3e3e58] hover:opacity-80"
                             >
                                 <SquarePen className="size-3.5" />
                                 Edit
@@ -89,7 +93,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                             placeholder="Write notes here"
-                            className="resize-none text-sm rounded-md leading-relaxed transition-shadow focus:ring-2 focus:ring-primary outline-none p-1"
+                            className="resize-none text-sm rounded-md leading-relaxed dark:text-[#c8c8dc] transition-shadow focus:ring-2 focus:ring-primary outline-none p-1"
                         />
                     </CardContent>
                 </Card>
@@ -97,36 +101,36 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
             <div className="flex flex-col gap-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-xs text-muted-foreground font-semibold">
+                        <CardTitle className="text-xs text-muted-foreground dark:text-[#50506a] font-semibold">
                             DETAILS
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         {job.location && (
-                            <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
-                                <span className="text-muted-foreground">
+                            <div className="flex items-center justify-between border-b border-border dark:border-[#24242f] pb-3 text-xs">
+                                <span className="text-muted-foreground dark:text-[#50506a]">
                                     Location
                                 </span>
-                                <span className="font-medium">
+                                <span className="font-medium dark:text-[#c8c8dc]">
                                     {job.location}
                                 </span>
                             </div>
                         )}
-                        <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
-                            <span className="text-muted-foreground">
+                        <div className="flex items-center justify-between border-b border-border dark:border-[#24242f] pb-3 text-xs">
+                            <span className="text-muted-foreground dark:text-[#50506a]">
                                 Applied
                             </span>
-                            <span className="font-medium">
+                            <span className="font-medium dark:text-[#c8c8dc]">
                                 {formatDistanceToNow(job.createdAt, {
                                     addSuffix: true,
                                 })}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between border-b border-border pb-3 text-xs">
-                            <span className="text-muted-foreground">
+                        <div className="flex items-center justify-between border-b border-border dark:border-[#24242f] pb-3 text-xs">
+                            <span className="text-muted-foreground dark:text-[#50506a]">
                                 Last update
                             </span>
-                            <span className="font-medium">
+                            <span className="font-medium dark:text-[#c8c8dc]">
                                 {formatDistanceToNow(job.updatedAt, {
                                     addSuffix: true,
                                 })}
@@ -136,24 +140,24 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                 </Card>
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-xs text-muted-foreground font-semibold">
+                        <CardTitle className="text-xs text-muted-foreground dark:text-[#50506a] font-semibold">
                             DOCUMENTS
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 border border-border">
-                            <div className="size-8 rounded-lg flex items-center justify-center shrink-0 bg-indigo-50">
+                        <div className="flex items-center -mt-2 gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-[#161620] border border-border">
+                            <div className="size-8 rounded-lg flex items-center justify-center shrink-0 bg-indigo-50 dark:bg-[#1a2035]">
                                 <File className="size-4 text-primary" />
                             </div>
                             <div className="flex-1 flex flex-col min-w-0">
                                 <span className="text-xs font-medium truncate mb-1">
                                     longplaceholderfilename
                                 </span>
-                                <span className="text-[11px] font-medium text-muted-foreground">
+                                <span className="text-[11px] font-medium text-muted-foreground dark:text-[#50506a]">
                                     100 KB
                                 </span>
                             </div>
-                            <button className="text-muted-foreground transition-colors hover:text-primary">
+                            <button className="text-muted-foreground dark:text-[#50506a] transition-colors hover:text-primary dark:hover:text-[#5c4fee]">
                                 <Download className="size-3.5" />
                             </button>
                         </div>
@@ -161,7 +165,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                 </Card>
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-xs text-muted-foreground font-semibold">
+                        <CardTitle className="text-xs text-muted-foreground dark:text-[#50506a] font-semibold">
                             TAGS
                         </CardTitle>
                     </CardHeader>

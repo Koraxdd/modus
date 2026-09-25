@@ -88,7 +88,7 @@ export default function Application() {
                     control={form.control}
                 />
                 <div className="flex flex-col gap-2">
-                    <FieldLabel className="text-xs text-zinc-600">
+                    <FieldLabel className="text-xs text-zinc-600 dark:text-[#50506a]">
                         COLOR
                     </FieldLabel>
                     <ColorPicker name="color" control={form.control} />
@@ -101,7 +101,7 @@ export default function Application() {
                 control={form.control}
             />
             <div className="flex flex-col gap-2">
-                <FieldLabel className="text-xs text-zinc-600">
+                <FieldLabel className="text-xs text-zinc-600 dark:text-[#50506a]">
                     STATUS
                 </FieldLabel>
                 <StatusPicker name="status" control={form.control} />
@@ -127,11 +127,11 @@ export default function Application() {
                 control={form.control}
                 type="url"
             />
-            <div className="grid grid-cols-2 md:flex md:justify-end gap-4 border-t border-border -mx-6 -mb-6 px-6 py-4">
+            <div className="grid grid-cols-2 md:flex md:justify-end gap-4 border-t border-border dark:border-[#24242f] -mx-6 -mb-6 px-6 py-4">
                 <button
                     type="button"
                     onClick={closeApplication}
-                    className="bg-mauve-100 rounded-lg px-4 font-medium transition-colors text-zinc-400 hover:text-slate-800"
+                    className="bg-mauve-100 dark:bg-transparent rounded-lg px-4 font-medium transition-colors text-zinc-400 dark:text-[#50506a] hover:text-slate-800 dark:hover:text-[#c8c8dc]"
                 >
                     Cancel
                 </button>

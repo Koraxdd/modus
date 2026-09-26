@@ -12,7 +12,7 @@ export default function LoginPage() {
                     Don't have an account?
                     <Link
                         href="/register"
-                        className="ml-1 text-primary text-sm font-semibold transition-colors hover:text-indigo-800"
+                        className="ml-1 text-primary dark:text-[#7b6ff0] text-sm font-semibold transition-all hover:text-indigo-800 dark:hover:opacity-80"
                     >
                         Sign up free
                     </Link>

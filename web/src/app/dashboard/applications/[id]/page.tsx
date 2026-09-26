@@ -12,17 +12,17 @@ export default function ApplicationPosting() {
     if (isPending) {
         return (
             <div className="animate-in fade-in duration-300">
-                <div className="animate-pulse h-15 bg-zinc-200 mb-8" />
+                <div className="animate-pulse h-15 bg-zinc-200 dark:bg-card mb-8" />
                 <div className="max-w-215 mx-auto grid grid-cols-[1fr_250px] h-screen items-start">
                     <div className="animate-pulse flex flex-col gap-6">
-                        <div className="h-26 w-135 bg-zinc-200 rounded-lg" />
-                        <div className="h-96 w-135 bg-zinc-200 rounded-lg" />
-                        <div className="h-54 w-135 bg-zinc-200 rounded-lg" />
+                        <div className="h-26 w-135 bg-zinc-200 dark:bg-card rounded-lg" />
+                        <div className="h-96 w-135 bg-zinc-200 dark:bg-card rounded-lg" />
+                        <div className="h-54 w-135 bg-zinc-200 dark:bg-card rounded-lg" />
                     </div>
                     <div className="animate-pulse flex flex-col gap-4">
-                        <div className="h-54 w-70 bg-zinc-200 rounded-lg" />
-                        <div className="h-33 w-70 bg-zinc-200 rounded-lg" />
-                        <div className="h-32 w-70 bg-zinc-200 rounded-lg" />
+                        <div className="h-54 w-70 bg-zinc-200 dark:bg-card rounded-lg" />
+                        <div className="h-33 w-70 bg-zinc-200 dark:bg-card rounded-lg" />
+                        <div className="h-32 w-70 bg-zinc-200 dark:bg-card rounded-lg" />
                     </div>
                 </div>
             </div>

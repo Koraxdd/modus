@@ -93,7 +93,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                             placeholder="Write notes here"
-                            className="resize-none text-sm rounded-md leading-relaxed dark:text-[#c8c8dc] transition-shadow focus:ring-2 focus:ring-primary outline-none p-1"
+                            className="resize-none text-[13px] rounded-md leading-relaxed dark:text-[#c8c8dc] transition-shadow focus:ring-2 focus:ring-primary outline-none p-1"
                         />
                     </CardContent>
                 </Card>

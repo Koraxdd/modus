@@ -82,7 +82,7 @@ export default function DoneStep() {
                     }}
                     className="relative w-24 h-24 mx-auto mb-5 mt-3"
                 >
-                    <div className="absolute inset-0 bg-indigo-50 opacity-50 animate-ping animation-duration-[2s] rounded-full" />
+                    <div className="absolute inset-0 bg-indigo-50 dark:bg-[#7b6ff0]/10 opacity-50 animate-ping animation-duration-[2s] rounded-full" />
                     <AnimatedCheckCircle />
                 </motion.div>
                 <CardTitle className="font-bold text-3xl mb-1">
@@ -99,9 +99,9 @@ export default function DoneStep() {
                     return (
                         <div
                             key={feature.title}
-                            className="flex items-center gap-3 bg-zinc-50 border border-zinc-100 rounded-2xl px-4 py-3.5"
+                            className="flex items-center gap-3 bg-zinc-50 dark:bg-[#141420] border border-zinc-100 dark:border-[#24242f] rounded-2xl px-4 py-3.5"
                         >
-                            <div className="w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-md shrink-0">
+                            <div className="w-8 h-8 flex items-center justify-center bg-indigo-100 dark:bg-[#1a2035] rounded-md shrink-0">
                                 <Icon className="text-primary w-4 h-4" />
                             </div>
                             <div>

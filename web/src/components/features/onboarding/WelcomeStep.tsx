@@ -24,13 +24,13 @@ export default function WelcomeStep({ next }: { next: () => void }) {
             </CardHeader>
             <CardContent className="mt-6">
                 <div className="flex flex-wrap justify-center gap-2">
-                    <span className="rounded-full bg-zinc-50 text-zinc-600 border border-border px-3 py-1.5 text-xs font-medium">
+                    <span className="rounded-full bg-zinc-50 dark:bg-[#16161e] text-zinc-600 dark:text-[#c8c8dc] border border-border px-3 py-1.5 text-xs font-medium">
                         Track every application
                     </span>
-                    <span className="rounded-full bg-zinc-50 text-zinc-600 border border-border px-3 py-1.5 text-xs font-medium">
+                    <span className="rounded-full bg-zinc-50 dark:bg-[#16161e] text-zinc-600 dark:text-[#c8c8dc] border border-border px-3 py-1.5 text-xs font-medium">
                         AI cover letters
                     </span>
-                    <span className="rounded-full bg-zinc-50 text-zinc-600 border border-border px-3 py-1.5 text-xs font-medium">
+                    <span className="rounded-full bg-zinc-50 dark:bg-[#16161e] text-zinc-600 dark:text-[#c8c8dc] border border-border px-3 py-1.5 text-xs font-medium">
                         Smart match scoring
                     </span>
                 </div>

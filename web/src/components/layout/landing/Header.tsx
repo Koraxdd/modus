@@ -28,7 +28,7 @@ export default function Header() {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-colors duration-500",
                 isScrolled
-                    ? "bg-white/90 backdrop-blur-md border-b border-border/80 shadow-sm shadow-zinc-900/4"
+                    ? "bg-white/90 dark:bg-[#141420] backdrop-blur-md border-b border-border/80 shadow-sm shadow-zinc-900/4"
                     : "bg-transparent"
             )}
         >
@@ -44,7 +44,7 @@ export default function Header() {
                         <Link
                             key={link.label}
                             href={link.href}
-                            className="text-sm text-zinc-500 hover:text-foreground transition-colors"
+                            className="text-sm text-zinc-500 dark:text-[#c8c8dc] hover:text-foreground dark:hover:text-white transition-colors"
                         >
                             {link.label}
                         </Link>
@@ -53,7 +53,7 @@ export default function Header() {
                 <div className="flex items-center gap-3">
                     <Link
                         href="/login"
-                        className="hidden md:block text-sm font-medium text-zinc-600 hover:text-foreground transition-colors"
+                        className="hidden md:block text-sm font-medium text-zinc-600 dark:text-[#c8c8dc] hover:text-foreground dark:hover:text-white transition-colors"
                     >
                         Sign in
                     </Link>
@@ -64,7 +64,7 @@ export default function Header() {
                                 variant: "secondary",
                                 size: "lg",
                             }),
-                            "px-4 rounded-lg"
+                            "px-4 rounded-lg dark:bg-black dark:text-[#c8c8dc] dark:hover:text-white"
                         )}
                     >
                         Get started free

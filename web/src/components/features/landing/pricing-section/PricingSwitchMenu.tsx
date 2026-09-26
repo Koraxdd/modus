@@ -27,7 +27,7 @@ export default function PricingSwitchMenu({
                 >
                     Annual
                 </span>
-                <span className="text-[10.5px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-semibold">
+                <span className="text-[10.5px] bg-emerald-100 dark:bg-[#102a1c] text-emerald-700 dark:text-[#34d399] px-1.5 py-0.5 rounded-full font-semibold">
                     Save 20%
                 </span>
             </div>

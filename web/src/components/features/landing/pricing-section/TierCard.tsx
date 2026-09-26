@@ -48,7 +48,8 @@ export default function TierCard({ card, isAnnual }: TierCardProps) {
                     <span
                         className={cn(
                             "text-5xl font-bold",
-                            isPro && "text-primary-foreground"
+                            isPro &&
+                                "text-primary-foreground dark:text-foreground"
                         )}
                     >
                         ${isAnnual ? annualPrice : monthlyPrice}
@@ -78,10 +79,12 @@ export default function TierCard({ card, isAnnual }: TierCardProps) {
                             key={feature}
                             className={cn(
                                 "flex items-center gap-2 text-[13px]",
-                                isPro ? "text-indigo-100" : "text-zinc-700"
+                                isPro
+                                    ? "text-indigo-100"
+                                    : "text-zinc-700 dark:text-[#c8c8dc]"
                             )}
                         >
-                            <span className="w-3.5 h-3.5 bg-indigo-50 flex items-center justify-center rounded-full">
+                            <span className="w-3.5 h-3.5 bg-indigo-50 dark:bg-[#1a2035] flex items-center justify-center rounded-full">
                                 <Check
                                     strokeWidth={3.5}
                                     className="text-primary w-2 h-2"
@@ -96,7 +99,10 @@ export default function TierCard({ card, isAnnual }: TierCardProps) {
                 <Button
                     variant={buttonVariant}
                     size="lg"
-                    className="w-full py-6 rounded-lg cursor-pointer font-semibold"
+                    className={cn(
+                        "w-full py-6 rounded-lg cursor-pointer font-semibold",
+                        isPro && "dark:text-[#c8c8dc]"
+                    )}
                 >
                     {buttonText}
                 </Button>

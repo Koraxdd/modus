@@ -16,7 +16,7 @@ import StatusPicker from "./form-fields/StatusPicker"
 import { useCreateJob } from "@/hooks/jobs/useCreateJob"
 import { useUpdateJob } from "@/hooks/jobs/useUpdateJob"
 
-export default function Application() {
+export default function ApplicationForm() {
     const closeApplication = useUIStore((state) => state.closeApplication)
     const job = useUIStore((state) => state.editingJob)
     const isEditing = !!job

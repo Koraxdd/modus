@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express"
 import jwt from "jsonwebtoken"
+import type { AccessTokenPayload } from "../types/api.types"
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization
@@ -15,13 +16,13 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     try {
         const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
 
-        if (typeof decoded === "string") {
+        if (typeof decoded === "string" || !decoded.sub) {
             return res
                 .status(401)
                 .json({ success: false, error: "Invalid token" })
         }
 
-        req.user = decoded
+        req.user = decoded as AccessTokenPayload
 
         next()
     } catch (err) {

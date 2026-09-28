@@ -11,11 +11,11 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
-import { useAuth } from "@/lib/stores/authStore"
+import { useAuthStore } from "@/lib/stores/authStore"
 
 export default function LoginForm() {
     const router = useRouter()
-    const { setAccessToken } = useAuth()
+    const { setAccessToken } = useAuthStore()
 
     const form = useForm<LoginInput>({
         resolver: zodResolver(LoginSchema),

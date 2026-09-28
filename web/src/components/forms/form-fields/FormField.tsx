@@ -12,7 +12,7 @@ type FormFieldProps<T extends FieldValues> = {
     label: string
     placeholder: string
     control: Control<T>
-    type?: "text" | "email"
+    type?: "text" | "email" | "url"
     autoComplete?: string
 }
 
@@ -32,7 +32,7 @@ export default function FormField<T extends FieldValues>({
                 <Field data-invalid={fieldState.invalid}>
                     <FieldLabel
                         htmlFor={field.name}
-                        className="text-xs text-zinc-600"
+                        className="text-xs text-zinc-600 dark:text-[#50506a]"
                     >
                         {label}
                     </FieldLabel>

@@ -35,7 +35,7 @@ export default function HeroSection() {
                     href="/login"
                     className={cn(
                         buttonVariants({ variant: "outline", size: "lg" }),
-                        "shadow-sm p-6 rounded-lg font-semibold"
+                        "shadow-sm p-6 rounded-lg font-semibold dark:text-[#c8c8dc] dark:hover:text-white"
                     )}
                 >
                     See a demo

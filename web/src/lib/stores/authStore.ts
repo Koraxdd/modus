@@ -5,7 +5,7 @@ type AuthState = {
     setAccessToken: (token: string | null) => void
 }
 
-export const useAuth = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
     accessToken: null,
     setAccessToken: (token) => set({ accessToken: token }),
 }))

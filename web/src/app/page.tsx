@@ -10,14 +10,14 @@ export default function LandingPage() {
         <>
             <Header />
             <HeroSection />
-            <section className="flex items-center justify-center border-y border-border/60 bg-white h-38 text-center py-10 px-6">
-                <p className="text-xs text-zinc-400 font-medium tracking-widest">
+            <section className="flex items-center justify-center border-y border-border/60 bg-white dark:bg-[#141420] h-38 text-center py-10 px-6">
+                <p className="text-xs text-zinc-400 dark:text-[#c8c8dc] font-medium tracking-widest">
                     DESIGNED TO TRACK APPLICATIONS FOR ROLES AT WORLD-CLASS TECH
                     COMPANIES
                 </p>
             </section>
             <FeaturesSection />
-            <div className="bg-foreground h-38" />
+            <div className="bg-foreground dark:bg-black h-38" />
             <PricingSection />
             <CTASection />
             <Footer />

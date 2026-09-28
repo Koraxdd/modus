@@ -15,7 +15,7 @@ export default function AnimatedCheckCircle() {
                 cx="48"
                 cy="48"
                 r="44"
-                className="fill-indigo-50"
+                className="fill-indigo-50 dark:fill-[#1a2035]"
                 strokeWidth="2"
             />
             <motion.circle

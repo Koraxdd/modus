@@ -11,8 +11,8 @@ const displayLinks = [
 
 export default function OnboardingMiniDashboard() {
     return (
-        <div className="border border-border bg-white shadow-lg shadow-zinc-900/6 mt-3 rounded-2xl flex">
-            <div className="w-36 bg-zinc-50/80 border-r rounded-l-2xl border-zinc-100 flex flex-col gap-3">
+        <div className="border border-border bg-dashboard shadow-lg shadow-zinc-900/6 mt-3 rounded-2xl flex">
+            <div className="w-36 bg-zinc-50/80 dark:bg-[#111115] border-r rounded-l-2xl border-zinc-100 dark:border-[#1f1f27] flex flex-col gap-3">
                 <div className="flex items-center gap-1.5 mb-1 px-4 pt-4">
                     <div className="bg-primary w-4 h-4 rounded-[4] flex items-center justify-center shrink-0">
                         <BrandIcon size={7} />
@@ -26,7 +26,7 @@ export default function OnboardingMiniDashboard() {
                             className={cn(
                                 "flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[9px] font-medium",
                                 link.active
-                                    ? "text-primary bg-indigo-50"
+                                    ? "text-primary dark:text-[#7b6ff0] bg-indigo-50 dark:bg-[#1a2035]"
                                     : "text-zinc-500"
                             )}
                         >
@@ -44,7 +44,7 @@ export default function OnboardingMiniDashboard() {
                 </div>
             </div>
             <div className="mx-auto px-6 py-8 flex flex-col items-center justify-center text-center">
-                <div className="w-12 h-12 bg-indigo-100 flex items-center justify-center rounded-xl text-primary mb-3">
+                <div className="w-12 h-12 bg-indigo-100 dark:bg-[#1a2035] flex items-center justify-center rounded-xl text-primary mb-3">
                     <SquareText className="w-5 h-5" />
                 </div>
                 <p className="text-xs font-semibold">No applications yet</p>

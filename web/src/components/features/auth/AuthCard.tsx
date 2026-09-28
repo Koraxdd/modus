@@ -26,7 +26,7 @@ export default function AuthCard({
     children,
 }: AuthCardProps) {
     return (
-        <Card className="w-full max-w-md shadow-sm ring-zinc-200/80 px-4 py-10">
+        <Card className="w-full max-w-md shadow-sm ring-zinc-200/80 dark:ring-[#24242f] px-4 py-10">
             <CardHeader>
                 <div className="flex items-center gap-2 mb-10">
                     <div className="w-8 h-8 bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm shadow-indigo-600/25 rounded-md">
@@ -44,7 +44,7 @@ export default function AuthCard({
                     <Button
                         variant="outline"
                         size="lg"
-                        className="shadow-xs rounded-lg gap-2.5"
+                        className="shadow-xs rounded-lg gap-2.5 dark:bg-[#16161e] dark:text-[#c8c8dc]"
                     >
                         <GoogleIcon className="size-4.5 shrink-0" />
                         Continue with Google
@@ -52,18 +52,18 @@ export default function AuthCard({
                     <Button
                         variant="outline"
                         size="lg"
-                        className="shadow-xs rounded-lg gap-2.5"
+                        className="shadow-xs rounded-lg gap-2.5 dark:bg-[#16161e] dark:text-[#c8c8dc]"
                     >
                         <GithubIcon className="size-4.5 shrink-0" />
                         Continue with GitHub
                     </Button>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex-1 h-px bg-zinc-100" />
+                    <div className="flex-1 h-px bg-zinc-100 dark:bg-[#24242f]" />
                     <span className="text-xs font-medium text-muted-foreground">
                         or
                     </span>
-                    <div className="flex-1 h-px bg-zinc-100" />
+                    <div className="flex-1 h-px bg-zinc-100 dark:bg-[#24242f]" />
                 </div>
             </CardHeader>
             <CardContent>{children}</CardContent>

@@ -5,6 +5,7 @@ import { errorHandler } from "./middleware/errorHandler"
 import helmet from "helmet"
 import cookieParser from "cookie-parser"
 import usersRouter from "./modules/users/users.routes"
+import jobsRouter from "./modules/jobs/jobs.routes"
 
 const app = express()
 
@@ -12,7 +13,7 @@ app.use(helmet())
 app.use(
     cors({
         origin: process.env.CLIENT_URL,
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
         optionsSuccessStatus: 200,
     })
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", usersRouter)
+app.use("/api/v1/jobs", jobsRouter)
 
 app.use(errorHandler)
 

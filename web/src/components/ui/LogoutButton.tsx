@@ -1,13 +1,13 @@
 "use client"
 
-import { useAuth } from "@/lib/stores/authStore"
+import { useAuthStore } from "@/lib/stores/authStore"
 import { LogOut } from "lucide-react"
 import { Button } from "./button"
 import { useRouter } from "next/navigation"
 
 export default function LogoutButton() {
     const router = useRouter()
-    const { setAccessToken } = useAuth()
+    const { setAccessToken } = useAuthStore()
 
     const handleLogout = async () => {
         const res = await fetch(

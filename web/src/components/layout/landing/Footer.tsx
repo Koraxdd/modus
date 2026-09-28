@@ -4,9 +4,9 @@ import { footerColumns, footerLegalLinks } from "@/lib/links/footerLinks"
 
 export default function Footer() {
     return (
-        <footer className="py-14 px-6 border-t border-border/80 bg-white">
+        <footer className="py-14 px-6 border-t border-border/80 bg-white dark:bg-[#141420]">
             <div className="max-w-6xl mx-auto">
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-12 border-b border-zinc-100">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-12 border-b border-zinc-100 dark:border-[#24242f]">
                     <div className="col-span-2 md:col-span-1">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-6 h-6 bg-indigo-600 flex items-center justify-center shadow-sm shadow-indigo-600/25 shrink-0 rounded-md">

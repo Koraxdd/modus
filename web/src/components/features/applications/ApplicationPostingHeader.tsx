@@ -110,6 +110,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                     </Link>
                 )}
                 <button
+                    aria-label="Edit job"
                     onClick={() => openEditApplication(job)}
                     className="transition-colors hover:bg-zinc-100 dark:hover:bg-[#16161e]/70 text-muted-foreground dark:text-[#50506a] bg-zinc-50 dark:bg-[#16161e] rounded-md px-2 py-2 border border-border"
                 >

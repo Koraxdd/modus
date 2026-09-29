@@ -7,7 +7,15 @@ import { useUIStore } from "@/lib/stores/UIStore"
 import { ChevronDown, Plus, Search } from "lucide-react"
 import Link from "next/link"
 
-export default function DashboardHeader() {
+type DashboardHeaderProps = {
+    searchQuery: string
+    setSearchQuery: (query: string) => void
+}
+
+export default function DashboardHeader({
+    searchQuery,
+    setSearchQuery,
+}: DashboardHeaderProps) {
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
     )
@@ -39,6 +47,8 @@ export default function DashboardHeader() {
                         <input
                             type="text"
                             placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="min-w-0 text-[13px] outline-none px-2 py-0.5 dark:text-[#c8c8dc] transition-shadow focus:ring-2 ring-primary rounded-md"
                         />
                     </div>

@@ -17,14 +17,27 @@ import { EllipsisVertical, MapPin, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 
-export default function ApplicationsBoard() {
+export default function ApplicationsBoard({
+    searchQuery,
+}: {
+    searchQuery: string
+}) {
     const router = useRouter()
     const { data: jobs = [] } = useJobs("all")
     const jobCounts = useJobCounts(jobs)
 
+    const filteredJobs = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase()
+        return jobs.filter(
+            (job) =>
+                job.company.toLowerCase().includes(query) ||
+                job.role.toLowerCase().includes(query)
+        )
+    }, [jobs, searchQuery])
+
     const jobsByStatus = useMemo(
         () =>
-            jobs.reduce<Record<ApplicationStatus, Job[]>>(
+            filteredJobs.reduce<Record<ApplicationStatus, Job[]>>(
                 (groups, job) => {
                     groups[job.status].push(job)
                     return groups
@@ -37,7 +50,7 @@ export default function ApplicationsBoard() {
                     rejected: [],
                 }
             ),
-        [jobs]
+        [filteredJobs]
     )
 
     const { all, ...statuses } = statusConfig

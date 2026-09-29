@@ -11,9 +11,9 @@ import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import { cn } from "@/lib/utils"
-import { Job } from "@/types/job.types"
+import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
-import { EllipsisVertical, MapPin } from "lucide-react"
+import { EllipsisVertical, MapPin, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 
@@ -62,7 +62,7 @@ export default function ApplicationsBoard() {
                             <span className="capitalize text-[13px] text-[#6b6b8a] font-semibold">
                                 {status}
                             </span>
-                            <span className="text-[11px] ml-auto font-medium px-1.5 py-0.5 rounded bg-[#efeff6] text-[#a0a0b8]">
+                            <span className="text-[11px] ml-auto font-medium px-1.5 py-0.5 rounded bg-[#efeff6] dark:bg-[#1c1c26] text-[#a0a0b8] dark:text-[#4a4a62]">
                                 {jobCounts[status]}
                             </span>
                         </div>
@@ -75,7 +75,7 @@ export default function ApplicationsBoard() {
                                             `/dashboard/applications/${job.id}`
                                         )
                                     }
-                                    className="group cursor-pointer py-4 transition-all hover:bg-[#fafaff] hover:ring-[#c8c8e0] hover:-translate-y-px"
+                                    className="group cursor-pointer py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px"
                                 >
                                     <CardHeader className="px-4">
                                         <div className="flex items-center gap-2.5 mb-2">
@@ -89,17 +89,17 @@ export default function ApplicationsBoard() {
                                                     .slice(0, 2)
                                                     .toUpperCase()}
                                             </div>
-                                            <span className="text-[13px] font-medium text-[#2a2a40]">
+                                            <span className="text-[13px] font-medium text-[#2a2a40] dark:text-[#c8c8dc]">
                                                 {job.company}
                                             </span>
-                                            <button className="ml-auto hidden group-hover:block">
-                                                <EllipsisVertical className="size-3.5 text-[#aaaab8]" />
+                                            <button className="ml-auto hidden group-hover:block text-[#aaaab8] dark:text-[#3e3e58] hover:text-[#888898] dark:hover:text-[#50506a]">
+                                                <EllipsisVertical className="size-3.5" />
                                             </button>
                                         </div>
                                         <CardTitle className="text-sm font-semibold leading-snug mb-1.5">
                                             {job.role}
                                         </CardTitle>
-                                        <CardDescription className="flex items-center justify-between">
+                                        <CardDescription className="flex items-center justify-between dark:text-[#50506a]">
                                             {job.location && (
                                                 <div className="flex items-center gap-1">
                                                     <MapPin className="size-3.5" />
@@ -117,7 +117,7 @@ export default function ApplicationsBoard() {
                                         </CardDescription>
                                         {job.salary && (
                                             <div className="pt-2 mt-2 border-t border-border">
-                                                <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#eef0ff] text-primary">
+                                                <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#eef0ff] dark:bg-[#1a2035] text-primary dark:text-[#6b7fcc]">
                                                     {job.salary}
                                                 </span>
                                             </div>
@@ -125,6 +125,10 @@ export default function ApplicationsBoard() {
                                     </CardHeader>
                                 </Card>
                             ))}
+                            <button className="transition-colors flex items-center justify-center gap-2 text-xs font-medium rounded-xl w-full py-2 border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]">
+                                <Plus className="size-3.5" />
+                                Add card
+                            </button>
                         </div>
                     </div>
                 ))}

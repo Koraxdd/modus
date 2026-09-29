@@ -1,6 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useJobCounts } from "@/hooks/jobs/useJobCounts"
+import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { ChevronDown, Plus, Search } from "lucide-react"
 import Link from "next/link"
@@ -9,6 +11,16 @@ export default function DashboardHeader() {
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
     )
+    const { data: jobs = [] } = useJobs("all")
+    const jobCounts = useJobCounts(jobs)
+
+    const responses =
+        jobCounts["interviewing"] + jobCounts["offer"] + jobCounts["rejected"]
+
+    const applications = jobCounts["all"] - jobCounts["saved"]
+    const responseRate = applications
+        ? ((responses / applications) * 100).toFixed(1)
+        : "0.0"
 
     return (
         <header className="flex flex-col bg-header">
@@ -48,25 +60,31 @@ export default function DashboardHeader() {
             </div>
             <div className="flex items-center gap-6 px-6 py-2.5 shrink-0 border-b border-border overflow-x-auto">
                 <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold">0</span>
+                    <span className="text-lg font-bold">
+                        {jobCounts["all"]}
+                    </span>
                     <span className="text-[11px] text-[#aaaab8] dark:text-[#44445a]">
                         Total
                     </span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold">0</span>
+                    <span className="text-lg font-bold">
+                        {jobCounts["interviewing"]}
+                    </span>
                     <span className="text-[11px] text-[#aaaab8] dark:text-[#44445a]">
                         Interviewing
                     </span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold">0</span>
+                    <span className="text-lg font-bold">
+                        {jobCounts["offer"]}
+                    </span>
                     <span className="text-[11px] text-[#aaaab8] dark:text-[#44445a]">
                         Offers
                     </span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold">0%</span>
+                    <span className="text-lg font-bold">{responseRate}%</span>
                     <span className="text-[11px] text-[#aaaab8] dark:text-[#44445a]">
                         Response rate
                     </span>

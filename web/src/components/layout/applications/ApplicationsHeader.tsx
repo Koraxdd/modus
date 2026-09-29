@@ -3,11 +3,11 @@
 import { statuses, type StatusFilter } from "@/app/dashboard/applications/page"
 import StatusButton from "@/components/features/applications/StatusButton"
 import { Button } from "@/components/ui/button"
+import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
-import { useMemo } from "react"
 
 type ApplicationsHeaderProps = {
     statusFilter: StatusFilter
@@ -26,25 +26,7 @@ export default function ApplicationsHeader({
         (state) => state.openCreateApplication
     )
     const { data: jobs = [] } = useJobs("all")
-
-    const jobCounts: Record<StatusFilter, number> = useMemo(
-        () =>
-            jobs.reduce(
-                (counts, job) => {
-                    counts[job.status]++
-                    return counts
-                },
-                {
-                    all: jobs.length,
-                    saved: 0,
-                    applied: 0,
-                    interviewing: 0,
-                    offer: 0,
-                    rejected: 0,
-                }
-            ),
-        [jobs]
-    )
+    const jobCounts = useJobCounts(jobs)
 
     return (
         <header className="flex flex-col bg-header">

@@ -15,8 +15,10 @@ import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 import { cn } from "@/lib/utils"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useUIStore } from "@/lib/stores/UIStore"
+import { useRouter } from "next/navigation"
 
 export default function ApplicationPostingHeader({ job }: { job: Job }) {
+    const router = useRouter()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const { mutate: updateStatus } = useUpdateJobStatus()
 
@@ -27,13 +29,13 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">
             <div className="flex items-center gap-3">
-                <Link
-                    href="/dashboard/applications"
+                <button
+                    onClick={() => router.back()}
                     className="flex items-center gap-1.5 text-[13px] font-medium transition-colors text-muted-foreground dark:text-[#50506a] hover:text-foreground dark:hover:text-[#c8c8dc]"
                 >
                     <ArrowLeft className="size-3.5" />
                     Back
-                </Link>
+                </button>
                 <span className="text-zinc-200 dark:text-[#1f1f28] shrink-0">
                     ·
                 </span>

@@ -10,6 +10,7 @@ import {
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { statusConfig } from "@/lib/applications/statusConfig"
+import { useUIStore } from "@/lib/stores/UIStore"
 import { cn } from "@/lib/utils"
 import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
@@ -25,6 +26,9 @@ export default function ApplicationsBoard({
     const router = useRouter()
     const { data: jobs = [] } = useJobs("all")
     const jobCounts = useJobCounts(jobs)
+    const openCreateApplication = useUIStore(
+        (state) => state.openCreateApplication
+    )
 
     const filteredJobs = useMemo(() => {
         const query = searchQuery.trim().toLowerCase()
@@ -138,7 +142,10 @@ export default function ApplicationsBoard({
                                     </CardHeader>
                                 </Card>
                             ))}
-                            <button className="transition-colors flex items-center justify-center gap-2 text-xs font-medium rounded-xl w-full py-2 border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]">
+                            <button
+                                onClick={() => openCreateApplication(status)}
+                                className="transition-colors flex items-center justify-center gap-2 text-xs font-medium rounded-xl w-full py-2 border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
+                            >
                                 <Plus className="size-3.5" />
                                 Add card
                             </button>

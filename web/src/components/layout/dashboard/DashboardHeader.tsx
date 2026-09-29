@@ -60,7 +60,7 @@ export default function DashboardHeader({
                     </button>
                     <div className="w-px h-5 bg-border hidden md:block" />
                     <Button
-                        onClick={openCreateApplication}
+                        onClick={() => openCreateApplication()}
                         className="px-3 py-1 text-sm transition-all rounded-lg font-semibold hover:bg-indigo-700"
                     >
                         <Plus />

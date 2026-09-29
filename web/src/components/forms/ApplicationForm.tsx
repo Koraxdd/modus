@@ -18,29 +18,29 @@ import { useUpdateJob } from "@/hooks/jobs/useUpdateJob"
 
 export default function ApplicationForm() {
     const closeApplication = useUIStore((state) => state.closeApplication)
-    const job = useUIStore((state) => state.editingJob)
-    const isEditing = !!job
+    const modal = useUIStore((state) => state.applicationModal)
+    const isEditing = modal.mode === "edit"
 
     const { mutate: createJob } = useCreateJob()
     const { mutate: updateJob } = useUpdateJob()
 
     const form = useForm<ApplicationInput>({
         resolver: zodResolver(ApplicationSchema),
-        defaultValues: job
+        defaultValues: isEditing
             ? {
-                  company: job.company,
-                  color: job.color as ApplicationInput["color"],
-                  role: job.role,
-                  status: job.status,
-                  location: job.location ?? "",
-                  salary: job.salary ?? "",
-                  jobUrl: job.jobUrl ?? "",
+                  company: modal.job.company,
+                  color: modal.job.color as ApplicationInput["color"],
+                  role: modal.job.role,
+                  status: modal.job.status,
+                  location: modal.job.location ?? "",
+                  salary: modal.job.salary ?? "",
+                  jobUrl: modal.job.jobUrl ?? "",
               }
             : {
                   company: "",
                   color: COLOR_OPTIONS[0],
                   role: "",
-                  status: "saved",
+                  status: modal.mode === "create" ? modal.status : "saved",
                   location: "",
                   salary: "",
                   jobUrl: "",
@@ -50,7 +50,7 @@ export default function ApplicationForm() {
     const onSubmit = async (data: ApplicationInput) => {
         if (isEditing) {
             updateJob(
-                { id: job.id, data },
+                { id: modal.job.id, data },
                 {
                     onSuccess: () => {
                         closeApplication()

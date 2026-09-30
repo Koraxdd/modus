@@ -11,16 +11,21 @@ import { formatDistanceToNow } from "date-fns"
 import { EllipsisVertical, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useDraggable } from "@dnd-kit/react"
+import { cn } from "@/lib/utils"
 
 export default function JobCard({ job }: { job: Job }) {
     const router = useRouter()
-    const { ref } = useDraggable({ id: job.id })
+    const { ref, isDragging } = useDraggable({ id: job.id })
 
     return (
         <Card
             ref={ref}
             onClick={() => router.push(`/dashboard/applications/${job.id}`)}
-            className="group cursor-pointer py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px"
+            className={cn(
+                "group cursor-grab py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px",
+                isDragging &&
+                    "bg-[#fafaff] dark:bg-[#222230] ring-[#c8c8e0] dark:ring-[#2e2e42] shadow-lg scale-102"
+            )}
         >
             <CardHeader className="px-4">
                 <div className="flex items-center gap-2.5 mb-2">

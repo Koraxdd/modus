@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import CustomToast from "@/components/ui/CustomToast"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { statusConfig } from "@/lib/applications/statusConfig"
@@ -17,6 +18,7 @@ import { formatDistanceToNow } from "date-fns"
 import { EllipsisVertical, MapPin, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo } from "react"
+import { toast } from "sonner"
 
 export default function ApplicationsBoard({
     searchQuery,
@@ -152,6 +154,16 @@ export default function ApplicationsBoard({
                         </div>
                     </div>
                 ))}
+                <button
+                    onClick={() =>
+                        toast.custom(() => (
+                            <CustomToast message="Custom columns available on Pro" />
+                        ))
+                    }
+                    className="shrink-0 px-3.75 transition-colors flex items-center justify-center rounded-xl border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
+                >
+                    <Plus className="size-4" />
+                </button>
             </div>
         </div>
     )

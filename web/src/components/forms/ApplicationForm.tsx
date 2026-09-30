@@ -64,8 +64,11 @@ export default function ApplicationForm() {
         } else {
             createJob(data, {
                 onSuccess: () => {
+                    const status = data.status ?? "saved"
                     closeApplication()
-                    toast.success(`Job added - ${data.company} (${data.role})`)
+                    toast.success(
+                        `${data.company} added to ${status.charAt(0).toUpperCase() + status.slice(1)}`
+                    )
                 },
                 onError: (error) => {
                     toast.error(error.message)

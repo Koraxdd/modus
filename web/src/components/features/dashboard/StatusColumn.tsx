@@ -1,58 +1,28 @@
 "use client"
 
 import type { ApplicationStatus } from "@/app/dashboard/applications/page"
-import { useJobCounts } from "@/hooks/jobs/useJobCounts"
-import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { cn } from "@/lib/utils"
-import type { Job } from "@/types/job.types"
-import { useMemo } from "react"
 import JobCard from "./JobCard"
 import { Plus } from "lucide-react"
 import { useDroppable } from "@dnd-kit/react"
+import type { Job } from "@/types/job.types"
 
 type StatusColumnProps = {
     status: ApplicationStatus
     dot: string
-    searchQuery: string
+    count: number
+    jobs: Job[]
 }
 
 export default function StatusColumn({
     status,
     dot,
-    searchQuery,
+    count,
+    jobs,
 }: StatusColumnProps) {
-    const { data: jobs = [] } = useJobs("all")
-    const jobCounts = useJobCounts(jobs)
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
-    )
-
-    const filteredJobs = useMemo(() => {
-        const query = searchQuery.trim().toLowerCase()
-        return jobs.filter(
-            (job) =>
-                job.company.toLowerCase().includes(query) ||
-                job.role.toLowerCase().includes(query)
-        )
-    }, [jobs, searchQuery])
-
-    const jobsByStatus = useMemo(
-        () =>
-            filteredJobs.reduce<Record<ApplicationStatus, Job[]>>(
-                (groups, job) => {
-                    groups[job.status].push(job)
-                    return groups
-                },
-                {
-                    saved: [],
-                    applied: [],
-                    interviewing: [],
-                    offer: [],
-                    rejected: [],
-                }
-            ),
-        [filteredJobs]
     )
 
     const { ref } = useDroppable({ id: status })
@@ -65,11 +35,11 @@ export default function StatusColumn({
                     {status}
                 </span>
                 <span className="text-[11px] ml-auto font-medium px-1.5 py-0.5 rounded bg-[#efeff6] dark:bg-[#1c1c26] text-[#a0a0b8] dark:text-[#4a4a62]">
-                    {jobCounts[status]}
+                    {count}
                 </span>
             </div>
             <div className="flex flex-col gap-2.5">
-                {jobsByStatus[status].map((job) => (
+                {jobs.map((job) => (
                     <JobCard key={job.id} job={job} />
                 ))}
                 <button

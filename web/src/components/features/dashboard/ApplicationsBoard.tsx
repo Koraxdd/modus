@@ -8,6 +8,10 @@ import { toast } from "sonner"
 import StatusColumn from "./StatusColumn"
 import { DragDropProvider } from "@dnd-kit/react"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
+import { useJobs } from "@/hooks/jobs/useJobs"
+import { useJobCounts } from "@/hooks/jobs/useJobCounts"
+import { useMemo } from "react"
+import type { Job } from "@/types/job.types"
 
 export default function ApplicationsBoard({
     searchQuery,
@@ -15,6 +19,35 @@ export default function ApplicationsBoard({
     searchQuery: string
 }) {
     const { mutate: updateStatus } = useUpdateJobStatus()
+    const { data: jobs = [] } = useJobs("all")
+    const jobCounts = useJobCounts(jobs)
+
+    const filteredJobs = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase()
+        return jobs.filter(
+            (job) =>
+                job.company.toLowerCase().includes(query) ||
+                job.role.toLowerCase().includes(query)
+        )
+    }, [jobs, searchQuery])
+
+    const jobsByStatus = useMemo(
+        () =>
+            filteredJobs.reduce<Record<ApplicationStatus, Job[]>>(
+                (groups, job) => {
+                    groups[job.status].push(job)
+                    return groups
+                },
+                {
+                    saved: [],
+                    applied: [],
+                    interviewing: [],
+                    offer: [],
+                    rejected: [],
+                }
+            ),
+        [filteredJobs]
+    )
 
     const { all, ...statuses } = statusConfig
 
@@ -49,7 +82,8 @@ export default function ApplicationsBoard({
                             key={status}
                             status={status}
                             dot={dot}
-                            searchQuery={searchQuery}
+                            count={jobCounts[status]}
+                            jobs={jobsByStatus[status]}
                         />
                     ))}
                 </DragDropProvider>

@@ -7,6 +7,7 @@ import JobCard from "./JobCard"
 import { Plus } from "lucide-react"
 import { useDroppable } from "@dnd-kit/react"
 import type { Job } from "@/types/job.types"
+import { pointerIntersection } from "@dnd-kit/collision"
 
 type StatusColumnProps = {
     status: ApplicationStatus
@@ -25,7 +26,10 @@ export default function StatusColumn({
         (state) => state.openCreateApplication
     )
 
-    const { ref } = useDroppable({ id: status })
+    const { ref } = useDroppable({
+        id: status,
+        collisionDetector: pointerIntersection,
+    })
 
     return (
         <div ref={ref} className="flex flex-col shrink-0 w-70">

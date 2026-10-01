@@ -10,9 +10,11 @@ import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
-import { useMemo } from "react"
+import { useMemo, useRef } from "react"
 import type { Job } from "@/types/job.types"
 import JobCard from "./JobCard"
+import { isSortable } from "@dnd-kit/react/sortable"
+import { flushSync } from "react-dom"
 
 export default function ApplicationsBoard({
     searchQuery,
@@ -52,24 +54,45 @@ export default function ApplicationsBoard({
 
     const { all, ...statuses } = statusConfig
 
+    const sourceParentRef = useRef<Element | null>(null)
+
     return (
         <div className="overflow-x-auto">
             <div className="flex w-max gap-4 px-6 py-5">
                 <DragDropProvider
+                    onDragStart={(event) => {
+                        sourceParentRef.current =
+                            event.operation.source?.element?.parentElement ??
+                            null
+                    }}
                     onDragEnd={(event) => {
+                        const sourceElement = event.operation.source?.element
+                        const prevParent = sourceParentRef.current
+                        sourceParentRef.current = null
+
+                        if (
+                            sourceElement &&
+                            prevParent &&
+                            sourceElement.parentElement !== prevParent
+                        ) {
+                            prevParent.appendChild(sourceElement)
+                        }
+
                         if (event.canceled) return
 
                         const jobId = event.operation.source?.id as string
-                        const newStatus = event.operation.target
-                            ?.id as ApplicationStatus
+                        const target = event.operation.target
+                        if (!jobId || !target) return
 
-                        if (!jobId || !newStatus) return
-
+                        const newStatus = isSortable(target)
+                            ? (target.group as ApplicationStatus)
+                            : (target.id as ApplicationStatus)
                         const currentJob = jobs.find((job) => job.id === jobId)
-
                         if (currentJob?.status === newStatus) return
 
-                        updateStatus({ id: jobId, status: newStatus })
+                        flushSync(() => {
+                            updateStatus({ id: jobId, status: newStatus })
+                        })
                     }}
                 >
                     {(
@@ -93,12 +116,18 @@ export default function ApplicationsBoard({
                     ))}
                     <DragOverlay>
                         {(source) => {
-                            const activeJob = jobs.find(
-                                (job) => job.id === source.id
-                            )
+                            let index = 0
+                            const activeJob = jobs.find((job, i) => {
+                                index = i
+                                return job.id === source.id
+                            })
 
                             return activeJob ? (
-                                <JobCard job={activeJob} isOverlay={true} />
+                                <JobCard
+                                    job={activeJob}
+                                    index={index}
+                                    isOverlay={true}
+                                />
                             ) : null
                         }}
                     </DragOverlay>

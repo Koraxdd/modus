@@ -10,21 +10,31 @@ import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
 import { EllipsisVertical, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useDraggable } from "@dnd-kit/react"
+import { useSortable } from "@dnd-kit/react/sortable"
 import { cn } from "@/lib/utils"
 
 type JobCardProps = {
     job: Job
+    index: number
     isOverlay?: boolean
 }
 
-export default function JobCard({ job, isOverlay = false }: JobCardProps) {
+export default function JobCard({
+    job,
+    index,
+    isOverlay = false,
+}: JobCardProps) {
     const router = useRouter()
-    const { ref, isDragging } = useDraggable({ id: job.id })
+    const { ref, isDragging } = useSortable({
+        id: job.id,
+        index,
+        group: job.status,
+        disabled: isOverlay,
+    })
 
     return (
         <Card
-            ref={isOverlay ? null : ref}
+            ref={ref}
             onClick={() => router.push(`/dashboard/applications/${job.id}`)}
             className={cn(
                 "group cursor-grab py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px",

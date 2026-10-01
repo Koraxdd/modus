@@ -43,8 +43,8 @@ export default function StatusColumn({
                 </span>
             </div>
             <div className="flex flex-col gap-2.5">
-                {jobs.map((job) => (
-                    <JobCard key={job.id} job={job} />
+                {jobs.map((job, index) => (
+                    <JobCard key={job.id} job={job} index={index} />
                 ))}
                 <button
                     onClick={() => openCreateApplication(status)}

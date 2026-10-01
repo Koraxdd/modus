@@ -13,17 +13,24 @@ import { useRouter } from "next/navigation"
 import { useDraggable } from "@dnd-kit/react"
 import { cn } from "@/lib/utils"
 
-export default function JobCard({ job }: { job: Job }) {
+type JobCardProps = {
+    job: Job
+    isOverlay?: boolean
+}
+
+export default function JobCard({ job, isOverlay = false }: JobCardProps) {
     const router = useRouter()
     const { ref, isDragging } = useDraggable({ id: job.id })
 
     return (
         <Card
-            ref={ref}
+            ref={isOverlay ? null : ref}
             onClick={() => router.push(`/dashboard/applications/${job.id}`)}
             className={cn(
                 "group cursor-grab py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px",
+                isDragging && !isOverlay && "opacity-30 pointer-events-none",
                 isDragging &&
+                    isOverlay &&
                     "bg-[#fafaff] dark:bg-[#222230] ring-[#c8c8e0] dark:ring-[#2e2e42] shadow-lg scale-102"
             )}
         >

@@ -6,12 +6,13 @@ import { statusConfig } from "@/lib/applications/statusConfig"
 import { Plus } from "lucide-react"
 import { toast } from "sonner"
 import StatusColumn from "./StatusColumn"
-import { DragDropProvider } from "@dnd-kit/react"
+import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useMemo } from "react"
 import type { Job } from "@/types/job.types"
+import JobCard from "./JobCard"
 
 export default function ApplicationsBoard({
     searchQuery,
@@ -64,6 +65,10 @@ export default function ApplicationsBoard({
 
                         if (!jobId || !newStatus) return
 
+                        const currentJob = jobs.find((job) => job.id === jobId)
+
+                        if (currentJob?.status === newStatus) return
+
                         updateStatus({ id: jobId, status: newStatus })
                     }}
                 >
@@ -86,6 +91,17 @@ export default function ApplicationsBoard({
                             jobs={jobsByStatus[status]}
                         />
                     ))}
+                    <DragOverlay>
+                        {(source) => {
+                            const activeJob = jobs.find(
+                                (job) => job.id === source.id
+                            )
+
+                            return activeJob ? (
+                                <JobCard job={activeJob} isOverlay={true} />
+                            ) : null
+                        }}
+                    </DragOverlay>
                 </DragDropProvider>
                 <button
                     onClick={() =>

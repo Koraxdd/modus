@@ -32,10 +32,16 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
             if (!statusMenuRef.current?.contains(e.target as Node)) {
                 setIsOpen(false)
             }
+        }
 
+        if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside)
         }
-    }, [statusMenuRef])
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [isOpen])
 
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">
@@ -60,7 +66,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                     {job.role}
                 </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div ref={statusMenuRef} className="flex items-center gap-3">
                 <div className="relative">
                     <button
                         onClick={() => setIsOpen((prev) => !prev)}

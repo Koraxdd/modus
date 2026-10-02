@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/card"
 import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
-import { EllipsisVertical, MapPin } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useSortable } from "@dnd-kit/react/sortable"
 import { cn } from "@/lib/utils"
+import JobMenu from "./JobMenu"
+import { useState } from "react"
 
 type JobCardProps = {
     job: Job
@@ -25,6 +27,8 @@ export default function JobCard({
     isOverlay = false,
 }: JobCardProps) {
     const router = useRouter()
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+
     const { ref, isDragging } = useSortable({
         id: job.id,
         index,
@@ -38,6 +42,8 @@ export default function JobCard({
             onClick={() => router.push(`/dashboard/applications/${job.id}`)}
             className={cn(
                 "group cursor-grab py-4 transition-all hover:bg-[#fafaff] dark:hover:bg-[#222230] hover:ring-[#c8c8e0] dark:hover:ring-[#2e2e42] hover:-translate-y-px",
+                isOpen &&
+                    "bg-[#fafaff] dark:bg-[#222230] ring-[#c8c8e0] dark:ring-[#2e2e42] -translate-y-px",
                 isDragging && !isOverlay && "opacity-30 pointer-events-none",
                 isDragging &&
                     isOverlay &&
@@ -57,9 +63,11 @@ export default function JobCard({
                     <span className="text-[13px] font-medium text-[#2a2a40] dark:text-[#c8c8dc]">
                         {job.company}
                     </span>
-                    <button className="ml-auto hidden group-hover:block text-[#aaaab8] dark:text-[#3e3e58] hover:text-[#888898] dark:hover:text-[#50506a]">
-                        <EllipsisVertical className="size-3.5" />
-                    </button>
+                    <JobMenu
+                        id={job.id}
+                        isOpen={isOpen}
+                        onOpenChange={setIsOpen}
+                    />
                 </div>
                 <CardTitle className="text-sm font-semibold leading-snug mb-1.5">
                     {job.role}

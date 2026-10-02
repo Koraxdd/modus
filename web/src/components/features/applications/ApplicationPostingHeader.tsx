@@ -9,7 +9,7 @@ import {
 import StatusBadge from "./StatusBadge"
 import Link from "next/link"
 import type { Job } from "@/types/job.types"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 import { cn } from "@/lib/utils"
@@ -20,11 +20,22 @@ import { useRouter } from "next/navigation"
 export default function ApplicationPostingHeader({ job }: { job: Job }) {
     const router = useRouter()
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const statusMenuRef = useRef<HTMLDivElement | null>(null)
     const { mutate: updateStatus } = useUpdateJobStatus()
 
     const openEditApplication = useUIStore((state) => state.openEditApplication)
 
     const { all, ...statuses } = statusConfig
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (!statusMenuRef.current?.contains(e.target as Node)) {
+                setIsOpen(false)
+            }
+
+            document.addEventListener("mousedown", handleClickOutside)
+        }
+    }, [statusMenuRef])
 
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">
@@ -75,7 +86,12 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                                     <button
                                         key={status}
                                         onClick={() => {
-                                            updateStatus({ id: job.id, status })
+                                            if (job.status !== status) {
+                                                updateStatus({
+                                                    id: job.id,
+                                                    status,
+                                                })
+                                            }
                                             setIsOpen(false)
                                         }}
                                         className={cn(

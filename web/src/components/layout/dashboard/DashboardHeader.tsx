@@ -38,9 +38,12 @@ export default function DashboardHeader({
                         <h3 className="shrink-0 text-[15px] font-semibold">
                             Applications
                         </h3>
-                        <button className="size-5 rounded flex items-center justify-center bg-[#efeff6] dark:bg-[#1c1c26]">
+                        <Link
+                            href="/dashboard/applications"
+                            className="size-5 transition-opacity hover:opacity-80 rounded flex items-center justify-center bg-[#efeff6] dark:bg-[#1c1c26]"
+                        >
                             <ChevronDown className="size-3 text-[#a0a0b8] dark:text-[#4a4a62]" />
-                        </button>
+                        </Link>
                     </div>
                     <div className="min-w-0 flex items-center gap-2 px-3 py-1 border border-border bg-zinc-100 dark:bg-[#16161e] rounded-md">
                         <Search className="w-3 h-3 shrink-0 text-muted-foreground" />

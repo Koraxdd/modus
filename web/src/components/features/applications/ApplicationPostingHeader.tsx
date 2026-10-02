@@ -9,39 +9,29 @@ import {
 import StatusBadge from "./StatusBadge"
 import Link from "next/link"
 import type { Job } from "@/types/job.types"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { statusConfig } from "@/lib/applications/statusConfig"
 import type { ApplicationStatus } from "@/app/dashboard/applications/page"
 import { cn } from "@/lib/utils"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { useRouter } from "next/navigation"
+import { useOutsideClick } from "@/hooks/ui/useOutsideClick"
 
 export default function ApplicationPostingHeader({ job }: { job: Job }) {
     const router = useRouter()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const statusMenuRef = useRef<HTMLDivElement | null>(null)
     const { mutate: updateStatus } = useUpdateJobStatus()
-
     const openEditApplication = useUIStore((state) => state.openEditApplication)
 
+    useOutsideClick({
+        ref: statusMenuRef,
+        callback: () => setIsOpen(false),
+        isOpen,
+    })
+
     const { all, ...statuses } = statusConfig
-
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (!statusMenuRef.current?.contains(e.target as Node)) {
-                setIsOpen(false)
-            }
-        }
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside)
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
-        }
-    }, [isOpen])
 
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">

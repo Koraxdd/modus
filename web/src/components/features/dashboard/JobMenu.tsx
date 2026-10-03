@@ -103,7 +103,7 @@ export default function JobMenu({ job, isOpen, onOpenChange }: JobMenuProps) {
                                     },
                                     onError: () => {
                                         toast.error(
-                                            "Failed to delete. Try again"
+                                            "Failed to delete. Try again."
                                         )
                                     },
                                 })

@@ -4,6 +4,9 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuPortal,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useDeleteJob } from "@/hooks/jobs/useDeleteJob"
@@ -19,6 +22,7 @@ import {
     Trash2,
 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import StatusSubMenu from "./StatusSubMenu"
 
 type JobMenuProps = {
     job: Job
@@ -68,13 +72,20 @@ export default function JobMenu({ job, isOpen, onOpenChange }: JobMenuProps) {
                             <Eye strokeWidth={1.5} className="size-3.5" />
                             View details
                         </button>
-                        <div className="relative">
-                            <button className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230]">
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230] rounded-none">
                                 <Move strokeWidth={1.5} className="size-3.5" />
                                 Move to...
-                                <ChevronRight className="size-3 ml-auto" />
-                            </button>
-                        </div>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent className="p-0 py-1">
+                                    <StatusSubMenu
+                                        currentStatus={job.status}
+                                        id={job.id}
+                                    />
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
                         <button
                             onClick={() => openEditApplication(job)}
                             className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230]"

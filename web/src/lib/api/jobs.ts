@@ -122,3 +122,15 @@ export async function updateJob(
 
     return result.data.job
 }
+
+export async function deleteJob(apiFetch: ApiFetch, id: string): Promise<void> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}`,
+        { method: "DELETE" }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

@@ -50,7 +50,7 @@ export default function JobMenu({ job, isOpen, onOpenChange }: JobMenuProps) {
                         "transition-opacity text-[#aaaab8] dark:text-[#3e3e58] hover:text-[#888898] dark:hover:text-[#50506a]",
                         isOpen
                             ? "opacity-100 pointer-events-auto"
-                            : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+                            : "opacity-100 md:opacity-0 md:pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
                     )}
                 >
                     <EllipsisVertical className="size-3.5" />

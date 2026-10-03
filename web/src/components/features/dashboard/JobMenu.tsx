@@ -43,9 +43,9 @@ export default function JobMenu({ id, isOpen, onOpenChange }: JobMenuProps) {
                     <DropdownMenuContent
                         align="end"
                         side="bottom"
-                        sideOffset={4}
+                        sideOffset={5}
                         onClick={(e) => e.stopPropagation()}
-                        className="cursor-default flex flex-col rounded-xl py-1 bg-white dark:bg-[#1c1c28] border border-border shadow-md"
+                        className="cursor-default min-w-42.5 px-0 flex flex-col rounded-xl py-1 bg-white dark:bg-[#1c1c28] border border-border shadow-md"
                     >
                         <button
                             onClick={(e) => {

@@ -2,36 +2,18 @@
 
 import {
     ArrowLeft,
-    ChevronDown,
     EllipsisVertical,
     SquareArrowOutUpRight,
 } from "lucide-react"
-import StatusBadge from "./StatusBadge"
 import Link from "next/link"
 import type { Job } from "@/types/job.types"
-import { useRef, useState } from "react"
-import { statusConfig } from "@/lib/applications/statusConfig"
-import type { ApplicationStatus } from "@/app/dashboard/applications/page"
-import { cn } from "@/lib/utils"
-import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { useRouter } from "next/navigation"
-import { useOutsideClick } from "@/hooks/ui/useOutsideClick"
+import StatusMenu from "./StatusMenu"
 
 export default function ApplicationPostingHeader({ job }: { job: Job }) {
     const router = useRouter()
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const statusMenuRef = useRef<HTMLDivElement | null>(null)
-    const { mutate: updateStatus } = useUpdateJobStatus()
     const openEditApplication = useUIStore((state) => state.openEditApplication)
-
-    useOutsideClick({
-        ref: statusMenuRef,
-        callback: () => setIsOpen(false),
-        isOpen,
-    })
-
-    const { all, ...statuses } = statusConfig
 
     return (
         <header className="min-w-0 flex flex-col md:flex-row md:items-center gap-3 px-6 py-3 border-b border-border bg-header">
@@ -56,62 +38,7 @@ export default function ApplicationPostingHeader({ job }: { job: Job }) {
                     {job.role}
                 </span>
             </div>
-            <div ref={statusMenuRef} className="flex items-center gap-3">
-                <div className="relative">
-                    <button
-                        onClick={() => setIsOpen((prev) => !prev)}
-                        className="flex items-center gap-1.5 transition-opacity hover:opacity-80"
-                    >
-                        <StatusBadge status={job.status} />
-                        <ChevronDown className="text-muted-foreground size-3" />
-                    </button>
-                    {isOpen && (
-                        <div className="absolute top-full left-0 mt-1 rounded-xl py-1 z-20 min-w-40 bg-white dark:bg-[#1c1c26] border border-border shadow-md">
-                            {(
-                                Object.entries(statuses) as [
-                                    ApplicationStatus,
-                                    {
-                                        label: string
-                                        background: string
-                                        text: string
-                                        dot: string
-                                    },
-                                ][]
-                            ).map(([status, { dot }]) => {
-                                return (
-                                    <button
-                                        key={status}
-                                        onClick={() => {
-                                            if (job.status !== status) {
-                                                updateStatus({
-                                                    id: job.id,
-                                                    status,
-                                                })
-                                            }
-                                            setIsOpen(false)
-                                        }}
-                                        className={cn(
-                                            "flex items-center gap-2 px-3 py-2 transition-colors hover:bg-[#fafaff] dark:hover:bg-[#222230] w-full text-[13px] first:rounded-t-md last:rounded-b-md",
-                                            status === job.status &&
-                                                "bg-[#fafaff] dark:bg-[#222230]"
-                                        )}
-                                    >
-                                        <div
-                                            className={cn(
-                                                "size-2 rounded-full",
-                                                dot
-                                            )}
-                                        />
-                                        <span className="capitalize dark:text-[#c8c8dc]">
-                                            {status}
-                                        </span>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    )}
-                </div>
-            </div>
+            <StatusMenu job={job} />
             <div className="flex items-center gap-2 md:ml-auto">
                 {job.jobUrl && (
                     <Link

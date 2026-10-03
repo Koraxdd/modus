@@ -88,7 +88,7 @@ export default function JobCard({
                     </span>
                 </CardDescription>
                 {job.salary && (
-                    <div className="pt-2 mt-2 border-t border-border">
+                    <div className="pt-2 mt-2 border-t border-border dark:border-[#24242f]">
                         <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#eef0ff] dark:bg-[#1a2035] text-primary dark:text-[#6b7fcc]">
                             {job.salary}
                         </span>

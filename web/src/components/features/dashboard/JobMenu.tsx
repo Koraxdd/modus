@@ -6,18 +6,28 @@ import {
     DropdownMenuPortal,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useUIStore } from "@/lib/stores/UIStore"
 import { cn } from "@/lib/utils"
-import { ChevronRight, EllipsisVertical, Eye, Move, Trash2 } from "lucide-react"
+import type { Job } from "@/types/job.types"
+import {
+    ChevronRight,
+    EllipsisVertical,
+    Eye,
+    Move,
+    Pencil,
+    Trash2,
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 
 type JobMenuProps = {
-    id: string
+    job: Job
     isOpen: boolean
     onOpenChange: (open: boolean) => void
 }
 
-export default function JobMenu({ id, isOpen, onOpenChange }: JobMenuProps) {
+export default function JobMenu({ job, isOpen, onOpenChange }: JobMenuProps) {
     const router = useRouter()
+    const openEditApplication = useUIStore((state) => state.openEditApplication)
 
     return (
         <div className="ml-auto">
@@ -48,34 +58,30 @@ export default function JobMenu({ id, isOpen, onOpenChange }: JobMenuProps) {
                         className="cursor-default min-w-42.5 px-0 flex flex-col rounded-xl py-1 bg-white dark:bg-[#1c1c28] border border-border shadow-md"
                     >
                         <button
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                router.push(`/dashboard/applications/${id}`)
-                            }}
+                            onClick={() =>
+                                router.push(`/dashboard/applications/${job.id}`)
+                            }
                             className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230] rounded-t-lg"
                         >
                             <Eye strokeWidth={1.5} className="size-3.5" />
                             View details
                         </button>
                         <div className="relative">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                }}
-                                className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230]"
-                            >
+                            <button className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230]">
                                 <Move strokeWidth={1.5} className="size-3.5" />
                                 Move to...
                                 <ChevronRight className="size-3 ml-auto" />
                             </button>
                         </div>
-                        <div className="h-px bg-border my-1" />
                         <button
-                            onClick={(e) => {
-                                e.stopPropagation()
-                            }}
-                            className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors text-[#dc2626] dark:text-[#f87171] hover:bg-[#fff0f0] dark:hover:bg-[#2a1010] rounded-b-lg"
+                            onClick={() => openEditApplication(job)}
+                            className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors dark:text-[#c8c8dc] hover:bg-[#fafaff] dark:hover:bg-[#222230]"
                         >
+                            <Pencil strokeWidth={1.5} className="size-3.5" />
+                            Edit application
+                        </button>
+                        <div className="h-px bg-border my-1" />
+                        <button className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors text-[#dc2626] dark:text-[#f87171] hover:bg-[#fff0f0] dark:hover:bg-[#2a1010] rounded-b-lg">
                             <Trash2 strokeWidth={1.5} className="size-3.5" />
                             Delete application
                         </button>

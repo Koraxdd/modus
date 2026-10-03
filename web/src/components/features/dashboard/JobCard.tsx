@@ -64,7 +64,7 @@ export default function JobCard({
                         {job.company}
                     </span>
                     <JobMenu
-                        id={job.id}
+                        job={job}
                         isOpen={isOpen}
                         onOpenChange={setIsOpen}
                     />

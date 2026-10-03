@@ -8,6 +8,7 @@ import {
 import { requireAuth } from "../../middleware/requireAuth"
 import {
     createJob,
+    deleteJob,
     getJob,
     getJobs,
     updateJob,
@@ -20,6 +21,7 @@ const jobsRouter = express.Router()
 jobsRouter.post("/", requireAuth, validate(ApplicationSchema), createJob)
 jobsRouter.get("/", requireAuth, getJobs)
 jobsRouter.get("/:id", requireAuth, getJob)
+jobsRouter.delete("/:id", requireAuth, deleteJob)
 jobsRouter.patch("/:id", requireAuth, validate(ApplicationSchema), updateJob)
 jobsRouter.patch(
     "/:id/status",

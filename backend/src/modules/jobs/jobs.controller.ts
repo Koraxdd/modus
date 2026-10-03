@@ -102,3 +102,19 @@ export async function updateJob(
         next(err)
     }
 }
+
+export async function deleteJob(
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await jobsService.deleteJob(getUserId(req), req.params.id)
+        res.status(200).json({
+            success: true,
+            data: { message: "Job deleted successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}

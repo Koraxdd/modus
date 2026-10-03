@@ -245,3 +245,43 @@ describe("PATCH /api/v1/jobs/:id", () => {
         expect(res.body.data.job.company).toBe("newcompany")
     })
 })
+
+describe("DELETE /api/v1/jobs/:id", () => {
+    beforeEach(async () => {
+        await prisma.user.create({
+            data: {
+                id: "1",
+                fullName: "Test",
+                email: "test@gmail.com",
+                passwordHash: "password123",
+            },
+        })
+
+        await prisma.job.create({
+            data: {
+                id: "job123",
+                company: "testcompany",
+                color: "#6366F1",
+                role: "testrole",
+                status: "saved",
+                userId: "1",
+            },
+        })
+    })
+
+    afterEach(async () => {
+        await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
+        await prisma.job.deleteMany({ where: { userId: "1" } })
+    })
+
+    it("returns 200 and job no longer exists", async () => {
+        const res = await request(app).delete("/api/v1/jobs/job123")
+
+        const deletedJob = await prisma.job.findUnique({
+            where: { id: "job123" },
+        })
+
+        expect(res.status).toBe(200)
+        expect(deletedJob).toBeNull()
+    })
+})

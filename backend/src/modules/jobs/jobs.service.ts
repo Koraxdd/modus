@@ -41,4 +41,7 @@ export const jobsService = {
     ): Promise<Job> {
         return await jobsRepository.updateJob(userId, jobId, data)
     },
+    async deleteJob(userId: string, jobId: string): Promise<Job> {
+        return await jobsRepository.deleteJob(userId, jobId)
+    },
 }

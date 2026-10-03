@@ -50,4 +50,7 @@ export const jobsRepository = {
             data,
         })
     },
+    async deleteJob(userId: string, jobId: string): Promise<Job> {
+        return await prisma.job.delete({ where: { userId, id: jobId } })
+    },
 }

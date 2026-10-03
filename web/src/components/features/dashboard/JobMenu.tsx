@@ -23,6 +23,7 @@ import {
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import StatusSubMenu from "./StatusSubMenu"
+import { toast } from "sonner"
 
 type JobMenuProps = {
     job: Job
@@ -95,7 +96,18 @@ export default function JobMenu({ job, isOpen, onOpenChange }: JobMenuProps) {
                         </button>
                         <div className="h-px bg-border my-1" />
                         <button
-                            onClick={() => deleteJob(job.id)}
+                            onClick={() =>
+                                deleteJob(job.id, {
+                                    onSuccess: () => {
+                                        toast.success("Application deleted")
+                                    },
+                                    onError: () => {
+                                        toast.error(
+                                            "Failed to delete. Try again"
+                                        )
+                                    },
+                                })
+                            }
                             className="text-xs flex items-center w-full px-3 py-2 gap-2 transition-colors text-[#dc2626] dark:text-[#f87171] hover:bg-[#fff0f0] dark:hover:bg-[#2a1010] rounded-b-lg"
                         >
                             <Trash2 strokeWidth={1.5} className="size-3.5" />

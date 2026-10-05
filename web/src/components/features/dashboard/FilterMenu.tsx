@@ -86,9 +86,9 @@ export default function FilterMenu({ setAppliedFilters }: FilterMenuProps) {
                         initial="closed"
                         animate="open"
                         exit="closed"
-                        className="absolute top-full left-0 mt-1 rounded-xl p-4 min-w-65 bg-white border border-border shadow-md"
+                        className="absolute top-full left-0 mt-1 rounded-xl p-4 min-w-65 bg-white dark:bg-[#1c1c28] border border-border dark:border-[#2a2a38] shadow-md"
                     >
-                        <p className="text-[11px] font-semibold mb-3 text-[#888898] tracking-wider">
+                        <p className="text-[11px] font-semibold mb-3 text-[#888898] dark:text-[#50506a] tracking-wider">
                             FILTER BY STATUS
                         </p>
                         <div className="flex flex-col gap-1.5 mb-4">
@@ -127,8 +127,8 @@ export default function FilterMenu({ setAppliedFilters }: FilterMenuProps) {
                                 </label>
                             ))}
                         </div>
-                        <div className="h-px bg-border mb-2" />
-                        <label className="text-[11px] font-semibold text-[#888898] tracking-wider">
+                        <div className="h-px bg-border dark:bg-[#2a2a38] mb-2" />
+                        <label className="text-[11px] font-semibold text-[#888898] dark:text-[#50506a] tracking-wider">
                             LOCATION
                         </label>
                         <Input
@@ -141,7 +141,7 @@ export default function FilterMenu({ setAppliedFilters }: FilterMenuProps) {
                                     location: e.target.value,
                                 }))
                             }
-                            className="px-3 h-8 text-xs! rounded-md mb-3 mt-1 bg-[#f8f8fc]"
+                            className="px-3 h-8 text-xs! rounded-md mb-3 mt-1 bg-[#f8f8fc] dark:border-[#22222e]"
                         />
                         <label className="flex items-center gap-2.5 cursor-pointer mb-3">
                             <input

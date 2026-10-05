@@ -1,25 +1,29 @@
 "use client"
 
-import FilterMenu, {
-    type FilterState,
-} from "@/components/features/dashboard/FilterMenu"
+import type { FilterState } from "@/app/dashboard/page"
+import FilterMenu from "@/components/features/dashboard/FilterMenu"
 import { Button } from "@/components/ui/button"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useUIStore } from "@/lib/stores/UIStore"
 import { ChevronDown, Plus, Search } from "lucide-react"
 import Link from "next/link"
+import type { Dispatch, SetStateAction } from "react"
 
 type DashboardHeaderProps = {
     searchQuery: string
     setSearchQuery: (query: string) => void
-    setAppliedFilters: (filters: FilterState) => void
+    setAppliedFilters: Dispatch<SetStateAction<FilterState>>
+    setDraftFilters: Dispatch<SetStateAction<FilterState>>
+    draftFilters: FilterState
 }
 
 export default function DashboardHeader({
     searchQuery,
     setSearchQuery,
     setAppliedFilters,
+    setDraftFilters,
+    draftFilters,
 }: DashboardHeaderProps) {
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
@@ -62,7 +66,11 @@ export default function DashboardHeader({
                     </div>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                    <FilterMenu setAppliedFilters={setAppliedFilters} />
+                    <FilterMenu
+                        setAppliedFilters={setAppliedFilters}
+                        setDraftFilters={setDraftFilters}
+                        draftFilters={draftFilters}
+                    />
                     <div className="w-px h-5 bg-border hidden md:block" />
                     <Button
                         onClick={() => openCreateApplication()}

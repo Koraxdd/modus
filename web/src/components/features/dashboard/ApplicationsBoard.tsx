@@ -10,21 +10,26 @@ import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
 import { useUpdateJobStatus } from "@/hooks/jobs/useUpdateJobStatus"
 import { useJobs } from "@/hooks/jobs/useJobs"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
-import { useMemo, useRef } from "react"
+import { type Dispatch, type SetStateAction, useMemo, useRef } from "react"
 import type { Job } from "@/types/job.types"
 import JobCard from "./JobCard"
 import { isSortable } from "@dnd-kit/react/sortable"
 import { flushSync } from "react-dom"
-import type { FilterState } from "./FilterMenu"
+import { Button } from "@/components/ui/button"
+import { defaultFilters, type FilterState } from "@/app/dashboard/page"
 
 type ApplicationsBoardProps = {
     searchQuery: string
     appliedFilters: FilterState
+    setAppliedFilters: Dispatch<SetStateAction<FilterState>>
+    setDraftFilters: Dispatch<SetStateAction<FilterState>>
 }
 
 export default function ApplicationsBoard({
     searchQuery,
     appliedFilters,
+    setAppliedFilters,
+    setDraftFilters,
 }: ApplicationsBoardProps) {
     const { mutate: updateStatus } = useUpdateJobStatus()
     const { data: jobs = [] } = useJobs("all")
@@ -75,7 +80,20 @@ export default function ApplicationsBoard({
 
     return (
         <div className="overflow-x-auto">
-            <div className="flex w-max gap-4 px-6 py-5">
+            {appliedFilters.statuses.length === 0 ? (
+                <div className="flex flex-col py-80 gap-2 items-center justify-center text-center">
+                    <p className="text-sm font-medium">No statuses selected</p>
+                    <Button
+                        onClick={() => {
+                            setDraftFilters(defaultFilters)
+                            setAppliedFilters(defaultFilters)
+                        }}
+                        className="transition-all rounded-lg py-5 font-semibold hover:bg-indigo-700"
+                    >
+                        Show all applications
+                    </Button>
+                </div>
+            ) : (
                 <DragDropProvider
                     onDragStart={(event) => {
                         sourceParentRef.current =
@@ -108,33 +126,48 @@ export default function ApplicationsBoard({
                         if (currentJob?.status === newStatus) return
 
                         flushSync(() => {
-                            updateStatus({ id: jobId, status: newStatus })
+                            updateStatus({
+                                id: jobId,
+                                status: newStatus,
+                            })
                         })
                     }}
                 >
-                    {(
-                        Object.entries(statuses) as [
-                            ApplicationStatus,
-                            {
-                                label: string
-                                background: string
-                                text: string
-                                dot: string
-                            },
-                        ][]
-                    ).map(([status, { dot }]) => {
-                        if (!appliedFilters.statuses.includes(status))
-                            return null
-                        return (
-                            <StatusColumn
-                                key={status}
-                                status={status}
-                                dot={dot}
-                                count={jobCounts[status]}
-                                jobs={jobsByStatus[status]}
-                            />
-                        )
-                    })}
+                    <div className="flex w-max gap-4 px-6 py-5">
+                        {(
+                            Object.entries(statuses) as [
+                                ApplicationStatus,
+                                {
+                                    label: string
+                                    background: string
+                                    text: string
+                                    dot: string
+                                },
+                            ][]
+                        ).map(([status, { dot }]) => {
+                            if (!appliedFilters.statuses.includes(status))
+                                return null
+                            return (
+                                <StatusColumn
+                                    key={status}
+                                    status={status}
+                                    dot={dot}
+                                    count={jobCounts[status]}
+                                    jobs={jobsByStatus[status]}
+                                />
+                            )
+                        })}
+                        <button
+                            onClick={() =>
+                                toast.custom(() => (
+                                    <CustomToast message="Custom columns available on Pro" />
+                                ))
+                            }
+                            className="shrink-0 px-3.75 transition-colors flex items-center justify-center rounded-xl border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
+                        >
+                            <Plus className="size-4" />
+                        </button>
+                    </div>
                     <DragOverlay>
                         {(source) => {
                             let index = 0
@@ -153,19 +186,7 @@ export default function ApplicationsBoard({
                         }}
                     </DragOverlay>
                 </DragDropProvider>
-                {appliedFilters.statuses.length !== 0 && (
-                    <button
-                        onClick={() =>
-                            toast.custom(() => (
-                                <CustomToast message="Custom columns available on Pro" />
-                            ))
-                        }
-                        className="shrink-0 px-3.75 transition-colors flex items-center justify-center rounded-xl border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
-                    >
-                        <Plus className="size-4" />
-                    </button>
-                )}
-            </div>
+            )}
         </div>
     )
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import type { ApplicationStatus } from "@/app/dashboard/applications/page"
+import { defaultFilters, type FilterState } from "@/app/dashboard/page"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useOutsideClick } from "@/hooks/ui/useOutsideClick"
@@ -8,7 +9,7 @@ import { statusConfig } from "@/lib/applications/statusConfig"
 import { cn } from "@/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
-import { useRef, useState } from "react"
+import { type Dispatch, type SetStateAction, useRef, useState } from "react"
 
 const menuVariants = {
     closed: {
@@ -31,26 +32,18 @@ const menuVariants = {
     },
 } as const
 
-export type FilterState = {
-    statuses: ApplicationStatus[]
-    location: string
-    hasSalaryRange: boolean
-}
-
-export const defaultFilters: FilterState = {
-    statuses: ["saved", "applied", "interviewing", "offer", "rejected"],
-    location: "",
-    hasSalaryRange: false,
-}
-
 type FilterMenuProps = {
-    setAppliedFilters: (filters: FilterState) => void
+    setAppliedFilters: Dispatch<SetStateAction<FilterState>>
+    setDraftFilters: Dispatch<SetStateAction<FilterState>>
+    draftFilters: FilterState
 }
 
-export default function FilterMenu({ setAppliedFilters }: FilterMenuProps) {
+export default function FilterMenu({
+    setAppliedFilters,
+    setDraftFilters,
+    draftFilters,
+}: FilterMenuProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [draftFilters, setDraftFilters] =
-        useState<FilterState>(defaultFilters)
     const filterMenuRef = useRef<HTMLDivElement | null>(null)
 
     useOutsideClick({

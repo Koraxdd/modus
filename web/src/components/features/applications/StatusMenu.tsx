@@ -11,6 +11,27 @@ import { statusConfig } from "@/lib/applications/statusConfig"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "motion/react"
 
+const menuVariants = {
+    closed: {
+        opacity: 0,
+        scale: 0.95,
+        y: -10,
+        transition: {
+            duration: 0.15,
+        },
+    },
+    open: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            duration: 0.3,
+            bounce: 0.2,
+        },
+    },
+} as const
+
 export default function StatusMenu({ job }: { job: Job }) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const statusMenuRef = useRef<HTMLDivElement | null>(null)
@@ -23,27 +44,6 @@ export default function StatusMenu({ job }: { job: Job }) {
     })
 
     const { all, ...statuses } = statusConfig
-
-    const menuVariants = {
-        closed: {
-            opacity: 0,
-            scale: 0.95,
-            y: -10,
-            transition: {
-                duration: 0.15,
-            },
-        },
-        open: {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            transition: {
-                type: "spring",
-                duration: 0.3,
-                bounce: 0.2,
-            },
-        },
-    } as const
 
     return (
         <div ref={statusMenuRef} className="flex items-center gap-3">

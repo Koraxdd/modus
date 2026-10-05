@@ -1,5 +1,8 @@
 "use client"
 
+import FilterMenu, {
+    type FilterState,
+} from "@/components/features/dashboard/FilterMenu"
 import { Button } from "@/components/ui/button"
 import { useJobCounts } from "@/hooks/jobs/useJobCounts"
 import { useJobs } from "@/hooks/jobs/useJobs"
@@ -10,11 +13,13 @@ import Link from "next/link"
 type DashboardHeaderProps = {
     searchQuery: string
     setSearchQuery: (query: string) => void
+    setAppliedFilters: (filters: FilterState) => void
 }
 
 export default function DashboardHeader({
     searchQuery,
     setSearchQuery,
+    setAppliedFilters,
 }: DashboardHeaderProps) {
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
@@ -57,10 +62,7 @@ export default function DashboardHeader({
                     </div>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                    <button className="flex items-center gap-1.5 bg-[#f8f8fc] dark:bg-[#16161e] text-[#6b6b8a] hover:text-foreground dark:hover:text-[#a0a0b8] hover:border-[#c0c0d8] dark:hover:border-[#2e2e42] border border-border px-3 py-2 text-xs font-medium transition-colors rounded-lg">
-                        Filter
-                        <ChevronDown className="size-3 text-inherit" />
-                    </button>
+                    <FilterMenu setAppliedFilters={setAppliedFilters} />
                     <div className="w-px h-5 bg-border hidden md:block" />
                     <Button
                         onClick={() => openCreateApplication()}

@@ -15,24 +15,41 @@ import type { Job } from "@/types/job.types"
 import JobCard from "./JobCard"
 import { isSortable } from "@dnd-kit/react/sortable"
 import { flushSync } from "react-dom"
+import type { FilterState } from "./FilterMenu"
+
+type ApplicationsBoardProps = {
+    searchQuery: string
+    appliedFilters: FilterState
+}
 
 export default function ApplicationsBoard({
     searchQuery,
-}: {
-    searchQuery: string
-}) {
+    appliedFilters,
+}: ApplicationsBoardProps) {
     const { mutate: updateStatus } = useUpdateJobStatus()
     const { data: jobs = [] } = useJobs("all")
     const jobCounts = useJobCounts(jobs)
 
     const filteredJobs = useMemo(() => {
         const query = searchQuery.trim().toLowerCase()
-        return jobs.filter(
-            (job) =>
-                job.company.toLowerCase().includes(query) ||
-                job.role.toLowerCase().includes(query)
-        )
-    }, [jobs, searchQuery])
+        return jobs.filter((job) => {
+            if (
+                appliedFilters.location &&
+                !job.location
+                    ?.toLowerCase()
+                    .includes(appliedFilters.location.toLowerCase())
+            )
+                return false
+            if (appliedFilters.hasSalaryRange && !job.salary) return false
+            if (
+                query &&
+                !job.company.toLowerCase().includes(query) &&
+                !job.role.toLowerCase().includes(query)
+            )
+                return false
+            return true
+        })
+    }, [jobs, searchQuery, appliedFilters])
 
     const jobsByStatus = useMemo(
         () =>
@@ -105,15 +122,19 @@ export default function ApplicationsBoard({
                                 dot: string
                             },
                         ][]
-                    ).map(([status, { dot }]) => (
-                        <StatusColumn
-                            key={status}
-                            status={status}
-                            dot={dot}
-                            count={jobCounts[status]}
-                            jobs={jobsByStatus[status]}
-                        />
-                    ))}
+                    ).map(([status, { dot }]) => {
+                        if (!appliedFilters.statuses.includes(status))
+                            return null
+                        return (
+                            <StatusColumn
+                                key={status}
+                                status={status}
+                                dot={dot}
+                                count={jobCounts[status]}
+                                jobs={jobsByStatus[status]}
+                            />
+                        )
+                    })}
                     <DragOverlay>
                         {(source) => {
                             let index = 0
@@ -132,16 +153,18 @@ export default function ApplicationsBoard({
                         }}
                     </DragOverlay>
                 </DragDropProvider>
-                <button
-                    onClick={() =>
-                        toast.custom(() => (
-                            <CustomToast message="Custom columns available on Pro" />
-                        ))
-                    }
-                    className="shrink-0 px-3.75 transition-colors flex items-center justify-center rounded-xl border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
-                >
-                    <Plus className="size-4" />
-                </button>
+                {appliedFilters.statuses.length !== 0 && (
+                    <button
+                        onClick={() =>
+                            toast.custom(() => (
+                                <CustomToast message="Custom columns available on Pro" />
+                            ))
+                        }
+                        className="shrink-0 px-3.75 transition-colors flex items-center justify-center rounded-xl border border-dashed border-[#ddddf0] dark:border-[#22222e] hover:border-[#7c6ff0] dark:hover:border-[#7b6ff0] text-[#aaaab8] dark:text-[#3a3a52] hover:text-primary dark:hover:text-[#5c4fee] hover:bg-[#eef0ff] dark:hover:bg-[#161620]"
+                    >
+                        <Plus className="size-4" />
+                    </button>
+                )}
             </div>
         </div>
     )

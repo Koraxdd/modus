@@ -4,15 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useUpdateJobNotes } from "@/hooks/jobs/useUpdateJobNotes"
 import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
-import { Download, File, MapPin, SquarePen, Trash2 } from "lucide-react"
+import { Download, File, MapPin, SquarePen, Trash2, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
+import { useAddTag } from "@/hooks/tags/useAddTag"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [notes, setNotes] = useState<string>(job.notes || "")
+    const [tag, setTag] = useState<string>("")
     const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
     const { mutate: updateNotes } = useUpdateJobNotes()
+    const { mutate: addTag } = useAddTag()
 
     return (
         <>
@@ -63,7 +66,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                     </Card>
                     <Card className="h-100">
                         <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-muted-foreground dark:text-[#50506a]">
+                            <CardTitle className="text-xs font-semibold text-muted-foreground dark:text-[#50506a]">
                                 TIMELINE
                             </CardTitle>
                         </CardHeader>
@@ -71,7 +74,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                     <Card>
                         <CardContent>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-muted-foreground dark:text-[#50506a] font-semibold text-sm">
+                                <h2 className="text-muted-foreground dark:text-[#50506a] font-semibold text-xs">
                                     NOTES
                                 </h2>
                                 <button
@@ -179,6 +182,45 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                 TAGS
                             </CardTitle>
                         </CardHeader>
+                        <CardContent className="-mt-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                                {job.tags &&
+                                    job.tags.map((tag) => (
+                                        <div
+                                            key={tag.id}
+                                            className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#efeff6] text-primary"
+                                        >
+                                            <span>{tag.name}</span>
+                                            <button className="opacity-60 hover:opacity-100 transition-opacity">
+                                                <X className="size-2.5" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        value={tag}
+                                        onChange={(e) => setTag(e.target.value)}
+                                        type="text"
+                                        placeholder="+ Add tag"
+                                        className="text-[11px] outline-none transition-shadow focus:ring-2 focus:ring-primary rounded px-1 py-0.5 max-w-20"
+                                    />
+                                    {tag && (
+                                        <button
+                                            onClick={() => {
+                                                addTag({
+                                                    id: job.id,
+                                                    name: tag,
+                                                })
+                                                setTag("")
+                                            }}
+                                            className="text-[11px] px-1.5 py-0.5 rounded bg-[#efeff6] text-primary"
+                                        >
+                                            Add
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
                     </Card>
                     <button
                         onClick={() => setIsDeleteOpen(true)}

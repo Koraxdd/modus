@@ -1,4 +1,5 @@
 import type { Request } from "express"
+import { Prisma } from "../generated/prisma/client"
 
 export type AccessTokenPayload = {
     sub: string
@@ -8,3 +9,7 @@ export type AccessTokenPayload = {
 }
 
 export type TypedRequest<T> = Request<{}, {}, T>
+
+export type JobWithRelations = Prisma.JobGetPayload<{
+    include: { tags: true; timelineEntries: true }
+}>

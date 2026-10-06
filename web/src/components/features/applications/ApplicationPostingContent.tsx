@@ -9,6 +9,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
 import { useAddTag } from "@/hooks/tags/useAddTag"
+import { useRemoveTag } from "@/hooks/tags/useRemoveTag"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [notes, setNotes] = useState<string>(job.notes || "")
@@ -16,6 +17,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
     const { mutate: updateNotes } = useUpdateJobNotes()
     const { mutate: addTag } = useAddTag()
+    const { mutate: removeTag } = useRemoveTag()
 
     return (
         <>
@@ -191,7 +193,15 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                             className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#efeff6] text-primary"
                                         >
                                             <span>{tag.name}</span>
-                                            <button className="opacity-60 hover:opacity-100 transition-opacity">
+                                            <button
+                                                onClick={() =>
+                                                    removeTag({
+                                                        id: job.id,
+                                                        name: tag.name,
+                                                    })
+                                                }
+                                                className="opacity-60 hover:opacity-100 transition-opacity"
+                                            >
                                                 <X className="size-2.5" />
                                             </button>
                                         </div>

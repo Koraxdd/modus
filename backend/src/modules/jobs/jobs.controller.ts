@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express"
 import type {
     ApplicationOutput,
-    CreateTagInput,
+    TagInput,
     UpdateNotesInput,
     UpdateStatusInput,
 } from "./jobs.schemas"
@@ -121,7 +121,7 @@ export async function deleteJob(
 }
 
 export async function addTag(
-    req: Request<{ id: string }, {}, CreateTagInput>,
+    req: Request<{ id: string }, {}, TagInput>,
     res: Response,
     next: NextFunction
 ) {
@@ -132,6 +132,23 @@ export async function addTag(
             req.body.name
         )
         res.status(201).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function removeTag(
+    req: Request<{ id: string }, {}, TagInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.removeTag(
+            getUserId(req),
+            req.params.id,
+            req.body.name
+        )
+        res.status(200).json({ success: true, data: { job } })
     } catch (err) {
         next(err)
     }

@@ -2,7 +2,7 @@ import express from "express"
 import { validate } from "../../middleware/validate"
 import {
     ApplicationSchema,
-    CreateTagSchema,
+    TagSchema,
     UpdateNotesSchema,
     UpdateStatusSchema,
 } from "./jobs.schemas"
@@ -13,6 +13,7 @@ import {
     deleteJob,
     getJob,
     getJobs,
+    removeTag,
     updateJob,
     updateJobNotes,
     updateJobStatus,
@@ -37,6 +38,7 @@ jobsRouter.patch(
     validate(UpdateNotesSchema),
     updateJobNotes
 )
-jobsRouter.post("/:id/tags", requireAuth, validate(CreateTagSchema), addTag)
+jobsRouter.post("/:id/tags", requireAuth, validate(TagSchema), addTag)
+jobsRouter.delete("/:id/tags", requireAuth, validate(TagSchema), removeTag)
 
 export default jobsRouter

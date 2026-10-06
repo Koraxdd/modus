@@ -312,6 +312,7 @@ describe("POST /api/v1/jobs/:id/tags", () => {
     afterEach(async () => {
         await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
         await prisma.job.deleteMany({ where: { userId: "1" } })
+        await prisma.tag.deleteMany({ where: { name: "test" } })
     })
 
     it("returns 201 and job with new tag on success", async () => {
@@ -321,6 +322,58 @@ describe("POST /api/v1/jobs/:id/tags", () => {
 
         expect(res.status).toBe(201)
         expect(res.body.data.job.tags).toEqual(
+            expect.arrayContaining([expect.objectContaining({ name: "test" })])
+        )
+    })
+})
+
+describe("DELETE /api/v1/jobs/:id/tags", () => {
+    beforeEach(async () => {
+        await prisma.user.create({
+            data: {
+                id: "1",
+                fullName: "Test",
+                email: "test@gmail.com",
+                passwordHash: "password123",
+            },
+        })
+
+        await prisma.job.create({
+            data: {
+                id: "job123",
+                company: "testcompany",
+                color: "#6366F1",
+                role: "testrole",
+                status: "saved",
+                userId: "1",
+            },
+        })
+
+        await prisma.tag.upsert({
+            where: { name: "test" },
+            update: {},
+            create: { name: "test" },
+        })
+
+        await prisma.job.update({
+            where: { id: "job123" },
+            data: { tags: { connect: { name: "test" } } },
+        })
+    })
+
+    afterEach(async () => {
+        await prisma.job.deleteMany({ where: { userId: "1" } })
+        await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
+        await prisma.tag.deleteMany({ where: { name: "test" } })
+    })
+
+    it("returns 200 and tag has been removed", async () => {
+        const res = await request(app)
+            .delete("/api/v1/jobs/job123/tags")
+            .send({ name: "test" })
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.job.tags).not.toEqual(
             expect.arrayContaining([expect.objectContaining({ name: "test" })])
         )
     })

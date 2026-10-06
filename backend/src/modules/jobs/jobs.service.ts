@@ -55,4 +55,11 @@ export const jobsService = {
     ): Promise<JobWithRelations> {
         return await jobsRepository.addTag(userId, jobId, tagName)
     },
+    async removeTag(
+        userId: string,
+        jobId: string,
+        tagName: string
+    ): Promise<JobWithRelations> {
+        return await jobsRepository.removeTag(userId, jobId, tagName)
+    },
 }

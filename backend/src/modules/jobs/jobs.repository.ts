@@ -66,11 +66,6 @@ export const jobsRepository = {
         jobId: string,
         tagName: string
     ): Promise<JobWithRelations> {
-        const job = await prisma.job.findFirst({ where: { userId, id: jobId } })
-        if (!job) {
-            throw new AppError(404, "Job not found")
-        }
-
         const tag = await prisma.tag.upsert({
             where: { name: tagName },
             update: {},
@@ -78,9 +73,30 @@ export const jobsRepository = {
         })
 
         return await prisma.job.update({
-            where: { id: jobId },
+            where: { userId, id: jobId },
             data: { tags: { connect: { id: tag.id } } },
             include: { tags: true, timelineEntries: true },
         })
+    },
+    async removeTag(
+        userId: string,
+        jobId: string,
+        tagName: string
+    ): Promise<JobWithRelations> {
+        const job = await prisma.job.update({
+            where: { userId, id: jobId },
+            data: { tags: { disconnect: { name: tagName } } },
+            include: { tags: true, timelineEntries: true },
+        })
+
+        const tagCount = await prisma.job.count({
+            where: { tags: { some: { name: tagName } } },
+        })
+
+        if (tagCount === 0) {
+            await prisma.tag.delete({ where: { name: tagName } })
+        }
+
+        return job
     },
 }

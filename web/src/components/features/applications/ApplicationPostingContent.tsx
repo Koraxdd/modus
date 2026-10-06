@@ -210,6 +210,15 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                     <input
                                         value={tag}
                                         onChange={(e) => setTag(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                addTag({
+                                                    id: job.id,
+                                                    name: tag,
+                                                })
+                                                setTag("")
+                                            }
+                                        }}
                                         type="text"
                                         placeholder="+ Add tag"
                                         className="text-[11px] outline-none transition-shadow focus:ring-2 focus:ring-primary rounded px-1 py-0.5 max-w-20"

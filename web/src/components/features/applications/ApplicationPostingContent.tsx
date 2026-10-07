@@ -4,20 +4,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useUpdateJobNotes } from "@/hooks/jobs/useUpdateJobNotes"
 import type { Job } from "@/types/job.types"
 import { formatDistanceToNow } from "date-fns"
-import { Download, File, MapPin, SquarePen, Trash2, X } from "lucide-react"
+import { Download, File, Key, MapPin, SquarePen, Trash2, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
 import { useAddTag } from "@/hooks/tags/useAddTag"
 import { useRemoveTag } from "@/hooks/tags/useRemoveTag"
+import { useAddTimeline } from "@/hooks/timelines/useAddTimeline"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [notes, setNotes] = useState<string>(job.notes || "")
     const [tag, setTag] = useState<string>("")
+    const [milestone, setMilestone] = useState<string>("")
     const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
     const { mutate: updateNotes } = useUpdateJobNotes()
     const { mutate: addTag } = useAddTag()
     const { mutate: removeTag } = useRemoveTag()
+    const { mutate: addTimeline } = useAddTimeline()
 
     return (
         <>
@@ -67,11 +70,79 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                         </CardHeader>
                     </Card>
                     <Card className="h-100">
-                        <CardHeader>
-                            <CardTitle className="text-xs font-semibold text-muted-foreground dark:text-[#50506a]">
-                                TIMELINE
-                            </CardTitle>
-                        </CardHeader>
+                        <CardContent>
+                            <div className="flex justify-between">
+                                <h2 className="text-xs font-semibold text-muted-foreground dark:text-[#50506a]">
+                                    TIMELINE
+                                </h2>
+                                <p className="text-[10px] text-[#aaaab8]">
+                                    Click dot to toggle · Click label to rename
+                                </p>
+                            </div>
+                            <div className="flex flex-col">
+                                {job.timelineEntries &&
+                                    job.timelineEntries.map((entry) => (
+                                        <div
+                                            key={entry.id}
+                                            className="flex gap-4 items-baseline"
+                                        >
+                                            <div className="flex flex-col items-center">
+                                                <button
+                                                    title="Mark as done"
+                                                    className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0] transition-all cursor-default hover:scale-110"
+                                                ></button>
+                                            </div>
+                                            <div className="pb-5 flex-1 min-w-0">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="text-[13px] font-semibold cursor-text text-[#aaaab8]">
+                                                        {entry.label}
+                                                    </span>
+                                                </div>
+                                                <textarea
+                                                    rows={1}
+                                                    placeholder="Add a note..."
+                                                    className="resize-none outline-none text-[#888898] transition-shadow rounded-md focus:ring-2 focus:ring-primary w-full text-xs leading-relaxed p-0.5"
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                <div className="flex items-center gap-2 mt-1">
+                                    <div className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0]" />
+                                    <input
+                                        type="text"
+                                        placeholder="Add milestone..."
+                                        value={milestone}
+                                        onChange={(e) =>
+                                            setMilestone(e.target.value)
+                                        }
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                addTimeline({
+                                                    id: job.id,
+                                                    label: milestone,
+                                                })
+                                                setMilestone("")
+                                            }
+                                        }}
+                                        className="text-xs outline-none transition-shadow focus:ring-2 focus:ring-primary rounded-md p-1 flex-1"
+                                    />
+                                    {milestone && (
+                                        <button
+                                            onClick={() => {
+                                                addTimeline({
+                                                    id: job.id,
+                                                    label: milestone,
+                                                })
+                                                setMilestone("")
+                                            }}
+                                            className="text-[11px] px-1.5 py-0.5 rounded bg-[#efeff6] dark:bg-[#1a2035] text-primary"
+                                        >
+                                            Add
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
                     </Card>
                     <Card>
                         <CardContent>

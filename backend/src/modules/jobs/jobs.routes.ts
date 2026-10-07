@@ -3,12 +3,14 @@ import { validate } from "../../middleware/validate"
 import {
     ApplicationSchema,
     TagSchema,
+    TimelineSchema,
     UpdateNotesSchema,
     UpdateStatusSchema,
 } from "./jobs.schemas"
 import { requireAuth } from "../../middleware/requireAuth"
 import {
     addTag,
+    addTimeline,
     createJob,
     deleteJob,
     getJob,
@@ -40,5 +42,11 @@ jobsRouter.patch(
 )
 jobsRouter.post("/:id/tags", requireAuth, validate(TagSchema), addTag)
 jobsRouter.delete("/:id/tags", requireAuth, validate(TagSchema), removeTag)
+jobsRouter.post(
+    "/:id/timelines",
+    requireAuth,
+    validate(TimelineSchema),
+    addTimeline
+)
 
 export default jobsRouter

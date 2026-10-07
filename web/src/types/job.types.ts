@@ -8,7 +8,7 @@ export type Tag = {
 export type TimelineEntry = {
     id: string
     label: string
-    note: string
+    note?: string
     date: Date
     completed: boolean
     order: number

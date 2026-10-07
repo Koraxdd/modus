@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express"
 import type {
     ApplicationOutput,
     TagInput,
+    TimelineInput,
     UpdateNotesInput,
     UpdateStatusInput,
 } from "./jobs.schemas"
@@ -149,6 +150,22 @@ export async function removeTag(
             req.body.name
         )
         res.status(200).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function addTimeline(
+    req: Request<{ id: string }, {}, TimelineInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const timeline = await jobsService.addTimeline(
+            req.params.id,
+            req.body.label
+        )
+        res.status(201).json({ success: true, data: { timeline } })
     } catch (err) {
         next(err)
     }

@@ -1,5 +1,9 @@
 import type { StatusFilter } from "@shared/types/jobs.types"
-import type { Job, JobStatus } from "../../generated/prisma/client"
+import type {
+    Job,
+    JobStatus,
+    TimelineEntry,
+} from "../../generated/prisma/client"
 import { jobsRepository } from "./jobs.repository"
 import type { ApplicationOutput } from "./jobs.schemas"
 import { AppError } from "../../errors/AppError"
@@ -61,5 +65,8 @@ export const jobsService = {
         tagName: string
     ): Promise<JobWithRelations> {
         return await jobsRepository.removeTag(userId, jobId, tagName)
+    },
+    async addTimeline(jobId: string, label: string): Promise<TimelineEntry> {
+        return await jobsRepository.addTimeline(jobId, label)
     },
 }

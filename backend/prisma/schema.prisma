@@ -61,7 +61,7 @@ model TimelineEntry {
   id        String    @id @default(uuid())
   label     String
   note      String?
-  date      DateTime?
+  date      DateTime  @default(now())
   completed Boolean   @default(false)
   order     Int
 

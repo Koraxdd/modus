@@ -1,5 +1,9 @@
 import type { StatusFilter } from "@shared/types/jobs.types"
-import type { Job, JobStatus } from "../../generated/prisma/client"
+import type {
+    Job,
+    JobStatus,
+    TimelineEntry,
+} from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 import type { ApplicationOutput } from "./jobs.schemas"
 import type { JobWithRelations } from "../../types/api.types"
@@ -98,5 +102,14 @@ export const jobsRepository = {
         }
 
         return job
+    },
+    async addTimeline(jobId: string, label: string): Promise<TimelineEntry> {
+        const timelineCount = await prisma.timelineEntry.count({
+            where: { jobId },
+        })
+
+        return await prisma.timelineEntry.create({
+            data: { jobId, label, order: timelineCount },
+        })
     },
 }

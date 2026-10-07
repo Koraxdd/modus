@@ -51,3 +51,9 @@ export const TagSchema = z.object({
 })
 
 export type TagInput = z.input<typeof TagSchema>
+
+export const TimelineSchema = z.object({
+    label: z.string().trim().min(1).max(30),
+})
+
+export type TimelineInput = z.input<typeof TimelineSchema>

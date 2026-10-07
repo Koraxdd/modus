@@ -41,6 +41,7 @@ export default function ApplicationsTableHeader({
                         </div>
                     </th>
                 ))}
+                <th className="px-4 py-2.5"></th>
             </tr>
         </thead>
     )

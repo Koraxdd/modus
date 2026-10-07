@@ -49,6 +49,7 @@ export default function DeleteConfirmationDialog({
                             deleteJob(id, {
                                 onSuccess: () => {
                                     router.push("/dashboard/applications")
+                                    closeDialog()
                                 },
                                 onError: () => {
                                     toast.error("Failed to delete. Try again.")

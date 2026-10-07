@@ -419,3 +419,49 @@ describe("POST /api/v1/jobs/:id/timelines", () => {
         )
     })
 })
+
+describe("DELETE /api/v1/jobs/:id/timelines", () => {
+    beforeEach(async () => {
+        await prisma.user.create({
+            data: {
+                id: "1",
+                fullName: "Test",
+                email: "test@gmail.com",
+                passwordHash: "password123",
+            },
+        })
+
+        await prisma.job.create({
+            data: {
+                id: "job123",
+                company: "testcompany",
+                color: "#6366F1",
+                role: "testrole",
+                status: "saved",
+                userId: "1",
+            },
+        })
+
+        await prisma.timelineEntry.create({
+            data: { jobId: "job123", label: "test", order: 0 },
+        })
+    })
+
+    afterEach(async () => {
+        await prisma.job.deleteMany({ where: { userId: "1" } })
+        await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
+    })
+
+    it("returns 200 and timeline has been removed", async () => {
+        const res = await request(app)
+            .delete("/api/v1/jobs/job123/timelines")
+            .send({ label: "test" })
+
+        const deletedTimeline = await prisma.timelineEntry.findFirst({
+            where: { jobId: "job123", label: "test" },
+        })
+
+        expect(res.status).toBe(200)
+        expect(deletedTimeline).toBeNull()
+    })
+})

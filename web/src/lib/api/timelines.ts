@@ -23,3 +23,25 @@ export async function addTimeline(
 
     return result.data.timeline
 }
+
+export async function deleteTimeline(
+    apiFetch: ApiFetch,
+    id: string,
+    label: string
+): Promise<string> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}/timelines`,
+        {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ label }),
+        }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+
+    return result.data.message
+}

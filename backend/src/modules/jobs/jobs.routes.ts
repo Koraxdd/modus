@@ -13,6 +13,7 @@ import {
     addTimeline,
     createJob,
     deleteJob,
+    deleteTimeline,
     getJob,
     getJobs,
     removeTag,
@@ -47,6 +48,12 @@ jobsRouter.post(
     requireAuth,
     validate(TimelineSchema),
     addTimeline
+)
+jobsRouter.delete(
+    "/:id/timelines/",
+    requireAuth,
+    validate(TimelineSchema),
+    deleteTimeline
 )
 
 export default jobsRouter

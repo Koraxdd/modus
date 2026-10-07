@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useUpdateJobNotes } from "@/hooks/jobs/useUpdateJobNotes"
 import type { Job } from "@/types/job.types"
-import { formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 import { Download, File, Key, MapPin, SquarePen, Trash2, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -11,6 +11,7 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
 import { useAddTag } from "@/hooks/tags/useAddTag"
 import { useRemoveTag } from "@/hooks/tags/useRemoveTag"
 import { useAddTimeline } from "@/hooks/timelines/useAddTimeline"
+import { useDeleteTimeline } from "@/hooks/timelines/useDeleteTimeline"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [notes, setNotes] = useState<string>(job.notes || "")
@@ -21,6 +22,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
     const { mutate: addTag } = useAddTag()
     const { mutate: removeTag } = useRemoveTag()
     const { mutate: addTimeline } = useAddTimeline()
+    const { mutate: deleteTimeline } = useDeleteTimeline()
 
     return (
         <>
@@ -69,7 +71,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                             </div>
                         </CardHeader>
                     </Card>
-                    <Card className="h-100">
+                    <Card className="h-fit">
                         <CardContent>
                             <div className="flex justify-between">
                                 <h2 className="text-xs font-semibold text-muted-foreground dark:text-[#50506a]">
@@ -79,24 +81,41 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                     Click dot to toggle · Click label to rename
                                 </p>
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col mt-2">
                                 {job.timelineEntries &&
                                     job.timelineEntries.map((entry) => (
                                         <div
                                             key={entry.id}
-                                            className="flex gap-4 items-baseline"
+                                            className="group flex gap-4"
                                         >
                                             <div className="flex flex-col items-center">
                                                 <button
                                                     title="Mark as done"
                                                     className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0] transition-all cursor-default hover:scale-110"
-                                                ></button>
+                                                />
                                             </div>
                                             <div className="pb-5 flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 mb-1">
+                                                <div className="flex items-baseline gap-2 mb-1">
                                                     <span className="text-[13px] font-semibold cursor-text text-[#aaaab8]">
                                                         {entry.label}
                                                     </span>
+                                                    <span className="text-[11px] text-[#aaaab8]">
+                                                        {format(
+                                                            entry.date,
+                                                            "MMM d, yyyy"
+                                                        )}
+                                                    </span>
+                                                    <button
+                                                        onClick={() =>
+                                                            deleteTimeline({
+                                                                id: job.id,
+                                                                label: entry.label,
+                                                            })
+                                                        }
+                                                        className="opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-[#dc2626]"
+                                                    >
+                                                        <X className="size-3" />
+                                                    </button>
                                                 </div>
                                                 <textarea
                                                     rows={1}

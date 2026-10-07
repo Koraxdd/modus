@@ -170,3 +170,19 @@ export async function addTimeline(
         next(err)
     }
 }
+
+export async function deleteTimeline(
+    req: Request<{ id: string }, {}, TimelineInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await jobsService.deleteTimeline(req.params.id, req.body.label)
+        res.status(200).json({
+            success: true,
+            data: { message: "Timeline deleted successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useUpdateJobNotes } from "@/hooks/jobs/useUpdateJobNotes"
 import type { Job } from "@/types/job.types"
 import { format, formatDistanceToNow } from "date-fns"
-import { Download, File, Key, MapPin, SquarePen, Trash2, X } from "lucide-react"
+import { Download, File, MapPin, SquarePen, Trash2, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
@@ -93,6 +93,11 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                                     title="Mark as done"
                                                     className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0] transition-all cursor-default hover:scale-110"
                                                 />
+                                                {entry.order + 1 !==
+                                                    job.timelineEntries
+                                                        ?.length && (
+                                                    <div className="w-px flex-1 my-1 bg-[#e0e0ee]" />
+                                                )}
                                             </div>
                                             <div className="pb-5 flex-1 min-w-0">
                                                 <div className="flex items-baseline gap-2 mb-1">

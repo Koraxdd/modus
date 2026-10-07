@@ -190,7 +190,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                     job.tags.map((tag) => (
                                         <div
                                             key={tag.id}
-                                            className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#efeff6] text-primary"
+                                            className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#efeff6] dark:bg-[#1a2035] text-primary"
                                         >
                                             <span>{tag.name}</span>
                                             <button
@@ -206,7 +206,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                             </button>
                                         </div>
                                     ))}
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-2">
                                     <input
                                         value={tag}
                                         onChange={(e) => setTag(e.target.value)}
@@ -232,7 +232,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                                 })
                                                 setTag("")
                                             }}
-                                            className="text-[11px] px-1.5 py-0.5 rounded bg-[#efeff6] text-primary"
+                                            className="text-[11px] px-1.5 py-0.5 rounded bg-[#efeff6] dark:bg-[#1a2035] text-primary"
                                         >
                                             Add
                                         </button>

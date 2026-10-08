@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import ApplicationPostingHeader from "@/components/features/applications/ApplicationPostingHeader"
 import type { Job } from "@/types/job.types"
-import ApplicationPostingContent from "@/components/features/applications/ApplicationPostingContent"
+import ApplicationPostingContent from "@/components/features/applications/content/ApplicationPostingContent"
 
 const job = {
     id: "123",

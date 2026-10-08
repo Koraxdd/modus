@@ -1,6 +1,6 @@
 "use client"
 
-import ApplicationPostingContent from "@/components/features/applications/ApplicationPostingContent"
+import ApplicationPostingContent from "@/components/features/applications/content/ApplicationPostingContent"
 import ApplicationPostingHeader from "@/components/features/applications/ApplicationPostingHeader"
 import { useJob } from "@/hooks/jobs/useJob"
 import { notFound, useParams } from "next/navigation"

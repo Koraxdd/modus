@@ -44,7 +44,7 @@ export default function PostingNotesCard({ job }: { job: Job }) {
                     rows={6}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Write notes here"
+                    placeholder="Add a note..."
                     className="resize-none text-[13px] rounded-md leading-relaxed dark:text-[#c8c8dc] transition-shadow focus:ring-2 focus:ring-primary outline-none p-1"
                 />
             </CardContent>

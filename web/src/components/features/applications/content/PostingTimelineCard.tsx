@@ -95,6 +95,28 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                             </button>
                                         </div>
                                         <textarea
+                                            onBlur={(e) => {
+                                                const newNote =
+                                                    e.currentTarget.value.trim() ||
+                                                    null
+                                                const oldNote =
+                                                    entry.note ?? null
+
+                                                if (newNote === oldNote) return
+
+                                                updateTimeline({
+                                                    id: job.id,
+                                                    entryId: entry.id,
+                                                    data: {
+                                                        note: newNote,
+                                                    },
+                                                })
+                                            }}
+                                            defaultValue={entry.note ?? ""}
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter")
+                                                    e.currentTarget.blur()
+                                            }}
                                             rows={1}
                                             placeholder="Add a note..."
                                             className="resize-none outline-none text-[#888898] dark:text-[#50506a] transition-shadow rounded-md focus:ring-2 focus:ring-primary w-full text-xs leading-relaxed p-0.5"

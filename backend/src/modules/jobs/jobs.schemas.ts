@@ -46,14 +46,14 @@ export const UpdateNotesSchema = z.object({
 
 export type UpdateNotesInput = z.input<typeof UpdateNotesSchema>
 
-export const TagSchema = z.object({
+export const AddTagSchema = z.object({
     name: z.string().trim().min(1).max(30),
 })
 
-export type TagInput = z.input<typeof TagSchema>
+export type TagInput = z.input<typeof AddTagSchema>
 
-export const TimelineSchema = z.object({
+export const AddTimelineSchema = z.object({
     label: z.string().trim().min(1).max(30),
 })
 
-export type TimelineInput = z.input<typeof TimelineSchema>
+export type TimelineInput = z.input<typeof AddTimelineSchema>

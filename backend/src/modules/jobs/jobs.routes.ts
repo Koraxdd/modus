@@ -1,9 +1,9 @@
 import express from "express"
 import { validate } from "../../middleware/validate"
 import {
+    AddTagSchema,
+    AddTimelineSchema,
     ApplicationSchema,
-    TagSchema,
-    TimelineSchema,
     UpdateNotesSchema,
     UpdateStatusSchema,
 } from "./jobs.schemas"
@@ -41,12 +41,12 @@ jobsRouter.patch(
     validate(UpdateNotesSchema),
     updateJobNotes
 )
-jobsRouter.post("/:id/tags", requireAuth, validate(TagSchema), addTag)
+jobsRouter.post("/:id/tags", requireAuth, validate(AddTagSchema), addTag)
 jobsRouter.delete("/:id/tags/:tagId", requireAuth, removeTag)
 jobsRouter.post(
     "/:id/timelines",
     requireAuth,
-    validate(TimelineSchema),
+    validate(AddTimelineSchema),
     addTimeline
 )
 jobsRouter.delete("/:id/timelines/:entryId", requireAuth, deleteTimeline)

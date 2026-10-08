@@ -463,3 +463,52 @@ describe("DELETE /api/v1/jobs/:id/timelines/:entryId", () => {
         expect(deletedTimeline).toBeNull()
     })
 })
+
+describe("PATCH /api/v1/jobs/:id/timelines/:entryId", () => {
+    beforeEach(async () => {
+        await prisma.user.create({
+            data: {
+                id: "1",
+                fullName: "Test",
+                email: "test@gmail.com",
+                passwordHash: "password123",
+            },
+        })
+
+        await prisma.job.create({
+            data: {
+                id: "job123",
+                company: "testcompany",
+                color: "#6366F1",
+                role: "testrole",
+                status: "saved",
+                userId: "1",
+            },
+        })
+
+        await prisma.timelineEntry.create({
+            data: { id: "entry123", jobId: "job123", label: "test" },
+        })
+    })
+
+    afterEach(async () => {
+        await prisma.job.deleteMany({ where: { userId: "1" } })
+        await prisma.user.deleteMany({ where: { email: "test@gmail.com" } })
+        await prisma.timelineEntry.deleteMany({ where: { id: "entry123" } })
+    })
+
+    it("returns 200 and updated timeline on success", async () => {
+        const res = await request(app)
+            .patch("/api/v1/jobs/job123/timelines/entry123")
+            .send({ label: "newTest", note: "testing", completed: true })
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.timeline).toEqual(
+            expect.objectContaining({
+                label: "newTest",
+                note: "testing",
+                completed: true,
+            })
+        )
+    })
+})

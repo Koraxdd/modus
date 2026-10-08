@@ -6,6 +6,7 @@ import {
     ApplicationSchema,
     UpdateNotesSchema,
     UpdateStatusSchema,
+    UpdateTimelineSchema,
 } from "./jobs.schemas"
 import { requireAuth } from "../../middleware/requireAuth"
 import {
@@ -20,6 +21,7 @@ import {
     updateJob,
     updateJobNotes,
     updateJobStatus,
+    updateTimeline,
 } from "./jobs.controller"
 
 const jobsRouter = express.Router()
@@ -50,5 +52,11 @@ jobsRouter.post(
     addTimeline
 )
 jobsRouter.delete("/:id/timelines/:entryId", requireAuth, deleteTimeline)
+jobsRouter.patch(
+    "/:id/timelines/:entryId",
+    requireAuth,
+    validate(UpdateTimelineSchema),
+    updateTimeline
+)
 
 export default jobsRouter

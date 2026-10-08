@@ -15,6 +15,13 @@ export type TimelineEntry = {
     jobId: string
 }
 
+export type UpdateTimelineInput = {
+    label?: string
+    note?: string | null
+    date?: string
+    completed?: boolean
+}
+
 export type Job = {
     id: string
     company: string

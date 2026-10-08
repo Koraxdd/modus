@@ -5,7 +5,7 @@ import type {
     TimelineEntry,
 } from "../../generated/prisma/client"
 import { jobsRepository } from "./jobs.repository"
-import type { ApplicationOutput } from "./jobs.schemas"
+import type { ApplicationOutput, UpdateTimelineInput } from "./jobs.schemas"
 import { AppError } from "../../errors/AppError"
 import type { JobWithRelations } from "../../types/api.types"
 
@@ -75,5 +75,12 @@ export const jobsService = {
     },
     async deleteTimeline(userId: string, entryId: string): Promise<void> {
         return await jobsRepository.deleteTimeline(userId, entryId)
+    },
+    async updateTimeline(
+        userId: string,
+        entryId: string,
+        data: UpdateTimelineInput
+    ) {
+        return await jobsRepository.updateTimeline(userId, entryId, data)
     },
 }

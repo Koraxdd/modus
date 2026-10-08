@@ -5,7 +5,7 @@ import type {
     TimelineEntry,
 } from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
-import type { ApplicationOutput } from "./jobs.schemas"
+import type { ApplicationOutput, UpdateTimelineInput } from "./jobs.schemas"
 import type { JobWithRelations } from "../../types/api.types"
 import { AppError } from "../../errors/AppError"
 
@@ -125,5 +125,15 @@ export const jobsRepository = {
         if (result.count === 0) {
             throw new AppError(404, "Timeline entry not found")
         }
+    },
+    async updateTimeline(
+        userId: string,
+        entryId: string,
+        data: UpdateTimelineInput
+    ) {
+        return await prisma.timelineEntry.update({
+            where: { id: entryId, job: { userId } },
+            data,
+        })
     },
 }

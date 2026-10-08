@@ -12,6 +12,8 @@ import { useAddTag } from "@/hooks/tags/useAddTag"
 import { useRemoveTag } from "@/hooks/tags/useRemoveTag"
 import { useAddTimeline } from "@/hooks/timelines/useAddTimeline"
 import { useDeleteTimeline } from "@/hooks/timelines/useDeleteTimeline"
+import { useUpdateTimeline } from "@/hooks/timelines/useUpdateTimeline"
+import { cn } from "@/lib/utils"
 
 export default function ApplicationPostingContent({ job }: { job: Job }) {
     const [notes, setNotes] = useState<string>(job.notes || "")
@@ -23,6 +25,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
     const { mutate: removeTag } = useRemoveTag()
     const { mutate: addTimeline } = useAddTimeline()
     const { mutate: deleteTimeline } = useDeleteTimeline()
+    const { mutate: updateTimeline } = useUpdateTimeline()
 
     return (
         <>
@@ -94,8 +97,28 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                             >
                                                 <div className="flex flex-col items-center">
                                                     <button
-                                                        title="Mark as done"
-                                                        className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0] transition-all cursor-default hover:scale-110"
+                                                        title={
+                                                            entry.completed
+                                                                ? "Mark as pending"
+                                                                : "Mark as done"
+                                                        }
+                                                        onClick={() =>
+                                                            updateTimeline({
+                                                                id: job.id,
+                                                                entryId:
+                                                                    entry.id,
+                                                                data: {
+                                                                    completed:
+                                                                        !entry.completed,
+                                                                },
+                                                            })
+                                                        }
+                                                        className={cn(
+                                                            "size-3 rounded-full shrink-0 border-2 transition-all cursor-default hover:scale-110",
+                                                            entry.completed
+                                                                ? "bg-primary border-primary"
+                                                                : "bg-transparent border-[#ddddf0]"
+                                                        )}
                                                     />
                                                     {!isLast && (
                                                         <div className="w-px flex-1 my-1 bg-[#e0e0ee]" />

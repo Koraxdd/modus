@@ -42,18 +42,13 @@ jobsRouter.patch(
     updateJobNotes
 )
 jobsRouter.post("/:id/tags", requireAuth, validate(TagSchema), addTag)
-jobsRouter.delete("/:id/tags", requireAuth, validate(TagSchema), removeTag)
+jobsRouter.delete("/:id/tags/:tagId", requireAuth, removeTag)
 jobsRouter.post(
     "/:id/timelines",
     requireAuth,
     validate(TimelineSchema),
     addTimeline
 )
-jobsRouter.delete(
-    "/:id/timelines/",
-    requireAuth,
-    validate(TimelineSchema),
-    deleteTimeline
-)
+jobsRouter.delete("/:id/timelines/:entryId", requireAuth, deleteTimeline)
 
 export default jobsRouter

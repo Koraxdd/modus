@@ -27,14 +27,12 @@ export async function addTimeline(
 export async function deleteTimeline(
     apiFetch: ApiFetch,
     id: string,
-    label: string
+    entryId: string
 ): Promise<string> {
     const res = await apiFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}/timelines`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}/timelines/${entryId}`,
         {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ label }),
         }
     )
 

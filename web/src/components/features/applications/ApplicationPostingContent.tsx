@@ -116,7 +116,8 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                                             onClick={() =>
                                                                 deleteTimeline({
                                                                     id: job.id,
-                                                                    label: entry.label,
+                                                                    entryId:
+                                                                        entry.id,
                                                                 })
                                                             }
                                                             className="opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-[#dc2626]"
@@ -295,7 +296,7 @@ export default function ApplicationPostingContent({ job }: { job: Job }) {
                                                 onClick={() =>
                                                     removeTag({
                                                         id: job.id,
-                                                        name: tag.name,
+                                                        tagId: tag.id,
                                                     })
                                                 }
                                                 className="opacity-60 hover:opacity-100 transition-opacity"

@@ -9,8 +9,8 @@ export function useDeleteTimeline() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({ id, label }: { id: string; label: string }) =>
-            deleteTimeline(apiFetch, id, label),
+        mutationFn: ({ id, entryId }: { id: string; entryId: string }) =>
+            deleteTimeline(apiFetch, id, entryId),
         onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({ queryKey: ["jobs", variables.id] })
         },

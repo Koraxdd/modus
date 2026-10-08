@@ -327,7 +327,7 @@ describe("POST /api/v1/jobs/:id/tags", () => {
     })
 })
 
-describe("DELETE /api/v1/jobs/:id/tags", () => {
+describe("DELETE /api/v1/jobs/:id/tags/:tagId", () => {
     beforeEach(async () => {
         await prisma.user.create({
             data: {
@@ -350,9 +350,9 @@ describe("DELETE /api/v1/jobs/:id/tags", () => {
         })
 
         await prisma.tag.upsert({
-            where: { name: "test" },
+            where: { id: "tag123", name: "test" },
             update: {},
-            create: { name: "test" },
+            create: { id: "tag123", name: "test" },
         })
 
         await prisma.job.update({
@@ -368,9 +368,7 @@ describe("DELETE /api/v1/jobs/:id/tags", () => {
     })
 
     it("returns 200 and tag has been removed", async () => {
-        const res = await request(app)
-            .delete("/api/v1/jobs/job123/tags")
-            .send({ name: "test" })
+        const res = await request(app).delete("/api/v1/jobs/job123/tags/tag123")
 
         expect(res.status).toBe(200)
         expect(res.body.data.job.tags).not.toEqual(
@@ -415,12 +413,12 @@ describe("POST /api/v1/jobs/:id/timelines", () => {
 
         expect(res.status).toBe(201)
         expect(res.body.data.timeline).toEqual(
-            expect.objectContaining({ label: "test", order: 0 })
+            expect.objectContaining({ label: "test" })
         )
     })
 })
 
-describe("DELETE /api/v1/jobs/:id/timelines", () => {
+describe("DELETE /api/v1/jobs/:id/timelines/:entryId", () => {
     beforeEach(async () => {
         await prisma.user.create({
             data: {
@@ -443,7 +441,7 @@ describe("DELETE /api/v1/jobs/:id/timelines", () => {
         })
 
         await prisma.timelineEntry.create({
-            data: { jobId: "job123", label: "test", order: 0 },
+            data: { id: "entry123", jobId: "job123", label: "test" },
         })
     })
 
@@ -453,12 +451,12 @@ describe("DELETE /api/v1/jobs/:id/timelines", () => {
     })
 
     it("returns 200 and timeline has been removed", async () => {
-        const res = await request(app)
-            .delete("/api/v1/jobs/job123/timelines")
-            .send({ label: "test" })
+        const res = await request(app).delete(
+            "/api/v1/jobs/job123/timelines/entry123"
+        )
 
         const deletedTimeline = await prisma.timelineEntry.findFirst({
-            where: { jobId: "job123", label: "test" },
+            where: { jobId: "job123", id: "entry123" },
         })
 
         expect(res.status).toBe(200)

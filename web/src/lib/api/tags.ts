@@ -27,14 +27,12 @@ export async function addTag(
 export async function removeTag(
     apiFetch: ApiFetch,
     id: string,
-    name: string
+    tagId: string
 ): Promise<Job> {
     const res = await apiFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}/tags`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/jobs/${id}/tags/${tagId}`,
         {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name }),
         }
     )
 

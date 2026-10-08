@@ -8,7 +8,6 @@ import { jobsRepository } from "./jobs.repository"
 import type { ApplicationOutput } from "./jobs.schemas"
 import { AppError } from "../../errors/AppError"
 import type { JobWithRelations } from "../../types/api.types"
-import type { BatchPayload } from "../../generated/prisma/internal/prismaNamespace"
 
 export const jobsService = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
@@ -63,14 +62,18 @@ export const jobsService = {
     async removeTag(
         userId: string,
         jobId: string,
-        tagName: string
+        tagId: string
     ): Promise<JobWithRelations> {
-        return await jobsRepository.removeTag(userId, jobId, tagName)
+        return await jobsRepository.removeTag(userId, jobId, tagId)
     },
-    async addTimeline(jobId: string, label: string): Promise<TimelineEntry> {
-        return await jobsRepository.addTimeline(jobId, label)
+    async addTimeline(
+        userId: string,
+        jobId: string,
+        label: string
+    ): Promise<TimelineEntry> {
+        return await jobsRepository.addTimeline(userId, jobId, label)
     },
-    async deleteTimeline(jobId: string, label: string): Promise<BatchPayload> {
-        return await jobsRepository.deleteTimeline(jobId, label)
+    async deleteTimeline(userId: string, entryId: string): Promise<void> {
+        return await jobsRepository.deleteTimeline(userId, entryId)
     },
 }

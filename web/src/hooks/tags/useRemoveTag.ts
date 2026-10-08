@@ -9,8 +9,8 @@ export function useRemoveTag() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({ id, name }: { id: string; name: string }) =>
-            removeTag(apiFetch, id, name),
+        mutationFn: ({ id, tagId }: { id: string; tagId: string }) =>
+            removeTag(apiFetch, id, tagId),
         onSuccess: ({ id }) => {
             queryClient.invalidateQueries({ queryKey: ["jobs", id] })
         },

@@ -139,7 +139,7 @@ export async function addTag(
 }
 
 export async function removeTag(
-    req: Request<{ id: string }, {}, TagInput>,
+    req: Request<{ id: string; tagId: string }>,
     res: Response,
     next: NextFunction
 ) {
@@ -147,7 +147,7 @@ export async function removeTag(
         const job = await jobsService.removeTag(
             getUserId(req),
             req.params.id,
-            req.body.name
+            req.params.tagId
         )
         res.status(200).json({ success: true, data: { job } })
     } catch (err) {
@@ -162,6 +162,7 @@ export async function addTimeline(
 ) {
     try {
         const timeline = await jobsService.addTimeline(
+            getUserId(req),
             req.params.id,
             req.body.label
         )
@@ -172,12 +173,12 @@ export async function addTimeline(
 }
 
 export async function deleteTimeline(
-    req: Request<{ id: string }, {}, TimelineInput>,
+    req: Request<{ id: string; entryId: string }>,
     res: Response,
     next: NextFunction
 ) {
     try {
-        await jobsService.deleteTimeline(req.params.id, req.body.label)
+        await jobsService.deleteTimeline(getUserId(req), req.params.entryId)
         res.status(200).json({
             success: true,
             data: { message: "Timeline deleted successfully" },

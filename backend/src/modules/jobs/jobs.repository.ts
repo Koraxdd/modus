@@ -7,7 +7,7 @@ import type {
 import { prisma } from "../../lib/prisma"
 import type { ApplicationOutput } from "./jobs.schemas"
 import type { JobWithRelations } from "../../types/api.types"
-import type { BatchPayload } from "../../generated/prisma/internal/prismaNamespace"
+import { AppError } from "../../errors/AppError"
 
 export const jobsRepository = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
@@ -85,36 +85,45 @@ export const jobsRepository = {
     async removeTag(
         userId: string,
         jobId: string,
-        tagName: string
+        tagId: string
     ): Promise<JobWithRelations> {
         const job = await prisma.job.update({
             where: { userId, id: jobId },
-            data: { tags: { disconnect: { name: tagName } } },
+            data: { tags: { disconnect: { id: tagId } } },
             include: { tags: true, timelineEntries: true },
         })
 
         const tagCount = await prisma.job.count({
-            where: { tags: { some: { name: tagName } } },
+            where: { tags: { some: { id: tagId } } },
         })
 
         if (tagCount === 0) {
-            await prisma.tag.delete({ where: { name: tagName } })
+            await prisma.tag.delete({ where: { id: tagId } })
         }
 
         return job
     },
-    async addTimeline(jobId: string, label: string): Promise<TimelineEntry> {
-        const timelineCount = await prisma.timelineEntry.count({
-            where: { jobId },
-        })
+    async addTimeline(
+        userId: string,
+        jobId: string,
+        label: string
+    ): Promise<TimelineEntry> {
+        const job = await prisma.job.findFirst({ where: { userId, id: jobId } })
+        if (!job) {
+            throw new AppError(404, "Job not found")
+        }
 
         return await prisma.timelineEntry.create({
-            data: { jobId, label, order: timelineCount },
+            data: { jobId, label },
         })
     },
-    async deleteTimeline(jobId: string, label: string): Promise<BatchPayload> {
-        return await prisma.timelineEntry.deleteMany({
-            where: { jobId, label },
+    async deleteTimeline(userId: string, entryId: string): Promise<void> {
+        const result = await prisma.timelineEntry.deleteMany({
+            where: { id: entryId, job: { userId } },
         })
+
+        if (result.count === 0) {
+            throw new AppError(404, "Timeline entry not found")
+        }
     },
 }

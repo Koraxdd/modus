@@ -23,7 +23,7 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                     <h2 className="text-xs font-semibold text-muted-foreground dark:text-[#50506a]">
                         TIMELINE
                     </h2>
-                    <p className="text-[10px] text-[#aaaab8]">
+                    <p className="text-[10px] text-[#aaaab8] dark:text-[#3e3e58]">
                         Click dot to toggle · Click label to rename
                     </p>
                 </div>
@@ -58,19 +58,25 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                                 "size-3 rounded-full shrink-0 border-2 transition-all cursor-default hover:scale-110",
                                                 entry.completed
                                                     ? "bg-primary border-primary"
-                                                    : "bg-transparent border-[#ddddf0]"
+                                                    : "bg-transparent border-[#ddddf0] dark:border-[#2a2a3a]"
                                             )}
                                         />
                                         {!isLast && (
-                                            <div className="w-px flex-1 my-1 bg-[#e0e0ee]" />
+                                            <div className="w-px flex-1 my-1 bg-[#e0e0ee] dark:bg-[#2a2a3a]" />
                                         )}
                                     </div>
                                     <div className="pb-5 flex-1 min-w-0">
                                         <div className="flex items-baseline gap-2 mb-1">
-                                            <span className="text-[13px] font-semibold cursor-text text-[#aaaab8]">
+                                            <span
+                                                className={cn(
+                                                    "text-[13px] font-semibold cursor-text",
+                                                    !entry.completed &&
+                                                        "text-[#aaaab8] dark:text-[#3e3e58]"
+                                                )}
+                                            >
                                                 {entry.label}
                                             </span>
-                                            <span className="text-[11px] text-[#aaaab8]">
+                                            <span className="text-[11px] text-[#aaaab8] dark:text-[#3e3e58]">
                                                 {format(
                                                     entry.date,
                                                     "MMM d, yyyy"
@@ -91,14 +97,14 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                         <textarea
                                             rows={1}
                                             placeholder="Add a note..."
-                                            className="resize-none outline-none text-[#888898] transition-shadow rounded-md focus:ring-2 focus:ring-primary w-full text-xs leading-relaxed p-0.5"
+                                            className="resize-none outline-none text-[#888898] dark:text-[#50506a] transition-shadow rounded-md focus:ring-2 focus:ring-primary w-full text-xs leading-relaxed p-0.5"
                                         />
                                     </div>
                                 </div>
                             )
                         })}
                     <div className="flex items-center gap-2 mt-1">
-                        <div className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0]" />
+                        <div className="size-3 rounded-full shrink-0 border-2 border-[#ddddf0] dark:border-[#2a2a3a]" />
                         <input
                             type="text"
                             placeholder="Add milestone..."

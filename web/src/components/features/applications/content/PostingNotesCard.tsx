@@ -20,6 +20,8 @@ export default function PostingNotesCard({ job }: { job: Job }) {
                     </h2>
                     <button
                         onClick={() => {
+                            if (notes === job.notes) return
+
                             updateNotes(
                                 { id: job.id, notes },
                                 {

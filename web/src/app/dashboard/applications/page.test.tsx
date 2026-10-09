@@ -4,17 +4,26 @@ import ApplicationsPage from "./page"
 import userEvent from "@testing-library/user-event"
 import ApplicationForm from "@/components/forms/ApplicationForm"
 
-const { mockPush, mockUseJobs, mockUseCreateJob, mockUseUpdateJob, mockStore } =
-    vi.hoisted(() => ({
-        mockPush: vi.fn(),
-        mockUseJobs: vi.fn(),
-        mockUseCreateJob: vi.fn(),
-        mockUseUpdateJob: vi.fn(),
-        mockStore: {
-            openCreateApplication: vi.fn(),
-            closeApplication: vi.fn(),
-        },
-    }))
+const {
+    mockPush,
+    mockUseJobs,
+    mockUseCreateJob,
+    mockUseUpdateJob,
+    mockUseDeleteJob,
+    mockStore,
+} = vi.hoisted(() => ({
+    mockPush: vi.fn(),
+    mockUseJobs: vi.fn(),
+    mockUseCreateJob: vi.fn(),
+    mockUseUpdateJob: vi.fn(),
+    mockUseDeleteJob: vi.fn(),
+    mockStore: {
+        applicationModal: { mode: "closed" },
+        openCreateApplication: vi.fn(),
+        openEditApplication: vi.fn(),
+        closeApplication: vi.fn(),
+    },
+}))
 
 vi.mock("next/navigation", () => ({
     useRouter() {
@@ -36,6 +45,10 @@ vi.mock("@/hooks/jobs/useUpdateJob", () => ({
     useUpdateJob: mockUseUpdateJob,
 }))
 
+vi.mock("@/hooks/jobs/useDeleteJob", () => ({
+    useDeleteJob: mockUseDeleteJob,
+}))
+
 vi.mock("@/lib/stores/UIStore", () => ({
     useUIStore: (selector: (state: typeof mockStore) => void) =>
         selector(mockStore),
@@ -46,7 +59,8 @@ describe("Applications Page", () => {
         vi.clearAllMocks()
         mockUseCreateJob.mockReturnValue({ mutate: vi.fn() })
         mockUseUpdateJob.mockReturnValue({ mutate: vi.fn() })
-        mockUseCreateJob.mockReturnValue({ data: [] })
+        mockUseJobs.mockReturnValue({ data: [] })
+        mockUseDeleteJob.mockReturnValue({ mutate: vi.fn() })
     })
 
     it("filters applications when a status is selected", async () => {

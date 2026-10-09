@@ -14,11 +14,48 @@ vi.mock("@/lib/stores/UIStore", () => ({
         selector(mockStore),
 }))
 
+vi.mock("@/hooks/jobs/useJobs", () => ({
+    useJobs: () => ({ data: [] }),
+}))
+
+vi.mock("@/hooks/jobs/useJobCounts", () => ({
+    useJobCounts: () => ({
+        all: 0,
+        saved: 0,
+        applied: 0,
+        interviewing: 0,
+        offer: 0,
+        rejected: 0,
+    }),
+}))
+
+vi.mock("@/components/features/dashboard/FilterMenu", () => ({
+    default: () => null,
+}))
+
 describe("Dashboard", () => {
     it("opens form when clicked on add application", async () => {
         const user = userEvent.setup()
 
-        render(<DashboardHeader />)
+        render(
+            <DashboardHeader
+                searchQuery=""
+                setSearchQuery={vi.fn()}
+                setAppliedFilters={vi.fn()}
+                setDraftFilters={vi.fn()}
+                draftFilters={{
+                    statuses: [
+                        "saved",
+                        "applied",
+                        "interviewing",
+                        "offer",
+                        "rejected",
+                    ],
+                    location: "",
+                    hasSalaryRange: false,
+                }}
+            />
+        )
 
         await user.click(
             screen.getByRole("button", { name: /add application/i })

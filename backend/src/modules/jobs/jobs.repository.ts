@@ -29,7 +29,10 @@ export const jobsRepository = {
     ): Promise<JobWithRelations | null> {
         return await prisma.job.findFirst({
             where: { userId, id: jobId },
-            include: { tags: true, timelineEntries: true },
+            include: {
+                tags: true,
+                timelineEntries: { orderBy: { createdAt: "asc" } },
+            },
         })
     },
     async updateJobStatus(

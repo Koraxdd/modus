@@ -69,6 +69,10 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                         <div className="flex items-baseline gap-2 mb-1">
                                             <input
                                                 defaultValue={entry.label}
+                                                size={Math.max(
+                                                    entry.label.length,
+                                                    1
+                                                )}
                                                 onKeyDown={(e) => {
                                                     if (e.key === "Enter") {
                                                         e.currentTarget.blur()
@@ -77,6 +81,11 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                                 onBlur={(e) => {
                                                     const newLabel =
                                                         e.currentTarget.value.trim()
+
+                                                    if (!newLabel) {
+                                                        e.currentTarget.value =
+                                                            entry.label
+                                                    }
 
                                                     if (
                                                         newLabel === entry.label
@@ -93,7 +102,7 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                                 }}
 
                                                 className={cn(
-                                                    "text-[13px] font-semibold cursor-text outline-none transition-shadow focus:ring-2 focus:ring-primary rounded px-1 py-px",
+                                                    "field-sizing-content text-[13px] font-semibold cursor-text outline-none transition-shadow focus:ring-2 focus:ring-primary rounded px-1 py-px",
                                                     !entry.completed &&
                                                         "text-[#aaaab8] dark:text-[#3e3e58]"
                                                 )}
@@ -104,16 +113,27 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                                     entry.date,
                                                     "yyyy-MM-dd"
                                                 )}
-                                                onChange={(e) =>
+                                                onBlur={(e) => {
+                                                    const newDate =
+                                                        e.currentTarget.value
+                                                    if (
+                                                        !newDate ||
+                                                        newDate ===
+                                                            format(
+                                                                entry.date,
+                                                                "yyyy-MM-dd"
+                                                            )
+                                                    )
+                                                        return
+
                                                     updateTimeline({
                                                         id: job.id,
                                                         entryId: entry.id,
                                                         data: {
-                                                            date: e.target
-                                                                .value,
+                                                            date: newDate,
                                                         },
                                                     })
-                                                }
+                                                }}
                                                 className="text-[11px] text-[#aaaab8] dark:text-[#3e3e58] outline-none transition-shadow focus:ring-2 focus:ring-primary rounded p-0.5"
                                             />
                                             <button

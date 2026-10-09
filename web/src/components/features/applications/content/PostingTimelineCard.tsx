@@ -67,21 +67,55 @@ export default function PostingTimelineCard({ job }: { job: Job }) {
                                     </div>
                                     <div className="pb-5 flex-1 min-w-0">
                                         <div className="flex items-baseline gap-2 mb-1">
-                                            <span
+                                            <input
+                                                defaultValue={entry.label}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        e.currentTarget.blur()
+                                                    }
+                                                }}
+                                                onBlur={(e) => {
+                                                    const newLabel =
+                                                        e.currentTarget.value.trim()
+
+                                                    if (
+                                                        newLabel === entry.label
+                                                    )
+                                                        return
+
+                                                    updateTimeline({
+                                                        id: job.id,
+                                                        entryId: entry.id,
+                                                        data: {
+                                                            label: newLabel,
+                                                        },
+                                                    })
+                                                }}
+
                                                 className={cn(
-                                                    "text-[13px] font-semibold cursor-text",
+                                                    "text-[13px] font-semibold cursor-text outline-none transition-shadow focus:ring-2 focus:ring-primary rounded px-1 py-px",
                                                     !entry.completed &&
                                                         "text-[#aaaab8] dark:text-[#3e3e58]"
                                                 )}
-                                            >
-                                                {entry.label}
-                                            </span>
-                                            <span className="text-[11px] text-[#aaaab8] dark:text-[#3e3e58]">
-                                                {format(
+                                            />
+                                            <input
+                                                type="date"
+                                                defaultValue={format(
                                                     entry.date,
-                                                    "MMM d, yyyy"
+                                                    "yyyy-MM-dd"
                                                 )}
-                                            </span>
+                                                onChange={(e) =>
+                                                    updateTimeline({
+                                                        id: job.id,
+                                                        entryId: entry.id,
+                                                        data: {
+                                                            date: e.target
+                                                                .value,
+                                                        },
+                                                    })
+                                                }
+                                                className="text-[11px] text-[#aaaab8] dark:text-[#3e3e58] outline-none transition-shadow focus:ring-2 focus:ring-primary rounded p-0.5"
+                                            />
                                             <button
                                                 onClick={() =>
                                                     deleteTimeline({

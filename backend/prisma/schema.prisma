@@ -27,6 +27,7 @@ model User {
   updatedAt              DateTime @updatedAt
 
   jobs                   Job[]
+  documents              Document[]
 }
 
 model Job {
@@ -71,4 +72,19 @@ model TimelineEntry {
   job       Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@index([jobId])
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  title     String
+  fileUrl   String
+  fileSize  Int
+  mimeType  String
+
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

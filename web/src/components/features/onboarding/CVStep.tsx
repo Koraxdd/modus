@@ -9,11 +9,15 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useApiFetch } from "@/hooks/auth/useApiFetch"
 import { cn } from "@/lib/utils"
+import type { ApiResult } from "@shared/types/api.types"
 import { ArrowRight, CircleAlert, FileCheck, Upload, X } from "lucide-react"
 import { type ChangeEvent, useRef, useState } from "react"
+import { toast } from "sonner"
 
 export default function CVStep({ next }: { next: () => void }) {
+    const apiFetch = useApiFetch()
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
 
@@ -21,6 +25,26 @@ export default function CVStep({ next }: { next: () => void }) {
         const selectedFile = e.target.files?.[0]
         if (!selectedFile) return
         setFile(selectedFile)
+    }
+
+    const handleUpload = async () => {
+        if (!file) return
+
+        const formData = new FormData()
+        formData.append("cv", file, file.name)
+
+        const res = await apiFetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/documents`,
+            { method: "POST", body: formData }
+        )
+
+        const result = (await res.json()) as ApiResult<{ message: string }>
+        if (!result.success) {
+            toast.error("Failed to upload document. Try again.")
+            return
+        }
+
+        next()
     }
 
     return (
@@ -105,7 +129,7 @@ export default function CVStep({ next }: { next: () => void }) {
             <CardFooter className="flex flex-col gap-4 mt-6">
                 <Button
                     size="lg"
-                    onClick={next}
+                    onClick={handleUpload}
                     disabled={!file}
                     className="w-full mt-2 p-6.5 text-[15px] transition-all rounded-xl font-semibold shadow-indigo-600/25 enabled:hover:shadow-lg enabled:hover:shadow-indigo-600/30 enabled:hover:bg-indigo-700 enabled:hover:-translate-y-0.5 disabled:bg-zinc-100 dark:disabled:bg-[#161620] disabled:text-zinc-400 dark:disabled:text-muted-foreground/50"
                 >

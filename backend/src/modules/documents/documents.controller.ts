@@ -26,3 +26,16 @@ export async function uploadDocument(
         next(err)
     }
 }
+
+export async function getDocuments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const documents = await documentsService.getDocuments(getUserId(req))
+        res.status(200).json({ success: true, data: { documents } })
+    } catch (err) {
+        next(err)
+    }
+}

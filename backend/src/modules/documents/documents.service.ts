@@ -19,6 +19,8 @@ export const documentsService = {
                     {
                         resource_type: "raw",
                         folder: "cvs",
+                        use_filename: true,
+                        filename_override: file.originalname,
                     },
                     (error, result) => {
                         if (error) return reject(error)
@@ -38,5 +40,8 @@ export const documentsService = {
             mimeType: file.mimetype,
             userId,
         })
+    },
+    async getDocuments(userId: string): Promise<Document[]> {
+        return await documentsRepository.getDocuments(userId)
     },
 }

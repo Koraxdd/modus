@@ -11,7 +11,8 @@ export type TimelineEntry = {
     note?: string
     date: Date
     completed: boolean
-    order: number
+    createdAt: Date
+    updatedAt: Date
     jobId: string
 }
 

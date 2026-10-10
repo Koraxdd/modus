@@ -13,4 +13,7 @@ export const documentsRepository = {
     async uploadDocument(data: uploadDocumentData): Promise<Document> {
         return await prisma.document.create({ data })
     },
+    async getDocuments(userId: string): Promise<Document[]> {
+        return await prisma.document.findMany({ where: { userId } })
+    },
 }

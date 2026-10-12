@@ -16,7 +16,11 @@ export default function CustomLink({
 }: CustomLinksProps) {
     const pathname = usePathname()
     const isActive =
-        href === "/dashboard" ? pathname === href : pathname.startsWith(href)
+        href === "/dashboard"
+            ? pathname === href
+            : href.startsWith("/dashboard/career")
+              ? pathname.startsWith("/dashboard/career")
+              : pathname.startsWith(href)
 
     return (
         <Link

@@ -10,14 +10,13 @@ import {
 import { useUIStore } from "@/lib/stores/UIStore"
 
 export default function ApplicationDialog() {
-    const isApplicationOpen = useUIStore((state) => state.isApplicationOpen)
+    const modal = useUIStore((state) => state.applicationModal)
     const closeApplication = useUIStore((state) => state.closeApplication)
-    const job = useUIStore((state) => state.editingJob)
-    const isEditing = !!job
+    const isEditing = modal.mode === "edit"
 
     return (
         <Dialog
-            open={isApplicationOpen}
+            open={modal.mode !== "closed"}
             onOpenChange={(open) => !open && closeApplication()}
         >
             <DialogContent className="max-w-sm">

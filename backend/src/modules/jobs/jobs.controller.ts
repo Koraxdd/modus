@@ -1,8 +1,11 @@
 import type { NextFunction, Request, Response } from "express"
 import type {
+    AddTagInput,
+    AddTimelineInput,
     ApplicationOutput,
     UpdateNotesInput,
     UpdateStatusInput,
+    UpdateTimelineInput,
 } from "./jobs.schemas"
 import { jobsService } from "./jobs.service"
 import type { TypedRequest } from "../../types/api.types"
@@ -98,6 +101,106 @@ export async function updateJob(
             req.body
         )
         res.status(200).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function deleteJob(
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await jobsService.deleteJob(getUserId(req), req.params.id)
+        res.status(200).json({
+            success: true,
+            data: { message: "Job deleted successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function addTag(
+    req: Request<{ id: string }, {}, AddTagInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.addTag(
+            getUserId(req),
+            req.params.id,
+            req.body.name
+        )
+        res.status(201).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function removeTag(
+    req: Request<{ id: string; tagId: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const job = await jobsService.removeTag(
+            getUserId(req),
+            req.params.id,
+            req.params.tagId
+        )
+        res.status(200).json({ success: true, data: { job } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function addTimeline(
+    req: Request<{ id: string }, {}, AddTimelineInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const timeline = await jobsService.addTimeline(
+            getUserId(req),
+            req.params.id,
+            req.body.label
+        )
+        res.status(201).json({ success: true, data: { timeline } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function deleteTimeline(
+    req: Request<{ id: string; entryId: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await jobsService.deleteTimeline(getUserId(req), req.params.entryId)
+        res.status(200).json({
+            success: true,
+            data: { message: "Timeline deleted successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function updateTimeline(
+    req: Request<{ id: string; entryId: string }, {}, UpdateTimelineInput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const timeline = await jobsService.updateTimeline(
+            getUserId(req),
+            req.params.entryId,
+            req.body
+        )
+        res.status(200).json({ success: true, data: { timeline } })
     } catch (err) {
         next(err)
     }

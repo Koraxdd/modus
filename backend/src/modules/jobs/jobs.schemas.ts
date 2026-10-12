@@ -45,3 +45,29 @@ export const UpdateNotesSchema = z.object({
 })
 
 export type UpdateNotesInput = z.input<typeof UpdateNotesSchema>
+
+export const AddTagSchema = z.object({
+    name: z.string().trim().min(1).max(30),
+})
+
+export type AddTagInput = z.input<typeof AddTagSchema>
+
+export const AddTimelineSchema = z.object({
+    label: z.string().trim().min(1).max(30),
+})
+
+export type AddTimelineInput = z.input<typeof AddTimelineSchema>
+
+export const UpdateTimelineSchema = z
+    .object({
+        label: z.string().trim().min(1).max(30).optional(),
+        note: z.string().max(500).nullable().optional(),
+        date: z.coerce.date().optional(),
+        completed: z.boolean().optional(),
+    })
+    .refine(
+        (data) => Object.values(data).some((value) => value !== undefined),
+        { message: "Nothing to update" }
+    )
+
+export type UpdateTimelineInput = z.infer<typeof UpdateTimelineSchema>

@@ -1,8 +1,13 @@
 import type { StatusFilter } from "@shared/types/jobs.types"
-import type { Job, JobStatus } from "../../generated/prisma/client"
+import type {
+    Job,
+    JobStatus,
+    TimelineEntry,
+} from "../../generated/prisma/client"
 import { jobsRepository } from "./jobs.repository"
-import type { ApplicationOutput } from "./jobs.schemas"
+import type { ApplicationOutput, UpdateTimelineInput } from "./jobs.schemas"
 import { AppError } from "../../errors/AppError"
+import type { JobWithRelations } from "../../types/api.types"
 
 export const jobsService = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
@@ -11,7 +16,10 @@ export const jobsService = {
     async getJobs(userId: string, filter: StatusFilter): Promise<Job[]> {
         return await jobsRepository.getJobs(userId, filter)
     },
-    async getJob(userId: string, jobId: string): Promise<Job | null> {
+    async getJob(
+        userId: string,
+        jobId: string
+    ): Promise<JobWithRelations | null> {
         const job = await jobsRepository.getJob(userId, jobId)
 
         if (!job) {
@@ -40,5 +48,39 @@ export const jobsService = {
         data: ApplicationOutput
     ): Promise<Job> {
         return await jobsRepository.updateJob(userId, jobId, data)
+    },
+    async deleteJob(userId: string, jobId: string): Promise<Job> {
+        return await jobsRepository.deleteJob(userId, jobId)
+    },
+    async addTag(
+        userId: string,
+        jobId: string,
+        tagName: string
+    ): Promise<JobWithRelations> {
+        return await jobsRepository.addTag(userId, jobId, tagName)
+    },
+    async removeTag(
+        userId: string,
+        jobId: string,
+        tagId: string
+    ): Promise<JobWithRelations> {
+        return await jobsRepository.removeTag(userId, jobId, tagId)
+    },
+    async addTimeline(
+        userId: string,
+        jobId: string,
+        label: string
+    ): Promise<TimelineEntry> {
+        return await jobsRepository.addTimeline(userId, jobId, label)
+    },
+    async deleteTimeline(userId: string, entryId: string): Promise<void> {
+        return await jobsRepository.deleteTimeline(userId, entryId)
+    },
+    async updateTimeline(
+        userId: string,
+        entryId: string,
+        data: UpdateTimelineInput
+    ) {
+        return await jobsRepository.updateTimeline(userId, entryId, data)
     },
 }

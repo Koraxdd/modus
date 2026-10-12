@@ -27,24 +27,64 @@ model User {
   updatedAt              DateTime @updatedAt
 
   jobs                   Job[]
+  documents              Document[]
 }
 
 model Job {
+  id              String    @id @default(uuid())
+  company         String
+  role            String
+  status          JobStatus @default(saved)
+  color           String
+  location        String?
+  salary          String?
+  jobUrl          String?
+  notes           String?   @db.Text
+  tags            Tag[]
+  timelineEntries TimelineEntry[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+  jobs Job[]
+}
+
+model TimelineEntry {
   id        String    @id @default(uuid())
-  company   String
-  role      String
-  status    JobStatus @default(saved)
-  color     String
-  location  String?
-  salary    String?
-  jobUrl    String?
-  notes     String?   @db.Text
+  label     String
+  note      String?
+  date      DateTime  @default(now())
+  completed Boolean   @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
+  jobId     String
+  job       Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  title     String
+  fileUrl   String
+  fileSize  Int
+  mimeType  String
+
+  createdAt DateTime @default(now())
+
   userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

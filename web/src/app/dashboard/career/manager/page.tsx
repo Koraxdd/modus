@@ -48,9 +48,9 @@ export default function ManagerPage() {
                     </div>
                 </button>
                 {documents.length > 0 && (
-                    <div className="border border-border rounded-2xl overflow-hidden">
-                        <div className="px-5 py-3 bg-[#f4f4fa]">
-                            <span className="text-[11px] font-semibold text-[#888898] tracking-wider">
+                    <div className="border border-border dark:border-[#1e1e2a] rounded-2xl overflow-hidden">
+                        <div className="px-5 py-3 bg-[#f4f4fa] dark:bg-[#141420]">
+                            <span className="text-[11px] font-semibold text-[#888898] dark:text-[#50506a] tracking-wider">
                                 VERSION HISTORY
                             </span>
                         </div>
@@ -63,7 +63,7 @@ export default function ManagerPage() {
                             return (
                                 <div
                                     key={document.id}
-                                    className="group bg-white hover:bg-[#fafaff] px-5 py-4 transition-colors flex items-center gap-4 border-t border-border"
+                                    className="group bg-white dark:bg-[#1c1c26] hover:bg-[#fafaff] dark:hover:bg-[#222230] px-5 py-4 transition-colors flex items-center gap-4 border-t border-border dark:border-[#1e1e2a]"
                                 >
                                     <div className="size-9 flex items-center justify-center rounded-xl shrink-0 bg-primary text-white">
                                         <File className="size-4.5" />

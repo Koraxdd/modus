@@ -36,3 +36,15 @@ export async function uploadDocument(
         return
     }
 }
+
+export async function deleteDocument(apiFetch: ApiFetch, id: string) {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/documents/${id}`,
+        { method: "DELETE" }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

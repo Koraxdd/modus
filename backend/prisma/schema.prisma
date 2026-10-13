@@ -80,6 +80,7 @@ model Document {
   fileUrl   String
   fileSize  Int
   mimeType  String
+  fileKey   String
 
   createdAt DateTime @default(now())
 

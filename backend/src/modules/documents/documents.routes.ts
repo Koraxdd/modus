@@ -1,7 +1,11 @@
 import express from "express"
 import multer from "multer"
 import { requireAuth } from "../../middleware/requireAuth"
-import { getDocuments, uploadDocument } from "./documents.controller"
+import {
+    deleteDocument,
+    getDocuments,
+    uploadDocument,
+} from "./documents.controller"
 
 const documentsRouter = express.Router()
 
@@ -12,5 +16,6 @@ const upload = multer({
 
 documentsRouter.post("/", requireAuth, upload.single("cv"), uploadDocument)
 documentsRouter.get("/", requireAuth, getDocuments)
+documentsRouter.delete("/:id", requireAuth, deleteDocument)
 
 export default documentsRouter

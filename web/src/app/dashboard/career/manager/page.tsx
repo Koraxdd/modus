@@ -1,16 +1,18 @@
 "use client"
 
-import { useApiFetch } from "@/hooks/auth/useApiFetch"
+import { useDeleteDocument } from "@/hooks/documents/useDeleteDocument"
 import { useDocuments } from "@/hooks/documents/useDocuments"
-import { uploadDocument } from "@/lib/api/documents"
+import { useUploadDocument } from "@/hooks/documents/useUploadDocument"
 import { format } from "date-fns"
 import { Download, File, Trash2, Upload } from "lucide-react"
 import { useRef } from "react"
+import { toast } from "sonner"
 
 export default function ManagerPage() {
     const fileInputRef = useRef<HTMLInputElement | null>(null)
-    const apiFetch = useApiFetch()
     const { data: documents = [] } = useDocuments()
+    const { mutate: uploadDocument } = useUploadDocument()
+    const { mutate: deleteDocument } = useDeleteDocument()
 
     return (
         <div className="px-4 md:px-6 py-6 overflow-auto">
@@ -23,9 +25,14 @@ export default function ManagerPage() {
                         ref={fileInputRef}
                         accept=".pdf,.doc,.docx"
                         type="file"
-                        onChange={(e) =>
-                            uploadDocument(apiFetch, e.target.files?.[0])
-                        }
+                        onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            uploadDocument(file, {
+                                onSuccess: () => {
+                                    toast.success(`${file?.name} uploaded`)
+                                },
+                            })
+                        }}
                         className="hidden"
                     />
                     <div className="mb-4 w-12 h-12 rounded-xl text-zinc-400 dark:text-[#50506a] flex items-center justify-center bg-[#efeff6] dark:bg-[#1c1c26] group-hover:border-indigo-200 dark:group-hover:border-[#7b6ff0]/50 group-hover:text-indigo-500 dark:group-hover:text-indigo-500">
@@ -87,7 +94,18 @@ export default function ManagerPage() {
                                         >
                                             <Download className="size-3.5" />
                                         </a>
-                                        <button className="text-[#888898] transition-colors hover:text-[#dc2626]">
+                                        <button
+                                            onClick={() =>
+                                                deleteDocument(document.id, {
+                                                    onSuccess: () => {
+                                                        toast.success(
+                                                            "Version removed"
+                                                        )
+                                                    },
+                                                })
+                                            }
+                                            className="text-[#888898] transition-colors hover:text-[#dc2626]"
+                                        >
                                             <Trash2 className="size-3.5" />
                                         </button>
                                     </div>

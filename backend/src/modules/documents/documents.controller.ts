@@ -39,3 +39,19 @@ export async function getDocuments(
         next(err)
     }
 }
+
+export async function deleteDocument(
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await documentsService.deleteDocument(getUserId(req), req.params.id)
+        res.status(200).json({
+            success: true,
+            data: { message: "Document deleted successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}

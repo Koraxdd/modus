@@ -1,6 +1,7 @@
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
 import { documentsRepository } from "./documents.repository"
 import type { Document } from "../../generated/prisma/client"
+import { AppError } from "../../errors/AppError"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -38,10 +39,22 @@ export const documentsService = {
             fileUrl: cloudResult.secure_url,
             fileSize: cloudResult.bytes,
             mimeType: file.mimetype,
+            fileKey: cloudResult.public_id,
             userId,
         })
     },
     async getDocuments(userId: string): Promise<Document[]> {
         return await documentsRepository.getDocuments(userId)
+    },
+    async deleteDocument(userId: string, id: string): Promise<void> {
+        const document = await documentsRepository.getDocument(userId, id)
+        if (!document) {
+            throw new AppError(404, "Document not found")
+        }
+
+        await documentsRepository.deleteDocument(userId, id)
+        await cloudinary.uploader.destroy(document.fileKey, {
+            resource_type: "raw",
+        })
     },
 }

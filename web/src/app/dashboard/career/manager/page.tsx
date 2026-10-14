@@ -142,8 +142,8 @@ export default function ManagerPage() {
                                 />
                             </div>
                         ) : (
-                            <div className="rounded-2xl flex items-center justify-center min-h-64 bg-white border border-border">
-                                <p className="text-xs text-[#888898]">
+                            <div className="rounded-2xl flex items-center justify-center min-h-64 bg-white dark:bg-[#1c1c26] border border-border">
+                                <p className="text-xs text-[#888898] dark:text-[#50506a]">
                                     Select the eye icon to view CV content
                                 </p>
                             </div>

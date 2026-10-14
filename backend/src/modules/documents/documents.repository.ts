@@ -8,6 +8,7 @@ type uploadDocumentData = {
     mimeType: string
     fileKey: string
     userId: string
+    extractedText: string
 }
 
 export const documentsRepository = {

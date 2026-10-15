@@ -9,11 +9,26 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Spinner } from "@/components/ui/spinner"
+import { useATS } from "@/hooks/ai/useATS"
 import { useDocuments } from "@/hooks/documents/useDocuments"
+import { cn } from "@/lib/utils"
+import { Document } from "@/types/document.types"
 import { Astroid, Info } from "lucide-react"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 export default function ATSPage() {
     const { data: documents = [] } = useDocuments()
+    const { mutate: analyseCV, data: atsResult, isPending } = useATS()
+    const [selectedCV, setSelectedCV] = useState<Document | null>(null)
+    const [description, setDescription] = useState<string>("")
+
+    useEffect(() => {
+        if (documents.length && !selectedCV) {
+            setSelectedCV(documents[0])
+        }
+    }, [documents, selectedCV])
 
     return (
         <div className="px-4 md:px-6 py-6 overflow-auto">
@@ -33,16 +48,30 @@ export default function ATSPage() {
                             <label className="text-[11px] font-semibold text-[#888898] dark:text-[#50506a] tracking-wider">
                                 CV VERSION
                             </label>
-                            <Select defaultValue={documents[0].title}>
+                            <Select
+                                value={selectedCV?.id ?? ""}
+                                onValueChange={(id) => {
+                                    const matched = documents.find(
+                                        (doc) => doc.id === id
+                                    )
+                                    if (matched) setSelectedCV(matched)
+                                }}
+                            >
                                 <SelectTrigger className="w-full dark:bg-[#16161e] dark:border-[#24242f]">
-                                    <SelectValue />
+                                    <SelectValue>
+                                        {(id: string) =>
+                                            documents.find(
+                                                (document) => document.id === id
+                                            )?.title ?? "Select a CV"
+                                        }
+                                    </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent className="dark:bg-[#16161e] dark:ring-[#24242f]">
                                     <SelectGroup>
                                         {documents.map((document) => (
                                             <SelectItem
                                                 key={document.id}
-                                                value={document.title}
+                                                value={document.id}
                                             >
                                                 {document.title}
                                             </SelectItem>
@@ -60,14 +89,45 @@ export default function ATSPage() {
                                     </p>
                                 </div>
                                 <Button
+                                    disabled={isPending}
                                     size="lg"
-                                    className="w-full transition-all rounded-lg hover:bg-indigo-700 text-[13px]"
+                                    onClick={() => {
+                                        if (selectedCV) {
+                                            analyseCV(
+                                                {
+                                                    documentId: selectedCV.id,
+                                                    description,
+                                                },
+                                                {
+                                                    onError: () =>
+                                                        toast.error(
+                                                            "The AI service is busy. Try again in a minute."
+                                                        ),
+                                                }
+                                            )
+                                        }
+                                    }}
+                                    className={cn(
+                                        "w-full transition-all rounded-lg text-[13px]",
+                                        isPending
+                                            ? "opacity-80"
+                                            : "hover:bg-indigo-700"
+                                    )}
                                 >
-                                    <Astroid
-                                        strokeWidth={2.5}
-                                        className="size-2.5"
-                                    />
-                                    Analyse match
+                                    {isPending ? (
+                                        <>
+                                            <Spinner />
+                                            Matching CV to role
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Astroid
+                                                strokeWidth={2.5}
+                                                className="size-2.5"
+                                            />
+                                            Analyse match
+                                        </>
+                                    )}
                                 </Button>
                             </div>
                         </div>
@@ -77,6 +137,7 @@ export default function ATSPage() {
                             </label>
                             <textarea
                                 rows={7}
+                                onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Paste the full job description here..."
                                 className="resize-none rounded-xl p-3 text-xs dark:text-[#c8c8d2] leading-relaxed outline-none bg-[#f8f8fc] dark:bg-[#16161e] transition-shadow border border-border dark:border-[#24242f] focus:ring-2 focus:ring-primary"
                             />

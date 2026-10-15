@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser"
 import usersRouter from "./modules/users/users.routes"
 import jobsRouter from "./modules/jobs/jobs.routes"
 import documentsRouter from "./modules/documents/documents.routes"
+import aiRouter from "./modules/ai/ai.routes"
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", usersRouter)
 app.use("/api/v1/jobs", jobsRouter)
 app.use("/api/v1/documents", documentsRouter)
+app.use("/api/v1/ai", aiRouter)
 
 app.use(errorHandler)
 

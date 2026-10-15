@@ -14,7 +14,12 @@ export default function ScoreCircle({ color, score }: ScoreCircleProps) {
     const dashOffset = circumference - percentage * circumference
 
     return (
-        <svg width="96" height="96" viewBox="0 0 112 112">
+        <svg
+            width="96"
+            height="96"
+            viewBox="0 0 112 112"
+            className="-rotate-90"
+        >
             <circle
                 cx="56"
                 cy="56"

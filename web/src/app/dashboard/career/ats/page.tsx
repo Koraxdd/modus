@@ -118,7 +118,7 @@ export default function ATSPage() {
                                         className={cn(
                                             "w-full transition-all rounded-lg text-[13px]",
                                             isDisabled
-                                                ? "opacity-80"
+                                                ? "opacity-60"
                                                 : "hover:bg-indigo-700"
                                         )}
                                     >

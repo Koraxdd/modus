@@ -30,6 +30,8 @@ export default function ATSPage() {
         }
     }, [documents, selectedCV])
 
+    const isDisabled = isPending || !selectedCV || !description.trim()
+
     return (
         <div className="px-4 md:px-6 py-6 overflow-auto">
             <div className="max-w-225 mx-auto">
@@ -89,7 +91,7 @@ export default function ATSPage() {
                                     </p>
                                 </div>
                                 <Button
-                                    disabled={isPending}
+                                    disabled={isDisabled}
                                     size="lg"
                                     onClick={() => {
                                         if (selectedCV) {
@@ -99,9 +101,9 @@ export default function ATSPage() {
                                                     description,
                                                 },
                                                 {
-                                                    onError: () =>
+                                                    onError: (err) =>
                                                         toast.error(
-                                                            "The AI service is busy. Try again in a minute."
+                                                            err.message
                                                         ),
                                                 }
                                             )
@@ -109,7 +111,7 @@ export default function ATSPage() {
                                     }}
                                     className={cn(
                                         "w-full transition-all rounded-lg text-[13px]",
-                                        isPending
+                                        isDisabled
                                             ? "opacity-80"
                                             : "hover:bg-indigo-700"
                                     )}

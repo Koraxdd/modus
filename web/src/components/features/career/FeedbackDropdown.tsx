@@ -15,7 +15,7 @@ type Feedback = {
     }[]
 }
 
-const MotionChevron = motion(ChevronDown)
+const MotionChevron = motion.create(ChevronDown)
 
 export default function FeedbackDropdown({ feedback }: { feedback: Feedback }) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -72,7 +72,7 @@ export default function FeedbackDropdown({ feedback }: { feedback: Feedback }) {
                                 >
                                     <div
                                         className={cn(
-                                            "size-1.5 rounded-full",
+                                            "size-1.5 rounded-full shrink-0",
                                             (type === "missing" ||
                                                 type === "error") &&
                                                 "bg-[#ef4444]",

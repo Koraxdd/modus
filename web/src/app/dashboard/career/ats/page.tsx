@@ -14,14 +14,19 @@ import { Spinner } from "@/components/ui/spinner"
 import { useATS } from "@/hooks/ai/useATS"
 import { useDocuments } from "@/hooks/documents/useDocuments"
 import { cn } from "@/lib/utils"
-import { Document } from "@/types/document.types"
+import type { ATSResult } from "@/types/ai.types"
+import type { Document } from "@/types/document.types"
 import { Astroid, Info } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
 export default function ATSPage() {
     const { data: documents = [] } = useDocuments()
-    const { mutate: analyseCV, data: atsResult, isPending } = useATS()
+    const { mutate: analyseCV, isPending } = useATS()
+    const [report, setReport] = useState<{
+        document: Document
+        result: ATSResult
+    } | null>(null)
     const [selectedCV, setSelectedCV] = useState<Document | null>(null)
     const [description, setDescription] = useState<string>("")
 
@@ -107,6 +112,12 @@ export default function ATSPage() {
                                                         description,
                                                     },
                                                     {
+                                                        onSuccess: (result) =>
+                                                            setReport({
+                                                                document:
+                                                                    selectedCV,
+                                                                result,
+                                                            }),
                                                         onError: (err) =>
                                                             toast.error(
                                                                 err.message
@@ -154,7 +165,12 @@ export default function ATSPage() {
                             </div>
                         </div>
                     )}
-                    {selectedCV && <MatchReport document={selectedCV} />}
+                    {report && (
+                        <MatchReport
+                            document={report.document}
+                            atsResult={report.result}
+                        />
+                    )}
                 </div>
             </div>
         </div>

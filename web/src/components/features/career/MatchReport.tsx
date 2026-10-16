@@ -1,72 +1,34 @@
-import { Document } from "@/types/document.types"
+import type { Document } from "@/types/document.types"
 import ScoreCircle from "./ScoreCircle"
 import FeedbackDropdown from "./FeedbackDropdown"
+import type { ATSResult } from "@/types/ai.types"
 
-const mockAts = {
-    overallMatch: 62,
-    keywordMatchScore: 50,
-    formattingParsingScore: 90,
-    impactMetricsScore: 45,
-    keywordMatchFeedback: [
-        {
-            text: "Strong technical stack identified across TypeScript, Next.js, PostgreSQL, and React ecosystem",
-            type: "strong",
-        },
-        {
-            text: "Missing targeted job description requirements to benchmark specific core competencies against",
-            type: "missing",
-        },
-        {
-            text: "Add automated testing tools (e.g., Jest, Vitest, Cypress, Playwright) and CI/CD pipeline skills",
-            type: "suggested",
-        },
-    ],
-    formattingParsingFeedback: [
-        {
-            text: "Good heading structure — ATS-safe standard headers (Education, Projects, Skills)",
-            type: "good",
-        },
-        {
-            text: "Contact details and external profile links are well formatted and easily parseable",
-            type: "good",
-        },
-        {
-            text: "Consider adding an explicit Professional Experienc…tion to satisfy traditional corporate ATS filters",
-            type: "warning",
-        },
-    ],
-    impactMetricsFeedback: [
-        {
-            text: "0 of 9 project bullets contain quantifiable metric…rovements, query latency reductions, user counts)",
-            type: "error",
-        },
-        {
-            text: "Quantify full-stack optimisations (e.g., 'reduced …by X%', 'handled Y concurrent WebSocket streams')",
-            type: "suggested",
-        },
-    ],
-}
-
-export default function MatchReport({ document }: { document: Document }) {
+export default function MatchReport({
+    document,
+    atsResult,
+}: {
+    document: Document
+    atsResult: ATSResult
+}) {
     const scores = [
         {
             title: "Overall Match",
-            score: mockAts.overallMatch,
+            score: atsResult.overallMatch,
             color: "#5B4FEE",
         },
         {
             title: "Keyword Match",
-            score: mockAts.keywordMatchScore,
+            score: atsResult.keywordMatchScore,
             color: "#F59E0B",
         },
         {
             title: "Formatting & Parsing",
-            score: mockAts.formattingParsingScore,
+            score: atsResult.formattingParsingScore,
             color: "#10B981",
         },
         {
             title: "Impact & Metrics",
-            score: mockAts.impactMetricsScore,
+            score: atsResult.impactMetricsScore,
             color: "#EF4444",
         },
     ]
@@ -74,21 +36,21 @@ export default function MatchReport({ document }: { document: Document }) {
     const feedbacks = [
         {
             title: "Keyword Match",
-            score: mockAts.keywordMatchScore,
+            score: atsResult.keywordMatchScore,
             color: "#F59E0B",
-            tips: mockAts.keywordMatchFeedback,
+            tips: atsResult.keywordMatchFeedback,
         },
         {
             title: "Formatting & Parsing",
-            score: mockAts.formattingParsingScore,
+            score: atsResult.formattingParsingScore,
             color: "#10B981",
-            tips: mockAts.formattingParsingFeedback,
+            tips: atsResult.formattingParsingFeedback,
         },
         {
             title: "Impact & Metrics",
-            score: mockAts.impactMetricsScore,
+            score: atsResult.impactMetricsScore,
             color: "#EF4444",
-            tips: mockAts.impactMetricsFeedback,
+            tips: atsResult.impactMetricsFeedback,
         },
     ]
 

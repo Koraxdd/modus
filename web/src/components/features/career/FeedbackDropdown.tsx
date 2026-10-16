@@ -25,9 +25,9 @@ export default function FeedbackDropdown({ feedback }: { feedback: Feedback }) {
     return (
         <div
             onClick={() => setIsOpen((prev) => !prev)}
-            className="relative rounded-xl border border-border overflow-hidden"
+            className="rounded-xl border border-border dark:border-[#24242f] overflow-hidden"
         >
-            <div className="flex items-center gap-4 bg-white w-full px-5 py-4">
+            <div className="flex items-center gap-4 bg-white dark:bg-[#1c1c26] w-full px-5 py-4">
                 <div
                     className="size-2 rounded-full"
                     style={{ backgroundColor: color }}
@@ -41,7 +41,7 @@ export default function FeedbackDropdown({ feedback }: { feedback: Feedback }) {
                 <MotionChevron
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
-                    className="size-3 text-[#888898]"
+                    className="size-3 text-[#888898] dark:text-[#50506a]"
                 />
             </div>
             <AnimatePresence>
@@ -63,7 +63,7 @@ export default function FeedbackDropdown({ feedback }: { feedback: Feedback }) {
                     >
                         <div
                             onClick={(e) => e.stopPropagation()}
-                            className="px-5 py-3 flex flex-col gap-2.5 bg-[#fafaff] border-t border-border"
+                            className="px-5 py-3 flex flex-col gap-2.5 bg-[#fafaff] dark:bg-[#161620] border-t border-border dark:border-[#24242f]"
                         >
                             {tips.map(({ text, type }) => (
                                 <div

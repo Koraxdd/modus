@@ -25,7 +25,7 @@ export default function ScoreCircle({ color, score }: ScoreCircleProps) {
                 cy="56"
                 r={radius}
                 fill="none"
-                stroke="#EEEEF8"
+                className="stroke-[#EEEEF8] dark:stroke-[#1E1E2C]"
                 strokeWidth="9"
             />
             <motion.circle

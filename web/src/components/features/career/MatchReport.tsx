@@ -3,13 +3,12 @@ import ScoreCircle from "./ScoreCircle"
 import FeedbackDropdown from "./FeedbackDropdown"
 import type { ATSResult } from "@/types/ai.types"
 
-export default function MatchReport({
-    document,
-    atsResult,
-}: {
+type MatchReportProps = {
     document: Document
     atsResult: ATSResult
-}) {
+}
+
+export default function MatchReport({ document, atsResult }: MatchReportProps) {
     const scores = [
         {
             title: "Overall Match",
@@ -56,15 +55,15 @@ export default function MatchReport({
 
     return (
         <div className="flex flex-col gap-5">
-            <div className="rounded-2xl p-6 bg-white border border-border">
+            <div className="rounded-2xl p-6 bg-white dark:bg-[#1c1c26] border border-border dark:border-[#24242f]">
                 <div className="flex justify-between items-start mb-5">
                     <div>
                         <p className="text-sm font-semibold">Match report</p>
-                        <p className="text-[11px] mt-1 text-[#888898]">
+                        <p className="text-[11px] mt-1 text-[#888898] dark:text-[#50506a]">
                             {document.title}
                         </p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-[#eef0ff] text-primary">
+                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-[#eef0ff] dark:bg-[#1a2035] text-primary">
                         Role-specific
                     </span>
                 </div>
@@ -80,12 +79,12 @@ export default function MatchReport({
                                     <span className="text-[22px] font-bold">
                                         {score}
                                     </span>
-                                    <span className="text-[9px] text-[#888898]">
+                                    <span className="text-[9px] text-[#888898] dark:text-[#50506a]">
                                         /100
                                     </span>
                                 </div>
                             </div>
-                            <p className="text-[11px] font-semibold text-center text-[#2a2a40]">
+                            <p className="text-[11px] font-semibold text-center text-[#2a2a40] dark:text-[#c8c8dc]">
                                 {title}
                             </p>
                         </div>

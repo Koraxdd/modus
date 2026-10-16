@@ -1,5 +1,6 @@
 import { Document } from "@/types/document.types"
 import ScoreCircle from "./ScoreCircle"
+import FeedbackDropdown from "./FeedbackDropdown"
 
 const mockAts = {
     overallMatch: 62,
@@ -70,6 +71,27 @@ export default function MatchReport({ document }: { document: Document }) {
         },
     ]
 
+    const feedbacks = [
+        {
+            title: "Keyword Match",
+            score: mockAts.keywordMatchScore,
+            color: "#F59E0B",
+            tips: mockAts.keywordMatchFeedback,
+        },
+        {
+            title: "Formatting & Parsing",
+            score: mockAts.formattingParsingScore,
+            color: "#10B981",
+            tips: mockAts.formattingParsingFeedback,
+        },
+        {
+            title: "Impact & Metrics",
+            score: mockAts.impactMetricsScore,
+            color: "#EF4444",
+            tips: mockAts.impactMetricsFeedback,
+        },
+    ]
+
     return (
         <div className="flex flex-col gap-5">
             <div className="rounded-2xl p-6 bg-white border border-border">
@@ -107,6 +129,14 @@ export default function MatchReport({ document }: { document: Document }) {
                         </div>
                     ))}
                 </div>
+            </div>
+            <div className="flex flex-col gap-3">
+                {feedbacks.map((feedback) => (
+                    <FeedbackDropdown
+                        key={feedback.title}
+                        feedback={feedback}
+                    />
+                ))}
             </div>
         </div>
     )

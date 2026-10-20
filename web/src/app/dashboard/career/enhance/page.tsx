@@ -124,7 +124,7 @@ export default function EnhancePage() {
                         </div>
                         <div className="grid md:grid-cols-[0.7fr_1.3fr] gap-5">
                             {enhanceResult ? (
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-3 h-150 overflow-y-auto">
                                     <div>
                                         <p className="text-[13px] font-semibold">
                                             Suggested changes

@@ -23,3 +23,21 @@ export async function analyseCV(
 
     return result.data.response
 }
+
+export async function enhanceCV(apiFetch: ApiFetch, documentId: string) {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/ai/enhance`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ documentId }),
+        }
+    )
+
+    const result = await res.json()
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+
+    return result.data.response
+}

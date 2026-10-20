@@ -6,3 +6,9 @@ export const ATSSchema = z.object({
 })
 
 export type ATSOutput = z.output<typeof ATSSchema>
+
+export const EnhanceSchema = z.object({
+    documentId: z.string().min(1),
+})
+
+export type EnhanceOutput = z.output<typeof EnhanceSchema>

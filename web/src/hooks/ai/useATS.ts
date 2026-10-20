@@ -15,8 +15,5 @@ export function useATS() {
             documentId: string
             description: string
         }) => analyseCV(apiFetch, documentId, description),
-        onSuccess: (data) => {
-            console.log(data)
-        },
     })
 }

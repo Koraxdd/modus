@@ -1,12 +1,12 @@
 import express from "express"
 import { requireAuth } from "../../middleware/requireAuth"
-import { analyseCV } from "./ai.controller"
+import { analyseCV, enhanceCV } from "./ai.controller"
 import { validate } from "../../middleware/validate"
-import { ATSSchema } from "./ai.schemas"
+import { ATSSchema, EnhanceSchema } from "./ai.schemas"
 import {
-    atsBurstLimiter,
-    atsDailyLimiter,
-    atsIpLimiter,
+    aiBurstLimiter,
+    aiDailyLimiter,
+    aiIpLimiter,
 } from "../../middleware/limiters/aiLimits"
 
 const aiRouter = express.Router()
@@ -14,11 +14,20 @@ const aiRouter = express.Router()
 aiRouter.post(
     "/ats",
     requireAuth,
-    atsIpLimiter,
-    atsBurstLimiter,
-    atsDailyLimiter,
+    aiIpLimiter,
+    aiBurstLimiter,
+    aiDailyLimiter,
     validate(ATSSchema),
     analyseCV
+)
+aiRouter.post(
+    "/enhance",
+    requireAuth,
+    aiIpLimiter,
+    aiBurstLimiter,
+    aiDailyLimiter,
+    validate(EnhanceSchema),
+    enhanceCV
 )
 
 export default aiRouter

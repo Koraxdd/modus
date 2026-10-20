@@ -16,3 +16,11 @@ export type ATSResult = {
         type: "error" | "suggested"
     }[]
 }
+
+export type EnhanceResult = {
+    suggestions: {
+        original: string
+        improved: string
+        reason: string
+    }[]
+}

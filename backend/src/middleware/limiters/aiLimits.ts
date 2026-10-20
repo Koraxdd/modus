@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit"
 import { getUserId } from "../../utils/getUserId"
 
-export const atsBurstLimiter = rateLimit({
+export const aiBurstLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     limit: 5,
     keyGenerator: (req) => getUserId(req),
@@ -11,7 +11,7 @@ export const atsBurstLimiter = rateLimit({
     },
 })
 
-export const atsDailyLimiter = rateLimit({
+export const aiDailyLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
     limit: 25,
     keyGenerator: (req) => getUserId(req),
@@ -21,7 +21,7 @@ export const atsDailyLimiter = rateLimit({
     },
 })
 
-export const atsIpLimiter = rateLimit({
+export const aiIpLimiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     limit: 40,
     message: { success: false, error: "Too many requests from this network." },

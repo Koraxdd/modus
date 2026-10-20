@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Astroid, File, SquarePen, Zap } from "lucide-react"
+import { Astroid, File, Zap } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -9,7 +9,6 @@ const careerLinks = [
     { href: "/dashboard/career/manager", icon: File, label: "CV Manager" },
     { href: "/dashboard/career/ats", icon: Astroid, label: "ATS Score" },
     { href: "/dashboard/career/enhance", icon: Zap, label: "Enhance CV" },
-    { href: "/dashboard/career/cover", icon: SquarePen, label: "Cover Letter" },
 ] as const
 
 export default function CareerHeader() {

@@ -7,8 +7,12 @@ const { mockGenerateContent } = vi.hoisted(() => ({
     mockGenerateContent: vi.fn(),
 }))
 
+vi.mock("express-rate-limit", () => ({
+    default: () => (_req: any, _res: any, next: any) => next(),
+}))
+
 vi.mock("../../middleware/requireAuth", () => ({
-    requireAuth: vi.fn((req: any, res: any, next: any) => {
+    requireAuth: vi.fn((req: any, _res: any, next: any) => {
         req.user = { sub: "1" }
         next()
     }),
@@ -26,7 +30,7 @@ vi.mock("@google/genai", () => ({
     },
 }))
 
-const mockResult = {
+const mockATS = {
     overallMatch: 72,
     keywordMatchScore: 65,
     formattingParsingScore: 88,
@@ -36,10 +40,17 @@ const mockResult = {
     impactMetricsFeedback: [{ type: "error", text: "Few quantified bullets" }],
 }
 
-beforeEach(async () => {
-    mockGenerateContent.mockReset()
-    mockGenerateContent.mockResolvedValue({ text: JSON.stringify(mockResult) })
+const mockEnhance = {
+    suggestions: [
+        {
+            original: "original text",
+            improved: "improved text",
+            reason: "reason why",
+        },
+    ],
+}
 
+beforeEach(async () => {
     await prisma.user.create({
         data: {
             id: "1",
@@ -69,6 +80,11 @@ afterEach(async () => {
 })
 
 describe("POST /api/v1/ai/ats", () => {
+    beforeEach(() => {
+        mockGenerateContent.mockReset()
+        mockGenerateContent.mockResolvedValue({ text: JSON.stringify(mockATS) })
+    })
+
     it("returns 200 and ai response on success", async () => {
         const res = await request(app).post("/api/v1/ai/ats").send({
             documentId: "doc1",
@@ -80,7 +96,7 @@ describe("POST /api/v1/ai/ats", () => {
     })
 
     it("sends the cv text from db to the model as a prompt", async () => {
-        const res = await request(app).post("/api/v1/ai/ats").send({
+        await request(app).post("/api/v1/ai/ats").send({
             documentId: "doc1",
             description: "Frontend developer needed",
         })
@@ -110,5 +126,34 @@ describe("POST /api/v1/ai/ats", () => {
         })
 
         expect(res.status).toBe(400)
+    })
+})
+
+describe("POST /api/v1/ai/enhance", () => {
+    beforeEach(() => {
+        mockGenerateContent.mockReset()
+        mockGenerateContent.mockResolvedValue({
+            text: JSON.stringify(mockEnhance),
+        })
+    })
+
+    it("returns 200 and ai response on success", async () => {
+        const res = await request(app)
+            .post("/api/v1/ai/enhance")
+            .send({ documentId: "doc1" })
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.response.suggestions[0].original).toBe(
+            "original text"
+        )
+    })
+
+    it("returns 404 if document not found", async () => {
+        const res = await request(app).post("/api/v1/ai/enhance").send({
+            documentId: "fakedoc",
+        })
+
+        expect(res.status).toBe(404)
+        expect(mockGenerateContent).not.toHaveBeenCalled()
     })
 })

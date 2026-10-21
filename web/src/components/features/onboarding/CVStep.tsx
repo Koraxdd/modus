@@ -18,7 +18,7 @@ import { toast } from "sonner"
 
 export default function CVStep({ next }: { next: () => void }) {
     const apiFetch = useApiFetch()
-    const fileInputRef = useRef<HTMLInputElement>(null)
+    const fileInputRef = useRef<HTMLInputElement | null>(null)
     const [file, setFile] = useState<File | null>(null)
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {

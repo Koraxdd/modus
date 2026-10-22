@@ -46,3 +46,25 @@ export async function updateUser(
         next(err)
     }
 }
+
+export async function uploadAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const file = req.file
+        if (!file) {
+            res.status(400).json({ success: false, error: "No file uploaded" })
+            return
+        }
+
+        await usersService.uploadAvatar(getUserId(req), file)
+        res.status(200).json({
+            success: true,
+            message: "Avatar uploaded successfully",
+        })
+    } catch (err) {
+        next(err)
+    }
+}

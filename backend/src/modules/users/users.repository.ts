@@ -21,4 +21,14 @@ export const usersRepository = {
             data: { fullName, email },
         })
     },
+    async uploadAvatar(
+        id: string,
+        avatarUrl: string,
+        avatarKey: string
+    ): Promise<User> {
+        return await prisma.user.update({
+            where: { id },
+            data: { avatarUrl, avatarKey },
+        })
+    },
 }

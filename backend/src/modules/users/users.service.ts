@@ -1,6 +1,13 @@
 import type { PublicUser } from "@shared/types/user.types"
 import { AppError } from "../../errors/AppError"
 import { usersRepository } from "./users.repository"
+import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 export const usersService = {
     async getCurrentUser(id: string): Promise<PublicUser> {
@@ -33,5 +40,32 @@ export const usersService = {
         const { passwordHash, updatedAt, ...publicUser } = user
 
         return publicUser
+    },
+    async uploadAvatar(id: string, file: Express.Multer.File): Promise<void> {
+        const cloudResult = await new Promise<UploadApiResponse>(
+            (resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    {
+                        resource_type: "image",
+                        folder: "avatars",
+                        use_filename: true,
+                        filename_override: file.originalname,
+                    },
+                    (error, result) => {
+                        if (error) return reject(error)
+                        if (!result) return reject(new Error("Upload failed"))
+                        resolve(result)
+                    }
+                )
+
+                uploadStream.end(file.buffer)
+            }
+        )
+
+        await usersRepository.uploadAvatar(
+            id,
+            cloudResult.secure_url,
+            cloudResult.public_id
+        )
     },
 }

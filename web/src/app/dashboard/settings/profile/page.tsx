@@ -12,11 +12,7 @@ export default function SettingsPage() {
 
     if (!user) return null
 
-    const initials = user.fullName
-        .split(" ")
-        .map((str) => str[0])
-        .join("")
-        .toUpperCase()
+    const initials = user.fullName.slice(0, 2)
 
     return (
         <div className="rounded-2xl p-6 bg-white dark:bg-[#1c1c26] border border-border dark:border-[#24242f]">
@@ -24,7 +20,10 @@ export default function SettingsPage() {
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border dark:border-[#24242f]">
                 <div className="size-16 flex items-center justify-center shrink-0 text-xl text-white bg-primary rounded-2xl font-bold">
                     {user.avatarUrl ? (
-                        <img src={user.avatarUrl} className="rounded-2xl" />
+                        <img
+                            src={user.avatarUrl}
+                            className="rounded-2xl size-full object-cover"
+                        />
                     ) : (
                         initials
                     )}

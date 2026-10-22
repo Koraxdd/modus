@@ -48,8 +48,9 @@ export const usersService = {
                     {
                         resource_type: "image",
                         folder: "avatars",
-                        use_filename: true,
-                        filename_override: file.originalname,
+                        public_id: `avatars/${id}`,
+                        overwrite: true,
+                        invalidate: true,
                     },
                     (error, result) => {
                         if (error) return reject(error)

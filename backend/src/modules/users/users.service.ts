@@ -2,6 +2,7 @@ import type { PublicUser } from "@shared/types/user.types"
 import { AppError } from "../../errors/AppError"
 import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
+import { prisma } from "../../lib/prisma"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -68,5 +69,14 @@ export const usersService = {
             cloudResult.secure_url,
             cloudResult.public_id
         )
+    },
+    async deleteAvatar(id: string) {
+        const user = await prisma.user.findUnique({ where: { id } })
+        if (!user?.avatarKey) {
+            throw new AppError(404, "Avatar key not found")
+        }
+
+        await usersRepository.deleteAvatar(id)
+        cloudinary.uploader.destroy(user.avatarKey, { resource_type: "image" })
     },
 }

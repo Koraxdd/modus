@@ -31,4 +31,10 @@ export const usersRepository = {
             data: { avatarUrl, avatarKey },
         })
     },
+    async deleteAvatar(id: string): Promise<User> {
+        return await prisma.user.update({
+            where: { id },
+            data: { avatarUrl: null, avatarKey: null },
+        })
+    },
 }

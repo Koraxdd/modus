@@ -68,3 +68,19 @@ export async function uploadAvatar(
         next(err)
     }
 }
+
+export async function deleteAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await usersService.deleteAvatar(getUserId(req))
+        res.status(200).json({
+            success: true,
+            message: "Avatar deleted successfully",
+        })
+    } catch (err) {
+        next(err)
+    }
+}

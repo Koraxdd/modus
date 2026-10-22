@@ -60,3 +60,15 @@ export async function uploadAvatar(
         return
     }
 }
+
+export async function deleteAvatar(apiFetch: ApiFetch): Promise<void> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/avatar`,
+        { method: "DELETE" }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

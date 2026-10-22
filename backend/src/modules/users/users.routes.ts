@@ -1,6 +1,7 @@
 import express from "express"
 import {
     completeOnboarding,
+    deleteAvatar,
     getCurrentUser,
     updateUser,
     uploadAvatar,
@@ -32,5 +33,6 @@ usersRouter.patch(
     updateUser
 )
 usersRouter.patch("/avatar", requireAuth, upload.single("avatar"), uploadAvatar)
+usersRouter.delete("/avatar", requireAuth, deleteAvatar)
 
 export default usersRouter

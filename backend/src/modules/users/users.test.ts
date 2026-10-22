@@ -4,6 +4,9 @@ import argon2 from "argon2"
 import request from "supertest"
 import app from "../../app"
 import { requireAuth } from "../../middleware/requireAuth"
+import { v2 as cloudinary } from "cloudinary"
+import { readFileSync } from "node:fs"
+import path from "node:path"
 
 vi.mock("express-rate-limit", () => ({
     default: () => (_req: any, _res: any, next: any) => next(),
@@ -16,7 +19,31 @@ vi.mock("../../middleware/requireAuth", () => ({
     }),
 }))
 
+const mockUploadStream = vi.mocked(cloudinary.uploader.upload_stream)
+const mockDestroy = vi.mocked(cloudinary.uploader.destroy)
+
+vi.mock("cloudinary", () => ({
+    v2: {
+        config: vi.fn(),
+        uploader: {
+            upload_stream: vi.fn((_options, callback) => ({
+                end: () => {
+                    callback(null, {
+                        secure_url: "https://fake.test/avatar.png",
+                        bytes: 1234,
+                        public_id: "avatars/fake",
+                    })
+                },
+            })),
+            destroy: vi.fn().mockResolvedValue({ result: "ok" }),
+        },
+    },
+}))
+
+const image = readFileSync(path.join(process.cwd(), "src/test/files/test.png"))
+
 beforeEach(async () => {
+    vi.clearAllMocks()
     vi.mocked(requireAuth).mockImplementation(
         (req: any, _res: any, next: any) => {
             req.user = { sub: "1" }
@@ -82,5 +109,44 @@ describe("PATCH /api/v1/users", () => {
 
         expect(res.status).toBe(200)
         expect(res.body.data.user.fullName).toBe("Random Name")
+    })
+})
+
+describe("PATCH /api/v1/users/avatar", () => {
+    it("returns 200 and stores avatar url in db", async () => {
+        const res = await request(app)
+            .patch("/api/v1/users/avatar")
+            .attach("avatar", image, {
+                filename: "test.png",
+                contentType: "image/png",
+            })
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.avatarUrl).toBe("https://fake.test/avatar.png")
+    })
+})
+
+describe("DELETE /api/v1/users/avatar", () => {
+    it("returns 200 and deletes avatar", async () => {
+        await prisma.user.update({
+            where: { id: "1" },
+            data: {
+                avatarKey: "avatars/fake",
+            },
+        })
+
+        const res = await request(app).delete("/api/v1/users/avatar")
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.avatarUrl).toBe(null)
+        expect(mockDestroy).toHaveBeenCalledWith("avatars/fake", {
+            resource_type: "image",
+        })
     })
 })

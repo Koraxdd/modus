@@ -6,7 +6,7 @@ const links = [
     { href: "/dashboard/settings/profile", icon: User, label: "Profile" },
     { href: "/dashboard/settings/security", icon: Shield, label: "Security" },
     { href: "/dashboard/settings/billing", icon: CreditCard, label: "Billing" },
-]
+] as const
 
 export default function SettingsLayout({ children }: { children: ReactNode }) {
     return (
@@ -30,7 +30,9 @@ export default function SettingsLayout({ children }: { children: ReactNode }) {
                         )
                     })}
                 </div>
-                <main>{children}</main>
+                <div className="flex-1 overflow-auto px-4 md:px-8 py-6">
+                    <main className="max-w-150">{children}</main>
+                </div>
             </div>
         </div>
     )

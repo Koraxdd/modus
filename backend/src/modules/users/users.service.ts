@@ -23,4 +23,15 @@ export const usersService = {
 
         return publicUser
     },
+    async updateUser(
+        id: string,
+        fullName: string,
+        email: string
+    ): Promise<PublicUser> {
+        const user = await usersRepository.updateUser(id, fullName, email)
+
+        const { passwordHash, updatedAt, ...publicUser } = user
+
+        return publicUser
+    },
 }

@@ -11,4 +11,14 @@ export const usersRepository = {
     async getUserById(id: string): Promise<User | null> {
         return await prisma.user.findUnique({ where: { id } })
     },
+    async updateUser(
+        id: string,
+        fullName: string,
+        email: string
+    ): Promise<User> {
+        return await prisma.user.update({
+            where: { id },
+            data: { fullName, email },
+        })
+    },
 }

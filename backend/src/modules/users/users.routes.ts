@@ -14,12 +14,14 @@ import {
     profileUserLimiter,
 } from "../../middleware/limiters/userLimits"
 import multer from "multer"
+import { allow } from "../../utils/fileFilter"
 
 const usersRouter = express.Router()
 
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 2 * 1024 * 1024 },
+    fileFilter: allow(["image/jpeg", "image/png", "image/webp"]),
 })
 
 usersRouter.get("/", requireAuth, getCurrentUser)

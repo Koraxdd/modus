@@ -15,8 +15,6 @@ export default function SettingsPage() {
 
     if (!user) return null
 
-    const initials = user.fullName.slice(0, 2).trim().toUpperCase()
-
     return (
         <div className="rounded-2xl p-6 bg-white dark:bg-[#1c1c26] border border-border dark:border-[#24242f]">
             <h3 className="text-sm font-semibold mb-5">Profile</h3>
@@ -33,7 +31,7 @@ export default function SettingsPage() {
                             className="rounded-2xl size-full object-cover"
                         />
                     ) : (
-                        initials
+                        user.fullName.slice(0, 2).trim().toUpperCase()
                     )}
                 </div>
                 <div>

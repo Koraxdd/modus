@@ -17,7 +17,7 @@ export const usersService = {
             throw new AppError(404, "User not found")
         }
 
-        const { passwordHash, updatedAt, ...publicUser } = user
+        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
 
         return publicUser
     },
@@ -27,7 +27,7 @@ export const usersService = {
             throw new AppError(404, "User not found")
         }
 
-        const { passwordHash, updatedAt, ...publicUser } = user
+        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
 
         return publicUser
     },
@@ -38,7 +38,7 @@ export const usersService = {
     ): Promise<PublicUser> {
         const user = await usersRepository.updateUser(id, fullName, email)
 
-        const { passwordHash, updatedAt, ...publicUser } = user
+        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
 
         return publicUser
     },

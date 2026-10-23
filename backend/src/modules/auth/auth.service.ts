@@ -22,7 +22,7 @@ export const authService = {
             passwordHash: hashedPassword,
         })
 
-        const { passwordHash, updatedAt, ...publicUser } = user
+        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
 
         return publicUser
     },
@@ -63,7 +63,7 @@ export const authService = {
             { expiresIn: "14d" }
         )
 
-        const { passwordHash, updatedAt, ...publicUser } = user
+        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
 
         return {
             accessToken,

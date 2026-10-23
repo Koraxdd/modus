@@ -3,6 +3,7 @@ import { AppError } from "../../errors/AppError"
 import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
 import { prisma } from "../../lib/prisma"
+import argon2 from "argon2"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -70,7 +71,7 @@ export const usersService = {
             cloudResult.public_id
         )
     },
-    async deleteAvatar(id: string) {
+    async deleteAvatar(id: string): Promise<void> {
         const user = await prisma.user.findUnique({ where: { id } })
         if (!user?.avatarKey) {
             throw new AppError(404, "Avatar key not found")
@@ -78,5 +79,31 @@ export const usersService = {
 
         await usersRepository.deleteAvatar(id)
         cloudinary.uploader.destroy(user.avatarKey, { resource_type: "image" })
+    },
+    async updatePassword(
+        id: string,
+        currentPassword: string,
+        newPassword: string
+    ): Promise<void> {
+        const user = await prisma.user.findUnique({ where: { id } })
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        const isValid = await argon2.verify(user.passwordHash, currentPassword)
+        if (!isValid) {
+            throw new AppError(400, "Current password is incorrect")
+        }
+
+        if (currentPassword === newPassword) {
+            throw new AppError(
+                400,
+                "Current password and new password can't be the same."
+            )
+        }
+
+        const passwordHash = await argon2.hash(newPassword)
+
+        await usersRepository.updatePassword(id, passwordHash)
     },
 }

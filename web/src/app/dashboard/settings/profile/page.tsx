@@ -7,7 +7,7 @@ import { useUploadAvatar } from "@/hooks/users/useUpdateAvatar"
 import { cn } from "@/lib/utils"
 import { useRef } from "react"
 
-export default function SettingsPage() {
+export default function SettingsProfilePage() {
     const avatarInputRef = useRef<HTMLInputElement | null>(null)
     const { data: user } = useCurrentUser()
     const { mutate: uploadAvatar } = useUploadAvatar()

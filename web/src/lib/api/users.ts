@@ -1,4 +1,5 @@
 import { ApiFetch } from "@/hooks/auth/useApiFetch"
+import type { ChangePasswordInput } from "@/schemas/settings.schema"
 import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
 import { toast } from "sonner"
@@ -65,6 +66,27 @@ export async function deleteAvatar(apiFetch: ApiFetch): Promise<void> {
     const res = await apiFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/avatar`,
         { method: "DELETE" }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}
+
+export async function updatePassword(
+    apiFetch: ApiFetch,
+    data: ChangePasswordInput
+) {
+    const { currentPassword, newPassword } = data
+
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/password`,
+        {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ currentPassword, newPassword }),
+        }
     )
 
     const result = (await res.json()) as ApiResult<{ message: string }>

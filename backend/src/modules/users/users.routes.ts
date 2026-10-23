@@ -3,12 +3,13 @@ import {
     completeOnboarding,
     deleteAvatar,
     getCurrentUser,
+    updatePassword,
     updateUser,
     uploadAvatar,
 } from "./users.controller"
 import { requireAuth } from "../../middleware/requireAuth"
 import { validate } from "../../middleware/validate"
-import { UpdateUserSchema } from "./users.schemas"
+import { UpdatePasswordSchema, UpdateUserSchema } from "./users.schemas"
 import {
     profileIpLimiter,
     profileUserLimiter,
@@ -36,5 +37,11 @@ usersRouter.patch(
 )
 usersRouter.patch("/avatar", requireAuth, upload.single("avatar"), uploadAvatar)
 usersRouter.delete("/avatar", requireAuth, deleteAvatar)
+usersRouter.patch(
+    "/password",
+    requireAuth,
+    validate(UpdatePasswordSchema),
+    updatePassword
+)
 
 export default usersRouter

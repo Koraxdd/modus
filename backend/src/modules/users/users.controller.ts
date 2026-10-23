@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express"
 import { usersService } from "./users.service"
 import { getUserId } from "../../utils/getUserId"
-import type { UpdateUserOutput } from "./users.schemas"
+import type { UpdatePasswordOutput, UpdateUserOutput } from "./users.schemas"
 
 export async function completeOnboarding(
     req: Request,
@@ -79,6 +79,26 @@ export async function deleteAvatar(
         res.status(200).json({
             success: true,
             message: "Avatar deleted successfully",
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function updatePassword(
+    req: Request<{}, {}, UpdatePasswordOutput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await usersService.updatePassword(
+            getUserId(req),
+            req.body.currentPassword,
+            req.body.newPassword
+        )
+        res.status(200).json({
+            success: true,
+            message: "Password updated successfully",
         })
     } catch (err) {
         next(err)

@@ -13,3 +13,18 @@ export const ProfileSchema = z.object({
 })
 
 export type ProfileInput = z.infer<typeof ProfileSchema>
+
+export const ChangePasswordSchema = z
+    .object({
+        currentPassword: z.string(),
+        newPassword: z
+            .string()
+            .min(8, "Password must be at least 8 characters"),
+        confirmPassword: z.string(),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    })
+
+export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>

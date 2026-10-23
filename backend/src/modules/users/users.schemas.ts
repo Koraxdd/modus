@@ -6,3 +6,10 @@ export const UpdateUserSchema = z.object({
 })
 
 export type UpdateUserOutput = z.output<typeof UpdateUserSchema>
+
+export const UpdatePasswordSchema = z.object({
+    currentPassword: z.string(),
+    newPassword: z.string().min(8),
+})
+
+export type UpdatePasswordOutput = z.output<typeof UpdatePasswordSchema>

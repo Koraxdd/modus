@@ -150,3 +150,37 @@ describe("DELETE /api/v1/users/avatar", () => {
         })
     })
 })
+
+describe("PATCH /api/v1/users/password", () => {
+    it("returns 200 and changes password on success", async () => {
+        const res = await request(app).patch("/api/v1/users/password").send({
+            currentPassword: "password123",
+            newPassword: "newpassword",
+        })
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+        const isValid = await argon2.verify(user!.passwordHash, "newpassword")
+
+        expect(isValid).toBe(true)
+    })
+
+    it("returns 400 if current password is incorrect", async () => {
+        const res = await request(app).patch("/api/v1/users/password").send({
+            currentPassword: "fakepassword",
+            newPassword: "newpassword",
+        })
+
+        expect(res.status).toBe(400)
+    })
+
+    it("returns 400 if current password and new password are the same", async () => {
+        const res = await request(app).patch("/api/v1/users/password").send({
+            currentPassword: "password123",
+            newPassword: "password123",
+        })
+
+        expect(res.status).toBe(400)
+    })
+})

@@ -56,7 +56,7 @@ export async function uploadAvatar(
 
     const result = (await res.json()) as ApiResult<{ message: string }>
     if (!result.success) {
-        toast.error("Failed to upload avatar. Try again.")
+        toast.error(result.error)
         return
     }
 }

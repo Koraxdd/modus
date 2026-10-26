@@ -4,6 +4,7 @@ import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
 import argon2 from "argon2"
 import { prisma } from "../../lib/prisma"
+import { documentsRepository } from "../documents/documents.repository"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -117,9 +118,7 @@ export const usersService = {
             throw new AppError(400, "Password is incorrect")
         }
 
-        const documents = await prisma.document.findMany({
-            where: { userId: id },
-        })
+        const documents = await documentsRepository.getDocuments(id)
 
         await usersRepository.deleteUser(id)
         for (const document of documents) {

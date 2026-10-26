@@ -24,7 +24,7 @@ export default function ManagerPage() {
                 >
                     <input
                         ref={fileInputRef}
-                        accept=".pdf,.doc,.docx"
+                        accept=".pdf"
                         type="file"
                         onChange={(e) => {
                             const file = e.target.files?.[0]
@@ -44,7 +44,7 @@ export default function ManagerPage() {
                             Upload your CV
                         </p>
                         <p className="text-xs text-[#888898] dark:text-[#50506a] mt-0.5">
-                            PDF or DOCX · up to 5 MB
+                            PDF · up to 5 MB
                         </p>
                     </div>
                 </button>

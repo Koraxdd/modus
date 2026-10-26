@@ -126,6 +126,7 @@ describe("PATCH /api/v1/users/avatar", () => {
         const user = await prisma.user.findUnique({ where: { id: "1" } })
 
         expect(user?.avatarUrl).toBe("https://fake.test/avatar.png")
+        expect(mockUploadStream).toHaveBeenCalledOnce()
     })
 })
 
@@ -180,6 +181,57 @@ describe("PATCH /api/v1/users/password", () => {
             currentPassword: "password123",
             newPassword: "password123",
         })
+
+        expect(res.status).toBe(400)
+    })
+})
+
+describe("DELETE /api/v1/users", () => {
+    it("returns 200 and deletes user + his cloud files on success", async () => {
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { avatarKey: "avatars/fake" },
+        })
+
+        await prisma.document.create({
+            data: {
+                id: "doc1",
+                userId: "1",
+                fileKey: "cvs/fake",
+                fileUrl: "url",
+                mimeType: "type",
+                fileSize: 1234,
+                title: "title",
+            },
+        })
+
+        const res = await request(app)
+            .delete("/api/v1/users")
+            .send({ password: "password123" })
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+        expect(user).toBeNull()
+
+        expect(mockDestroy).toHaveBeenCalledTimes(2)
+        expect(mockDestroy).toHaveBeenCalledWith("avatars/fake", {
+            resource_type: "image",
+        })
+        expect(mockDestroy).toHaveBeenCalledWith("cvs/fake", {
+            resource_type: "raw",
+        })
+
+        const documents = await prisma.document.findMany({
+            where: { userId: "1" },
+        })
+        expect(documents).toHaveLength(0)
+    })
+
+    it("returns 400 if password is incorrect", async () => {
+        const res = await request(app)
+            .delete("/api/v1/users")
+            .send({ password: "fakepassword" })
 
         expect(res.status).toBe(400)
     })

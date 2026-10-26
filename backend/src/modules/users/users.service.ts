@@ -2,8 +2,8 @@ import type { PublicUser } from "@shared/types/user.types"
 import { AppError } from "../../errors/AppError"
 import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
-import { prisma } from "../../lib/prisma"
 import argon2 from "argon2"
+import { prisma } from "../../lib/prisma"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -72,7 +72,7 @@ export const usersService = {
         )
     },
     async deleteAvatar(id: string): Promise<void> {
-        const user = await prisma.user.findUnique({ where: { id } })
+        const user = await usersRepository.getUserById(id)
         if (!user?.avatarKey) {
             throw new AppError(404, "Avatar key not found")
         }
@@ -85,7 +85,7 @@ export const usersService = {
         currentPassword: string,
         newPassword: string
     ): Promise<void> {
-        const user = await prisma.user.findUnique({ where: { id } })
+        const user = await usersRepository.getUserById(id)
         if (!user) {
             throw new AppError(404, "User not found")
         }
@@ -105,5 +105,33 @@ export const usersService = {
         const passwordHash = await argon2.hash(newPassword)
 
         await usersRepository.updatePassword(id, passwordHash)
+    },
+    async deleteUser(id: string, password: string): Promise<void> {
+        const user = await usersRepository.getUserById(id)
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        const isValid = await argon2.verify(user.passwordHash, password)
+        if (!isValid) {
+            throw new AppError(400, "Password is incorrect")
+        }
+
+        const documents = await prisma.document.findMany({
+            where: { userId: id },
+        })
+
+        await usersRepository.deleteUser(id)
+        for (const document of documents) {
+            cloudinary.uploader.destroy(document.fileKey, {
+                resource_type: "raw",
+            })
+        }
+
+        if (user.avatarKey) {
+            cloudinary.uploader.destroy(user.avatarKey, {
+                resource_type: "image",
+            })
+        }
     },
 }

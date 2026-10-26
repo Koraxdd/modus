@@ -13,3 +13,9 @@ export const UpdatePasswordSchema = z.object({
 })
 
 export type UpdatePasswordOutput = z.output<typeof UpdatePasswordSchema>
+
+export const DeleteUserSchema = z.object({
+    password: z.string(),
+})
+
+export type DeleteUserOutput = z.output<typeof DeleteUserSchema>

@@ -94,3 +94,19 @@ export async function updatePassword(
         throw new Error(result.error)
     }
 }
+
+export async function deleteUser(apiFetch: ApiFetch, password: string) {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users`,
+        {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password }),
+        }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

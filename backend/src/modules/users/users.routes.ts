@@ -2,6 +2,7 @@ import express from "express"
 import {
     completeOnboarding,
     deleteAvatar,
+    deleteUser,
     getCurrentUser,
     updatePassword,
     updateUser,
@@ -9,7 +10,11 @@ import {
 } from "./users.controller"
 import { requireAuth } from "../../middleware/requireAuth"
 import { validate } from "../../middleware/validate"
-import { UpdatePasswordSchema, UpdateUserSchema } from "./users.schemas"
+import {
+    DeleteUserSchema,
+    UpdatePasswordSchema,
+    UpdateUserSchema,
+} from "./users.schemas"
 import {
     profileIpLimiter,
     profileUserLimiter,
@@ -26,7 +31,14 @@ const upload = multer({
 })
 
 usersRouter.get("/", requireAuth, getCurrentUser)
-usersRouter.post("/onboarding", requireAuth, completeOnboarding)
+usersRouter.delete(
+    "/",
+    requireAuth,
+    profileIpLimiter,
+    profileUserLimiter,
+    validate(DeleteUserSchema),
+    deleteUser
+)
 usersRouter.patch(
     "/",
     requireAuth,
@@ -35,6 +47,7 @@ usersRouter.patch(
     validate(UpdateUserSchema),
     updateUser
 )
+usersRouter.post("/onboarding", requireAuth, completeOnboarding)
 usersRouter.patch("/avatar", requireAuth, upload.single("avatar"), uploadAvatar)
 usersRouter.delete("/avatar", requireAuth, deleteAvatar)
 usersRouter.patch(

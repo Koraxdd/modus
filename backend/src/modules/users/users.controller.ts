@@ -1,7 +1,11 @@
 import type { NextFunction, Request, Response } from "express"
 import { usersService } from "./users.service"
 import { getUserId } from "../../utils/getUserId"
-import type { UpdatePasswordOutput, UpdateUserOutput } from "./users.schemas"
+import type {
+    DeleteUserOutput,
+    UpdatePasswordOutput,
+    UpdateUserOutput,
+} from "./users.schemas"
 
 export async function completeOnboarding(
     req: Request,
@@ -99,6 +103,30 @@ export async function updatePassword(
         res.status(200).json({
             success: true,
             message: "Password updated successfully",
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function deleteUser(
+    req: Request<{}, {}, DeleteUserOutput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await usersService.deleteUser(getUserId(req), req.body.password)
+
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Account deleted successfully",
         })
     } catch (err) {
         next(err)

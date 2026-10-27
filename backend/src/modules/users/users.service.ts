@@ -3,8 +3,9 @@ import { AppError } from "../../errors/AppError"
 import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
 import argon2 from "argon2"
-import { prisma } from "../../lib/prisma"
 import { documentsRepository } from "../documents/documents.repository"
+import { generate, generateSecret, generateURI } from "otplib"
+import QRCode from "qrcode"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -132,5 +133,20 @@ export const usersService = {
                 resource_type: "image",
             })
         }
+    },
+    async getSetup(
+        id: string
+    ): Promise<{ secret: string; token: string; qrCode: string }> {
+        const user = await usersRepository.getUserById(id)
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        const secret = generateSecret()
+        const token = await generate({ secret })
+        const uri = generateURI({ issuer: "Modus", label: user.email, secret })
+        const qrCode = await QRCode.toDataURL(uri)
+
+        return { secret, token, qrCode }
     },
 }

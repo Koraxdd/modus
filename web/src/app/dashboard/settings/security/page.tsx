@@ -3,12 +3,15 @@
 import ChangePasswordForm from "@/components/forms/ChangePasswordForm"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
+import { useSetup } from "@/hooks/users/useSetup"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 import { useState } from "react"
 
 export default function SettingsSecurityPage() {
     const [isChecked, setIsChecked] = useState<boolean>(false)
     const [code, setCode] = useState<string>("")
+    const { data: setup } = useSetup(isChecked)
 
     return (
         <div className="flex flex-col gap-6">
@@ -41,7 +44,14 @@ export default function SettingsSecurityPage() {
                             Scan with your authenticator app
                         </p>
                         <div className="flex flex-col md:flex-row gap-5 items-start">
-                            <div className="size-32"></div>
+                            {setup?.qrCode && (
+                                <Image
+                                    width={200}
+                                    height={200}
+                                    src={setup.qrCode}
+                                    alt="QR Code"
+                                />
+                            )}
                             <div className="flex flex-col gap-3 flex-1">
                                 <div className="text-xs leading-relaxed text-[#888898] space-y-1">
                                     <p>

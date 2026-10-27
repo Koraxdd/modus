@@ -110,3 +110,22 @@ export async function deleteUser(apiFetch: ApiFetch, password: string) {
         throw new Error(result.error)
     }
 }
+
+export async function fetchSetup(
+    apiFetch: ApiFetch
+): Promise<{ secret: string; token: string; qrCode: string }> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/2fa/setup`
+    )
+
+    const result = (await res.json()) as ApiResult<{
+        secret: string
+        token: string
+        qrCode: string
+    }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+
+    return result.data
+}

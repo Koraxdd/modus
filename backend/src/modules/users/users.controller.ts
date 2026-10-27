@@ -139,7 +139,11 @@ export async function getSetup(
     next: NextFunction
 ) {
     try {
+        const { secret, token, qrCode } = await usersService.getSetup(
+            getUserId(req)
+        )
         res.set("Cache-Control", "no-store")
+        res.status(200).json({ success: true, data: { secret, token, qrCode } })
     } catch (err) {
         next(err)
     }

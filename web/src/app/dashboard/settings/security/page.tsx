@@ -39,7 +39,7 @@ export default function SettingsSecurityPage() {
                     />
                 </div>
                 {isChecked && (
-                    <div className="border border-border rounded-xl p-5 flex flex-col gap-4 bg-[#fafaff] mt-5">
+                    <div className="border border-border dark:border-[#1e1e2c] rounded-xl p-5 flex flex-col gap-4 bg-[#fafaff] dark:bg-[#161620] mt-5">
                         <p className="text-[13px] font-medium">
                             Scan with your authenticator app
                         </p>
@@ -53,7 +53,7 @@ export default function SettingsSecurityPage() {
                                 />
                             )}
                             <div className="flex flex-col gap-3 flex-1">
-                                <div className="text-xs leading-relaxed text-[#888898] space-y-1">
+                                <div className="text-xs leading-relaxed text-[#888898] dark:text-[#50506a] space-y-1">
                                     <p>
                                         1. Open your authenticator app (Google
                                         Authenticator, etc.)
@@ -71,7 +71,7 @@ export default function SettingsSecurityPage() {
                                             e.target.value.replace(/\D/g, "")
                                         )
                                     }
-                                    className="px-3 h-10 text-lg tracking-widest border border-border rounded-lg outline-none text-center focus:ring-2 focus:ring-primary transition-shadow"
+                                    className="px-3 h-10 text-lg tracking-widest border border-border dark:border-[#1e1e2c] rounded-lg outline-none text-center focus:ring-2 focus:ring-primary transition-shadow"
                                 />
                                 <div className="grid grid-cols-2 gap-2">
                                     <Button

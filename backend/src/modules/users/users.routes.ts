@@ -4,6 +4,7 @@ import {
     deleteAvatar,
     deleteUser,
     getCurrentUser,
+    getSetup,
     updatePassword,
     updateUser,
     uploadAvatar,
@@ -56,5 +57,6 @@ usersRouter.patch(
     validate(UpdatePasswordSchema),
     updatePassword
 )
+usersRouter.get("/2fa/setup", requireAuth, getSetup)
 
 export default usersRouter

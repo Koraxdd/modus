@@ -132,3 +132,15 @@ export async function deleteUser(
         next(err)
     }
 }
+
+export async function getSetup(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        res.set("Cache-Control", "no-store")
+    } catch (err) {
+        next(err)
+    }
+}

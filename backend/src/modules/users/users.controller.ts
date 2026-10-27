@@ -3,6 +3,7 @@ import { usersService } from "./users.service"
 import { getUserId } from "../../utils/getUserId"
 import type {
     DeleteUserOutput,
+    Enable2FAOutput,
     UpdatePasswordOutput,
     UpdateUserOutput,
 } from "./users.schemas"
@@ -66,7 +67,7 @@ export async function uploadAvatar(
         await usersService.uploadAvatar(getUserId(req), file)
         res.status(200).json({
             success: true,
-            message: "Avatar uploaded successfully",
+            data: { message: "Avatar uploaded successfully" },
         })
     } catch (err) {
         next(err)
@@ -82,7 +83,7 @@ export async function deleteAvatar(
         await usersService.deleteAvatar(getUserId(req))
         res.status(200).json({
             success: true,
-            message: "Avatar deleted successfully",
+            data: { message: "Avatar deleted successfully" },
         })
     } catch (err) {
         next(err)
@@ -102,7 +103,7 @@ export async function updatePassword(
         )
         res.status(200).json({
             success: true,
-            message: "Password updated successfully",
+            data: { message: "Password updated successfully" },
         })
     } catch (err) {
         next(err)
@@ -126,7 +127,7 @@ export async function deleteUser(
 
         res.status(200).json({
             success: true,
-            message: "Account deleted successfully",
+            data: { message: "Account deleted successfully" },
         })
     } catch (err) {
         next(err)
@@ -139,11 +140,25 @@ export async function getSetup(
     next: NextFunction
 ) {
     try {
-        const { secret, token, qrCode } = await usersService.getSetup(
-            getUserId(req)
-        )
+        const qrCode = await usersService.getSetup(getUserId(req))
         res.set("Cache-Control", "no-store")
-        res.status(200).json({ success: true, data: { secret, token, qrCode } })
+        res.status(200).json({ success: true, data: { qrCode } })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function enable2FA(
+    req: Request<{}, {}, Enable2FAOutput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await usersService.enable2FA(getUserId(req), req.body.token)
+        res.status(200).json({
+            success: true,
+            data: { message: "2FA enabled successfully" },
+        })
     } catch (err) {
         next(err)
     }

@@ -4,7 +4,7 @@ import { usersRepository } from "./users.repository"
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary"
 import argon2 from "argon2"
 import { documentsRepository } from "../documents/documents.repository"
-import { generate, generateSecret, generateURI } from "otplib"
+import { generate, generateSecret, generateURI, verify } from "otplib"
 import QRCode from "qrcode"
 
 cloudinary.config({
@@ -134,19 +134,31 @@ export const usersService = {
             })
         }
     },
-    async getSetup(
-        id: string
-    ): Promise<{ secret: string; token: string; qrCode: string }> {
+    async getSetup(id: string): Promise<string> {
         const user = await usersRepository.getUserById(id)
         if (!user) {
             throw new AppError(404, "User not found")
         }
 
         const secret = generateSecret()
-        const token = await generate({ secret })
         const uri = generateURI({ issuer: "Modus", label: user.email, secret })
         const qrCode = await QRCode.toDataURL(uri)
 
-        return { secret, token, qrCode }
+        await usersRepository.updateSecret(id, secret)
+
+        return qrCode
+    },
+    async enable2FA(id: string, token: string): Promise<void> {
+        const user = await usersRepository.getUserById(id)
+        if (!user?.twoFactorSecret) {
+            throw new AppError(400, "Failed to fetch 2FA setup")
+        }
+
+        const { valid } = await verify({ secret: user.twoFactorSecret, token })
+        if (!valid) {
+            throw new AppError(400, "Code is incorrect")
+        }
+
+        await usersRepository.enable2FA(id)
     },
 }

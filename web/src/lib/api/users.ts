@@ -129,3 +129,22 @@ export async function fetchSetup(
 
     return result.data
 }
+
+export async function enable2FA(
+    apiFetch: ApiFetch,
+    token: string
+): Promise<void> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/2fa/enable`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+        }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

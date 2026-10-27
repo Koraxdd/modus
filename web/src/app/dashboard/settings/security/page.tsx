@@ -3,16 +3,22 @@
 import ChangePasswordForm from "@/components/forms/ChangePasswordForm"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
+import { use2FA } from "@/hooks/users/use2FA"
+import { useCurrentUser } from "@/hooks/users/useCurrentUser"
 import { useSetup } from "@/hooks/users/useSetup"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { useState } from "react"
+import { toast } from "sonner"
 
 export default function SettingsSecurityPage() {
-    const [isChecked, setIsChecked] = useState<boolean>(false)
+    const { data: user } = useCurrentUser()
+    const [isChecked, setIsChecked] = useState<boolean>(
+        user?.twoFactorEnabled ?? false
+    )
     const [code, setCode] = useState<string>("")
     const { data: setup } = useSetup(isChecked)
-
+    const { mutate: enable2FA } = use2FA()
     return (
         <div className="flex flex-col gap-6">
             <div className="rounded-2xl p-6 bg-white dark:bg-[#1c1c26] border border-border dark:border-[#24242f]">
@@ -76,6 +82,18 @@ export default function SettingsSecurityPage() {
                                 <div className="grid grid-cols-2 gap-2">
                                     <Button
                                         disabled={code.length !== 6}
+                                        onClick={() =>
+                                            enable2FA(code, {
+                                                onSuccess: () => {
+                                                    toast.success(
+                                                        "2FA enabled!"
+                                                    )
+                                                },
+                                                onError: (err) => {
+                                                    toast.error(err.message)
+                                                },
+                                            })
+                                        }
                                         className={cn(
                                             code.length !== 6
                                                 ? "opacity-60"

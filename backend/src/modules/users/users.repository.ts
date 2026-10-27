@@ -1,6 +1,5 @@
 import type { User } from "../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
-import { deleteUser } from "./users.controller"
 
 export const usersRepository = {
     async updateOnboarding(id: string): Promise<User> {
@@ -46,5 +45,17 @@ export const usersRepository = {
     },
     async deleteUser(id: string): Promise<User> {
         return await prisma.user.delete({ where: { id } })
+    },
+    async updateSecret(id: string, secret: string): Promise<User> {
+        return await prisma.user.update({
+            where: { id },
+            data: { twoFactorSecret: secret },
+        })
+    },
+    async enable2FA(id: string) {
+        return await prisma.user.update({
+            where: { id },
+            data: { twoFactorEnabled: true },
+        })
     },
 }

@@ -19,3 +19,9 @@ export const DeleteUserSchema = z.object({
 })
 
 export type DeleteUserOutput = z.output<typeof DeleteUserSchema>
+
+export const Enable2FASchema = z.object({
+    token: z.string().length(6),
+})
+
+export type Enable2FAOutput = z.output<typeof Enable2FASchema>

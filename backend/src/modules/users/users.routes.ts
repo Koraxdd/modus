@@ -3,6 +3,7 @@ import {
     completeOnboarding,
     deleteAvatar,
     deleteUser,
+    enable2FA,
     getCurrentUser,
     getSetup,
     updatePassword,
@@ -13,6 +14,7 @@ import { requireAuth } from "../../middleware/requireAuth"
 import { validate } from "../../middleware/validate"
 import {
     DeleteUserSchema,
+    Enable2FASchema,
     UpdatePasswordSchema,
     UpdateUserSchema,
 } from "./users.schemas"
@@ -58,5 +60,11 @@ usersRouter.patch(
     updatePassword
 )
 usersRouter.get("/2fa/setup", requireAuth, getSetup)
+usersRouter.post(
+    "/2fa/enable",
+    requireAuth,
+    validate(Enable2FASchema),
+    enable2FA
+)
 
 export default usersRouter

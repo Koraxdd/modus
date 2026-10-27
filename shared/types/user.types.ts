@@ -4,5 +4,6 @@ export type PublicUser = {
     email: string
     hasCompletedOnboarding: boolean
     avatarUrl: string | null
+    twoFactorEnabled: boolean
     createdAt: Date
 }

@@ -94,7 +94,7 @@ export default function SettingsSecurityPage() {
                                             e.target.value.replace(/\D/g, "")
                                         )
                                     }
-                                    className="px-3 h-10 text-lg tracking-widest border border-border dark:border-[#1e1e2c] rounded-lg outline-none text-center focus:ring-2 focus:ring-primary transition-shadow"
+                                    className="px-3 h-10 text-lg tracking-widest border border-input rounded-lg outline-none text-center focus:ring-2 focus:ring-primary transition-shadow"
                                 />
                                 <div className="grid grid-cols-2 gap-2">
                                     <Button
@@ -131,7 +131,7 @@ export default function SettingsSecurityPage() {
                     </div>
                 )}
                 {isChecked && user?.twoFactorEnabled && (
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-[#e8fff4] border border-[#10b981]/20 text-[#10b981]">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-[#e8fff4] dark:bg-[#102a1c] border border-[#10b981]/20 text-[#10b981]">
                         <CircleCheckBig className="size-4.5" />
                         <p className="text-[13px]">
                             Two-factor authentication is active. Your account is
@@ -151,7 +151,7 @@ export default function SettingsSecurityPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
                                 type="password"
-                                className="w-full px-3 h-9 text-sm tracking-widest border border-border dark:border-[#1e1e2c] rounded-lg outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                                className="w-full px-3 h-9 text-sm tracking-widest dark:bg-[#16161e] border border-input rounded-lg outline-none focus:ring-1 focus:ring-primary transition-shadow"
                             />
                             <div className="grid grid-cols-2 gap-2">
                                 <Button

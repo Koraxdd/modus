@@ -19,7 +19,7 @@ export default function SettingsSecurityPage() {
         user?.twoFactorEnabled ?? false
     )
     const [code, setCode] = useState<string>("")
-    const { data: setup } = useSetup(isChecked)
+    const { data: setup } = useSetup(isChecked && !user?.twoFactorEnabled)
     const { mutate: enable2FA } = useEnable2FA()
     const { mutate: disable2FA } = useDisable2FA()
     const [password, setPassword] = useState<string>("")

@@ -20,7 +20,13 @@ export const usersService = {
             throw new AppError(404, "User not found")
         }
 
-        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
+        const {
+            passwordHash,
+            updatedAt,
+            avatarKey,
+            twoFactorSecret,
+            ...publicUser
+        } = user
 
         return publicUser
     },
@@ -30,7 +36,13 @@ export const usersService = {
             throw new AppError(404, "User not found")
         }
 
-        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
+        const {
+            passwordHash,
+            updatedAt,
+            avatarKey,
+            twoFactorSecret,
+            ...publicUser
+        } = user
 
         return publicUser
     },

@@ -4,6 +4,7 @@ import type { LoginInput, RegisterInput } from "./auth.schemas"
 import { AppError } from "../../errors/AppError"
 import jwt from "jsonwebtoken"
 import type { PublicUser } from "@shared/types/user.types"
+import { verify } from "otplib"
 
 export const authService = {
     async register(data: RegisterInput): Promise<PublicUser> {
@@ -22,15 +23,24 @@ export const authService = {
             passwordHash: hashedPassword,
         })
 
-        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
+        const {
+            passwordHash,
+            updatedAt,
+            avatarKey,
+            twoFactorSecret,
+            ...publicUser
+        } = user
 
         return publicUser
     },
-    async login(data: LoginInput): Promise<{
-        accessToken: string
-        refreshToken: string
-        user: PublicUser
-    }> {
+    async login(data: LoginInput): Promise<
+        | {
+              accessToken: string
+              refreshToken: string
+              user: PublicUser
+          }
+        | { requires2FA: true }
+    > {
         const { email, password } = data
 
         const user = await authRepository.getUserByEmail(email)
@@ -41,6 +51,19 @@ export const authService = {
         const validPassword = await argon2.verify(user.passwordHash, password)
         if (!validPassword) {
             throw new AppError(401, "Invalid email or password")
+        }
+
+        if (user.twoFactorEnabled) {
+            if (!data.token) return { requires2FA: true }
+
+            const { valid } = await verify({
+                secret: user.twoFactorSecret!,
+                token: data.token,
+            })
+
+            if (!valid) {
+                throw new AppError(401, "Invalid 6-digit code")
+            }
         }
 
         const accessToken = jwt.sign(
@@ -63,7 +86,13 @@ export const authService = {
             { expiresIn: "14d" }
         )
 
-        const { passwordHash, updatedAt, avatarKey, ...publicUser } = user
+        const {
+            passwordHash,
+            updatedAt,
+            avatarKey,
+            twoFactorSecret,
+            ...publicUser
+        } = user
 
         return {
             accessToken,

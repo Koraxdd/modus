@@ -11,6 +11,7 @@ export type RegisterInput = z.infer<typeof RegisterSchema>
 export const LoginSchema = z.object({
     email: z.string().trim().pipe(z.email()),
     password: z.string().min(1),
+    token: z.string().length(6).optional(),
 })
 
 export type LoginInput = z.infer<typeof LoginSchema>

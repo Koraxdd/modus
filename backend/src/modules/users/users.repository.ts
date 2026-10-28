@@ -52,10 +52,16 @@ export const usersRepository = {
             data: { twoFactorSecret: secret },
         })
     },
-    async enable2FA(id: string) {
+    async enable2FA(id: string): Promise<User> {
         return await prisma.user.update({
             where: { id },
             data: { twoFactorEnabled: true },
+        })
+    },
+    async disable2FA(id: string): Promise<User> {
+        return await prisma.user.update({
+            where: { id },
+            data: { twoFactorSecret: null, twoFactorEnabled: false },
         })
     },
 }

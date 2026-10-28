@@ -25,3 +25,9 @@ export const Enable2FASchema = z.object({
 })
 
 export type Enable2FAOutput = z.output<typeof Enable2FASchema>
+
+export const Disable2FASchema = z.object({
+    password: z.string(),
+})
+
+export type Disable2FAOutput = z.output<typeof Disable2FASchema>

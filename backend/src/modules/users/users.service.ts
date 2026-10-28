@@ -161,4 +161,17 @@ export const usersService = {
 
         await usersRepository.enable2FA(id)
     },
+    async disable2FA(id: string, password: string): Promise<void> {
+        const user = await usersRepository.getUserById(id)
+        if (!user) {
+            throw new AppError(404, "User not found")
+        }
+
+        const isValid = await argon2.verify(user.passwordHash, password)
+        if (!isValid) {
+            throw new AppError(400, "Password is incorrect")
+        }
+
+        await usersRepository.disable2FA(id)
+    },
 }

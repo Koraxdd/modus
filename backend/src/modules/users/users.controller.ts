@@ -3,6 +3,7 @@ import { usersService } from "./users.service"
 import { getUserId } from "../../utils/getUserId"
 import type {
     DeleteUserOutput,
+    Disable2FAOutput,
     Enable2FAOutput,
     UpdatePasswordOutput,
     UpdateUserOutput,
@@ -158,6 +159,22 @@ export async function enable2FA(
         res.status(200).json({
             success: true,
             data: { message: "2FA enabled successfully" },
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+export async function disable2FA(
+    req: Request<{}, {}, Disable2FAOutput>,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        await usersService.disable2FA(getUserId(req), req.body.password)
+        res.status(200).json({
+            success: true,
+            data: { message: "2FA disabled successfully" },
         })
     } catch (err) {
         next(err)

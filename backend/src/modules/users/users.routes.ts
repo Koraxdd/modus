@@ -3,6 +3,7 @@ import {
     completeOnboarding,
     deleteAvatar,
     deleteUser,
+    disable2FA,
     enable2FA,
     getCurrentUser,
     getSetup,
@@ -14,6 +15,7 @@ import { requireAuth } from "../../middleware/requireAuth"
 import { validate } from "../../middleware/validate"
 import {
     DeleteUserSchema,
+    Disable2FASchema,
     Enable2FASchema,
     UpdatePasswordSchema,
     UpdateUserSchema,
@@ -65,6 +67,14 @@ usersRouter.post(
     requireAuth,
     validate(Enable2FASchema),
     enable2FA
+)
+usersRouter.post(
+    "/2fa/disable",
+    requireAuth,
+    profileIpLimiter,
+    profileUserLimiter,
+    validate(Disable2FASchema),
+    disable2FA
 )
 
 export default usersRouter

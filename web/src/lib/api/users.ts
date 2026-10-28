@@ -148,3 +148,22 @@ export async function enable2FA(
         throw new Error(result.error)
     }
 }
+
+export async function disable2FA(
+    apiFetch: ApiFetch,
+    password: string
+): Promise<void> {
+    const res = await apiFetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/2fa/disable`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password }),
+        }
+    )
+
+    const result = (await res.json()) as ApiResult<{ message: string }>
+    if (!result.success) {
+        throw new Error(result.error)
+    }
+}

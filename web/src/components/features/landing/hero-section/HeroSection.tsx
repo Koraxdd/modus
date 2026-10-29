@@ -22,7 +22,7 @@ export default function HeroSection() {
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-2.5 md:flex-row">
                 <Link
-                    href="/login"
+                    href="/register"
                     className={cn(
                         buttonVariants({ variant: "default", size: "lg" }),
                         "p-6 transition-all rounded-lg font-semibold shadow-indigo-600/25 hover:shadow-lg hover:shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-0.5"

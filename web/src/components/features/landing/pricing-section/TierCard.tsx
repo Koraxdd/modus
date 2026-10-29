@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -10,6 +12,7 @@ import {
 import type { TierCard } from "@/lib/cards/tierCards"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type TierCardProps = {
     card: TierCard
@@ -17,6 +20,8 @@ type TierCardProps = {
 }
 
 export default function TierCard({ card, isAnnual }: TierCardProps) {
+    const router = useRouter()
+
     const {
         title,
         monthlyPrice,
@@ -99,6 +104,7 @@ export default function TierCard({ card, isAnnual }: TierCardProps) {
                 <Button
                     variant={buttonVariant}
                     size="lg"
+                    onClick={() => router.push("/register")}
                     className={cn(
                         "w-full py-6 rounded-lg cursor-pointer font-semibold",
                         isPro && "dark:text-[#c8c8dc]"

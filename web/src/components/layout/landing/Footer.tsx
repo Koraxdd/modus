@@ -1,6 +1,6 @@
 import Link from "next/link"
 import BrandIcon from "../../icons/BrandIcon"
-import { footerColumns, footerLegalLinks } from "@/lib/links/footerLinks"
+import { footerColumns } from "@/lib/links/footerLinks"
 
 export default function Footer() {
     return (
@@ -38,23 +38,10 @@ export default function Footer() {
                         </nav>
                     ))}
                 </div>
-                <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-xs text-zinc-400">
-                        &copy; {new Date().getFullYear()} Modus. All rights
-                        reserved.
-                    </p>
-                    <nav className="flex items-center gap-5">
-                        {footerLegalLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                href={link.href}
-                                className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
-                </div>
+                <p className="pt-8 text-xs text-zinc-400">
+                    &copy; {new Date().getFullYear()} Modus. All rights
+                    reserved.
+                </p>
             </div>
         </footer>
     )

@@ -5,7 +5,6 @@ import type { ReactNode } from "react"
 const links = [
     { href: "/dashboard/settings/profile", icon: User, label: "Profile" },
     { href: "/dashboard/settings/security", icon: Shield, label: "Security" },
-    { href: "/dashboard/settings/billing", icon: CreditCard, label: "Billing" },
 ] as const
 
 export default function SettingsLayout({ children }: { children: ReactNode }) {

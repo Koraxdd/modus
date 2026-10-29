@@ -7,6 +7,7 @@ import { requireAuth } from "../../middleware/requireAuth"
 import { v2 as cloudinary } from "cloudinary"
 import { readFileSync } from "node:fs"
 import path from "node:path"
+import { generate } from "otplib"
 
 vi.mock("express-rate-limit", () => ({
     default: () => (_req: any, _res: any, next: any) => next(),
@@ -231,6 +232,90 @@ describe("DELETE /api/v1/users", () => {
     it("returns 400 if password is incorrect", async () => {
         const res = await request(app)
             .delete("/api/v1/users")
+            .send({ password: "fakepassword" })
+
+        expect(res.status).toBe(400)
+    })
+})
+
+describe("GET /api/v1/users/2fa/setup", () => {
+    it("returns 200 and QR code and saves temporary secret to db on success", async () => {
+        const res = await request(app).get("/api/v1/users/2fa/setup")
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.qrCode).toBeDefined()
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.twoFactorSecret).not.toBeNull()
+    })
+})
+
+describe("POST /api/v1/users/2fa/enable", () => {
+    it("returns 200 and enables 2FA on success", async () => {
+        const secret = "WXPZJFLZ3JMK4F5AR6AJQ77ZV6HP5YTO"
+
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { twoFactorSecret: secret },
+        })
+
+        const token = await generate({ secret })
+
+        const res = await request(app)
+            .post("/api/v1/users/2fa/enable")
+            .send({ token })
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.twoFactorEnabled).toBe(true)
+    })
+
+    it("returns 400 if user doesn't have a secret", async () => {
+        const res = await request(app)
+            .post("/api/v1/users/2fa/enable")
+            .send({ token: "123456" })
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.twoFactorEnabled).toBe(false)
+        expect(res.status).toBe(400)
+    })
+
+    it("returns 400 if 6-digit code is incorrect", async () => {
+        const secret = "WXPZJFLZ3JMK4F5AR6AJQ77ZV6HP5YTO"
+
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { twoFactorSecret: secret },
+        })
+
+        const res = await request(app)
+            .post("/api/v1/users/2fa/enable")
+            .send({ token: "123456" })
+
+        expect(res.status).toBe(400)
+    })
+})
+
+describe("POST /api/v1/users/2fa/disable", () => {
+    it("returns 200 and disables 2FA on success", async () => {
+        const res = await request(app)
+            .post("/api/v1/users/2fa/disable")
+            .send({ password: "password123" })
+
+        expect(res.status).toBe(200)
+
+        const user = await prisma.user.findUnique({ where: { id: "1" } })
+
+        expect(user?.twoFactorEnabled).toBe(false)
+    })
+
+    it("returns 400 if password is incorrect", async () => {
+        const res = await request(app)
+            .post("/api/v1/users/2fa/disable")
             .send({ password: "fakepassword" })
 
         expect(res.status).toBe(400)

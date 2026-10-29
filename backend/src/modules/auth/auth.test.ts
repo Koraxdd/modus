@@ -4,6 +4,11 @@ import app from "../../app"
 import { prisma } from "../../lib/prisma"
 import argon2 from "argon2"
 import jwt from "jsonwebtoken"
+import {
+    loginEmailLimiter,
+    loginIpLimiter,
+} from "../../middleware/limiters/authLimits"
+import { generate } from "otplib"
 
 describe("POST /api/v1/auth/register", () => {
     afterEach(async () => {
@@ -41,6 +46,9 @@ describe("POST /api/v1/auth/register", () => {
 
 describe("POST /api/v1/auth/login", () => {
     beforeEach(async () => {
+        loginIpLimiter.resetKey("127.0.0.1")
+        loginEmailLimiter.resetKey("test@gmail.com")
+
         const hash = await argon2.hash("password123")
 
         await prisma.user.create({
@@ -106,6 +114,58 @@ describe("POST /api/v1/auth/login", () => {
         expect(res.status).toBe(429)
         expect(res.body.success).toBe(false)
         expect(res.body.error).toBe("Too many login attempts, try again later.")
+    })
+
+    it("returns requires2FA set to true if user has 2FA enabled and no token provided (if credentials valid)", async () => {
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { twoFactorEnabled: true },
+        })
+
+        const res = await request(app)
+            .post("/api/v1/auth/login")
+            .send({ email: "test@gmail.com", password: "password123" })
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.requires2FA).toBe(true)
+    })
+
+    it("returns 200 along with token and user if 2FA enabled and 6-digit code is valid", async () => {
+        const secret = "WXPZJFLZ3JMK4F5AR6AJQ77ZV6HP5YTO"
+
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { twoFactorEnabled: true, twoFactorSecret: secret },
+        })
+
+        const token = await generate({ secret })
+
+        const res = await request(app)
+            .post("/api/v1/auth/login")
+            .send({ email: "test@gmail.com", password: "password123", token })
+
+        expect(res.status).toBe(200)
+        expect(res.body.data.accessToken).toBeDefined()
+        expect(res.body.data.user.email).toBe("test@gmail.com")
+    })
+
+    it("returns 401 if 2FA enabled and 6-digit code is incorrect", async () => {
+        const secret = "WXPZJFLZ3JMK4F5AR6AJQ77ZV6HP5YTO"
+
+        await prisma.user.update({
+            where: { id: "1" },
+            data: { twoFactorEnabled: true, twoFactorSecret: secret },
+        })
+
+        const res = await request(app)
+            .post("/api/v1/auth/login")
+            .send({
+                email: "test@gmail.com",
+                password: "password123",
+                token: "123456",
+            })
+
+        expect(res.status).toBe(401)
     })
 })
 

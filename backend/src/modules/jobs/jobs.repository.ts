@@ -10,7 +10,7 @@ import { AppError } from "../../errors/AppError"
 import type { GetJobsQuery } from "./jobs.controller"
 import type { GetJobsResponse } from "./jobs.service"
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 20
 
 export const jobsRepository = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {

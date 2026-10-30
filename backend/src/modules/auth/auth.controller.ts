@@ -23,9 +23,15 @@ export async function login(
     next: NextFunction
 ) {
     try {
-        const { accessToken, refreshToken, user } = await authService.login(
-            req.body
-        )
+        const result = await authService.login(req.body)
+
+        if ("requires2FA" in result) {
+            return res
+                .status(200)
+                .json({ success: true, data: { requires2FA: true } })
+        }
+
+        const { refreshToken, accessToken, user } = result
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,

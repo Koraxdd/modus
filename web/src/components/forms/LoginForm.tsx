@@ -12,9 +12,13 @@ import { toast } from "sonner"
 import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
 import { useAuthStore } from "@/lib/stores/authStore"
+import { useState } from "react"
+import TwoFactorDialog from "../features/auth/TwoFactorDialog"
 
 export default function LoginForm() {
     const router = useRouter()
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+    const [credentials, setCredentials] = useState<LoginInput | null>(null)
     const { setAccessToken } = useAuthStore()
 
     const form = useForm<LoginInput>({
@@ -37,14 +41,22 @@ export default function LoginForm() {
                 }
             )
 
-            const result = (await res.json()) as ApiResult<{
-                accessToken: string
-                user: PublicUser
-            }>
+            const result = (await res.json()) as ApiResult<
+                | {
+                      accessToken: string
+                      user: PublicUser
+                  }
+                | { requires2FA: true }
+            >
 
             if (!result.success) {
-                console.error("Login failed:", result.error)
                 form.setError("root", { message: result.error })
+                return
+            }
+
+            if ("requires2FA" in result.data) {
+                setCredentials(data)
+                setIsDialogOpen(true)
                 return
             }
 
@@ -56,41 +68,47 @@ export default function LoginForm() {
                 router.push("/onboarding")
             }
         } catch (err) {
-            console.error("Login failed:", err)
             toast.error("Something went wrong. Please try again.")
         }
     }
 
     return (
-        <form noValidate onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldGroup>
-                <FormField
-                    name="email"
-                    label="Email address"
-                    placeholder="you@example.com"
-                    control={form.control}
-                    type="email"
-                    autoComplete="email"
-                />
-                <FormPasswordField
-                    name="password"
-                    label="Password"
-                    placeholder="••••••••"
-                    control={form.control}
-                />
-                {form.formState.errors.root && (
-                    <span className="text-sm font-normal text-destructive">
-                        {form.formState.errors.root.message}
-                    </span>
-                )}
-                <Button
-                    type="submit"
-                    size="lg"
-                    className="rounded-lg font-semibold py-5 hover:bg-indigo-700 mt-1"
-                >
-                    Sign in
-                </Button>
-            </FieldGroup>
-        </form>
+        <>
+            <form noValidate onSubmit={form.handleSubmit(onSubmit)}>
+                <FieldGroup>
+                    <FormField
+                        name="email"
+                        label="Email address"
+                        placeholder="you@example.com"
+                        control={form.control}
+                        type="email"
+                        autoComplete="email"
+                    />
+                    <FormPasswordField
+                        name="password"
+                        label="Password"
+                        placeholder="••••••••"
+                        control={form.control}
+                    />
+                    {form.formState.errors.root && (
+                        <span className="text-sm font-normal text-destructive">
+                            {form.formState.errors.root.message}
+                        </span>
+                    )}
+                    <Button
+                        type="submit"
+                        size="lg"
+                        className="rounded-lg font-semibold py-5 hover:bg-indigo-700 mt-1"
+                    >
+                        Sign in
+                    </Button>
+                </FieldGroup>
+            </form>
+            <TwoFactorDialog
+                isOpen={isDialogOpen}
+                closeDialog={() => setIsDialogOpen(false)}
+                credentials={credentials!}
+            />
+        </>
     )
 }

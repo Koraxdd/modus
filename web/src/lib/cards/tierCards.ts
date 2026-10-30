@@ -20,7 +20,7 @@ export const tierCards: TierCard[] = [
         annualPrice: 0,
         monthlyLabel: "forever",
         annualLabel: "forever",
-        description: "Everything you need to get started and stay organized.",
+        description: "Everything you need to get started and stay organised.",
         features: [
             "Track up to 15 applications",
             "Email auto-import",
@@ -42,9 +42,7 @@ export const tierCards: TierCard[] = [
         features: [
             "Unlimited applications",
             "AI CV review & scoring",
-            "Unlimited cover letters",
-            "ATS browser extension",
-            "Interview prep coach",
+            "Unlimited CV enhancing",
             "Priority support",
         ],
         buttonText: "Start Pro free for 14 days",

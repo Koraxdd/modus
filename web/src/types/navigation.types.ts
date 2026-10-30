@@ -4,6 +4,6 @@ export type Link = {
 }
 
 export type FooterColumn = {
-    title: "PRODUCT" | "RESOURCES" | "COMPANY"
+    title: "PRODUCT" | "PROJECT"
     links: Link[]
 }

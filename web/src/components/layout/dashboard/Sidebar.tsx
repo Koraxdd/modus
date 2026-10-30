@@ -22,7 +22,7 @@ export default function Sidebar() {
                 </CustomLink>
             </nav>
             <div className="flex-1 flex flex-col justify-end gap-1 px-2 w-full">
-                <CustomLink title="Settings" href="/dashboard/settings">
+                <CustomLink title="Settings" href="/dashboard/settings/profile">
                     <Settings className="w-4 h-4" />
                 </CustomLink>
                 <ThemeToggle />

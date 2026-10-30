@@ -20,8 +20,12 @@ model User {
   fullName               String
   email                  String   @unique
   passwordHash           String
+  avatarUrl              String?
+  avatarKey              String?
 
-  hasCompletedOnboarding Boolean @default(false)
+  hasCompletedOnboarding Boolean  @default(false)
+  twoFactorSecret        String?
+  twoFactorEnabled       Boolean  @default(false)
 
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt

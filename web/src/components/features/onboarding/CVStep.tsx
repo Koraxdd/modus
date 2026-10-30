@@ -73,7 +73,7 @@ export default function CVStep({ next }: { next: () => void }) {
                 >
                     <Input
                         ref={fileInputRef}
-                        accept=".pdf,.doc,.docx"
+                        accept=".pdf"
                         type="file"
                         onChange={handleFileChange}
                         className="hidden"
@@ -90,7 +90,7 @@ export default function CVStep({ next }: { next: () => void }) {
                             <span className="text-primary dark:text-[#7b6ff0] font-medium">
                                 browse files
                             </span>{" "}
-                            — PDF, DOC
+                            — PDF
                         </p>
                     </div>
                 </button>

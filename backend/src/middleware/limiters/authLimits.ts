@@ -3,6 +3,7 @@ import rateLimit from "express-rate-limit"
 export const loginIpLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 20,
+    skipSuccessfulRequests: true,
     message: {
         success: false,
         error: "Too many login attempts, try again later.",
@@ -12,6 +13,7 @@ export const loginIpLimiter = rateLimit({
 export const loginEmailLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 5,
+    skipSuccessfulRequests: true,
     message: {
         success: false,
         error: "Too many login attempts, try again later.",

@@ -10,7 +10,7 @@ import {
 type FormFieldProps<T extends FieldValues> = {
     name: Path<T>
     label: string
-    placeholder: string
+    placeholder?: string
     control: Control<T>
     type?: "text" | "email" | "url"
     autoComplete?: string

@@ -1,4 +1,3 @@
-import type { StatusFilter } from "@shared/types/jobs.types"
 import type {
     Job,
     JobStatus,
@@ -8,6 +7,10 @@ import { prisma } from "../../lib/prisma"
 import type { ApplicationOutput, UpdateTimelineInput } from "./jobs.schemas"
 import type { JobWithRelations } from "../../types/api.types"
 import { AppError } from "../../errors/AppError"
+import type { GetJobsQuery } from "./jobs.controller"
+import type { GetJobsResponse } from "./jobs.service"
+
+const PAGE_SIZE = 5
 
 export const jobsRepository = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
@@ -18,10 +21,64 @@ export const jobsRepository = {
             },
         })
     },
-    async getJobs(userId: string, filter: StatusFilter): Promise<Job[]> {
-        return await prisma.job.findMany({
-            where: { userId, status: filter !== "all" ? filter : undefined },
+    async getJobs(
+        userId: string,
+        query: GetJobsQuery
+    ): Promise<GetJobsResponse> {
+        const where = {
+            userId,
+            status: query.status !== "all" ? query.status : undefined,
+            ...(query.searchQuery
+                ? {
+                      OR: [
+                          {
+                              role: {
+                                  contains: query.searchQuery,
+                                  mode: "insensitive" as const,
+                              },
+                          },
+                          {
+                              company: {
+                                  contains: query.searchQuery,
+                                  mode: "insensitive" as const,
+                              },
+                          },
+                      ],
+                  }
+                : {}),
+        }
+
+        const sortFieldMap = {
+            role: "role",
+            company: "company",
+            status: "status",
+            dateApplied: "createdAt",
+            lastUpdate: "updatedAt",
+        } as const
+
+        const orderBy = query.sortField
+            ? {
+                  [sortFieldMap[query.sortField]]: query.sortOrder ?? "asc",
+              }
+            : { createdAt: "desc" as const }
+
+        const total = await prisma.job.count({ where })
+
+        const jobs = await prisma.job.findMany({
+            where,
+            orderBy,
+            ...(query.page
+                ? {
+                      skip: (Number(query.page) - 1) * PAGE_SIZE,
+                      take: PAGE_SIZE,
+                  }
+                : {}),
         })
+
+        return {
+            jobs,
+            totalPages: query.page ? Math.ceil(total / PAGE_SIZE) : 1,
+        }
     },
     async getJob(
         userId: string,

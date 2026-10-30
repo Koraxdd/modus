@@ -1,3 +1,5 @@
+"use client"
+
 import type { StatusFilter } from "@/app/dashboard/applications/page"
 import type { Job } from "@/types/job.types"
 import { useMemo } from "react"

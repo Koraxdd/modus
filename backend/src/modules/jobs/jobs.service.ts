@@ -1,4 +1,3 @@
-import type { StatusFilter } from "@shared/types/jobs.types"
 import type {
     Job,
     JobStatus,
@@ -8,13 +7,22 @@ import { jobsRepository } from "./jobs.repository"
 import type { ApplicationOutput, UpdateTimelineInput } from "./jobs.schemas"
 import { AppError } from "../../errors/AppError"
 import type { JobWithRelations } from "../../types/api.types"
+import type { GetJobsQuery } from "./jobs.controller"
+
+export type GetJobsResponse = {
+    jobs: Job[]
+    totalPages: number
+}
 
 export const jobsService = {
     async createJob(userId: string, data: ApplicationOutput): Promise<Job> {
         return await jobsRepository.createJob(userId, data)
     },
-    async getJobs(userId: string, filter: StatusFilter): Promise<Job[]> {
-        return await jobsRepository.getJobs(userId, filter)
+    async getJobs(
+        userId: string,
+        query: GetJobsQuery
+    ): Promise<GetJobsResponse> {
+        return await jobsRepository.getJobs(userId, query)
     },
     async getJob(
         userId: string,

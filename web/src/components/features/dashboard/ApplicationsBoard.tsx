@@ -32,7 +32,8 @@ export default function ApplicationsBoard({
     setDraftFilters,
 }: ApplicationsBoardProps) {
     const { mutate: updateStatus } = useUpdateJobStatus()
-    const { data: jobs = [] } = useJobs("all")
+    const { data } = useJobs({ status: "all" })
+    const jobs = data?.jobs ?? []
     const jobCounts = useJobCounts(jobs)
 
     const filteredJobs = useMemo(() => {

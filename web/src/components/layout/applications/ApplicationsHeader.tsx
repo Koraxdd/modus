@@ -25,7 +25,8 @@ export default function ApplicationsHeader({
     const openCreateApplication = useUIStore(
         (state) => state.openCreateApplication
     )
-    const { data: jobs = [] } = useJobs("all")
+    const { data } = useJobs({ status: "all" })
+    const jobs = data?.jobs ?? []
     const jobCounts = useJobCounts(jobs)
 
     return (

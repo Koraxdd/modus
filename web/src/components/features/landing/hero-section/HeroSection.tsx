@@ -1,4 +1,7 @@
-import { buttonVariants } from "@/components/ui/button"
+"use client"
+
+import { Button, buttonVariants } from "@/components/ui/button"
+import { demoLogin } from "@/lib/api/auth"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -31,15 +34,14 @@ export default function HeroSection() {
                     Start for free
                     <ArrowRight className="w-3.75! h-3.75!" />
                 </Link>
-                <Link
-                    href="/login"
-                    className={cn(
-                        buttonVariants({ variant: "outline", size: "lg" }),
-                        "shadow-sm p-6 rounded-lg font-semibold dark:text-[#c8c8dc] dark:hover:text-white"
-                    )}
+                <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={demoLogin}
+                    className="shadow-sm p-6 rounded-lg font-semibold dark:text-[#c8c8dc] dark:hover:text-white"
                 >
                     See a demo
-                </Link>
+                </Button>
             </div>
             <p className="text-xs text-zinc-400 mt-4">
                 Free forever · no credit card required · 2 min setup

@@ -2,9 +2,15 @@
 
 import { Moon, SunMedium } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 export default function ThemeToggle() {
     const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = useState<boolean>(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     return (
         <button
@@ -14,9 +20,11 @@ export default function ThemeToggle() {
         >
             <SunMedium className="size-4 hidden dark:block shrink-0" />
             <Moon className="size-4 block dark:hidden shrink-0" />
-            <span className="md:hidden text-[10px] font-bold">
-                {theme === "light" ? "Dark" : "Light"}
-            </span>
+            {mounted && (
+                <span className="md:hidden text-[10px] font-bold">
+                    {theme === "light" ? "Dark" : "Light"}
+                </span>
+            )}
         </button>
     )
 }

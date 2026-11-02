@@ -86,7 +86,7 @@ export default function ManagerPage() {
                                                 KB
                                             </span>
                                         </div>
-                                        <div className="flex items-center gap-2 transition-opacity opacity-0 group-hover:opacity-100">
+                                        <div className="flex items-center gap-2 transition-opacity opacity-100 md:opacity-0 md:pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto">
                                             <button
                                                 onClick={() =>
                                                     setFileUrl(document.fileUrl)

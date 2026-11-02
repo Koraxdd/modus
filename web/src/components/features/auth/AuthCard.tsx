@@ -40,31 +40,7 @@ export default function AuthCard({
                 <CardDescription className="text-sm mb-8">
                     {description}
                 </CardDescription>
-                <div className="flex flex-col gap-3 mb-6">
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="shadow-xs rounded-lg gap-2.5 dark:bg-[#16161e] dark:text-[#c8c8dc]"
-                    >
-                        <GoogleIcon className="size-4.5 shrink-0" />
-                        Continue with Google
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="shadow-xs rounded-lg gap-2.5 dark:bg-[#16161e] dark:text-[#c8c8dc]"
-                    >
-                        <GithubIcon className="size-4.5 shrink-0" />
-                        Continue with GitHub
-                    </Button>
-                </div>
-                <div className="flex items-center gap-3">
-                    <div className="flex-1 h-px bg-zinc-100 dark:bg-[#24242f]" />
-                    <span className="text-xs font-medium text-muted-foreground">
-                        or
-                    </span>
-                    <div className="flex-1 h-px bg-zinc-100 dark:bg-[#24242f]" />
-                </div>
+                <div className="-mt-2 h-px bg-zinc-100 dark:bg-[#24242f]" />
             </CardHeader>
             <CardContent>{children}</CardContent>
             <CardFooter>{footer}</CardFooter>

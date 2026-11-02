@@ -82,16 +82,16 @@ describe("Applications Page", () => {
             updatedAt: new Date("2026-01-01"),
         }
 
-        mockUseJobs.mockImplementation((filter) => {
-            if (filter === "all") {
+        mockUseJobs.mockImplementation((params) => {
+            if (params.status === "all") {
                 return {
-                    data: [googleJob, amazonJob],
+                    data: { jobs: [googleJob, amazonJob], totalPages: 1 },
                 }
             }
 
-            if (filter === "applied") {
+            if (params.status === "applied") {
                 return {
-                    data: [googleJob],
+                    data: { jobs: [googleJob], totalPages: 1 },
                 }
             }
         })
@@ -131,11 +131,15 @@ describe("Applications Page", () => {
             updatedAt: new Date("2026-01-01"),
         }
 
-        mockUseJobs.mockImplementation((filter) => {
-            if (filter === "all") {
+        mockUseJobs.mockImplementation((params) => {
+            if (params.status === "all" && params.searchQuery == "Google") {
                 return {
-                    data: [googleJob, amazonJob],
+                    data: { jobs: [googleJob], totalPages: 1 },
                 }
+            }
+
+            return {
+                data: { jobs: [googleJob, amazonJob], totalPages: 1 },
             }
         })
 

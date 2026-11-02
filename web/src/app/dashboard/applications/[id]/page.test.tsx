@@ -36,6 +36,7 @@ const {
     mockMutateTag,
     mockUseDeleteJob,
     mockMutateJob,
+    mockUseDocuments,
 } = vi.hoisted(() => ({
     mockUseUpdateJobStatus: vi.fn(),
     mockUseUpdateJobNotes: vi.fn(),
@@ -54,12 +55,17 @@ const {
     mockStore: {
         openEditApplication: vi.fn(),
     },
+    mockUseDocuments: vi.fn(),
 }))
 
 vi.mock("next/navigation", () => ({
     useRouter: () => ({
         push: mockPush,
     }),
+}))
+
+vi.mock("@/hooks/documents/useDocuments", () => ({
+    useDocuments: mockUseDocuments,
 }))
 
 vi.mock("@/hooks/jobs/useUpdateJobStatus", () => ({
@@ -102,6 +108,7 @@ vi.mock("@/lib/stores/UIStore", () => ({
 describe("Application Posting", () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        mockUseDocuments.mockReturnValue({ data: [] })
         mockUseUpdateJobStatus.mockReturnValue({ mutate: mockMutateStatus })
         mockUseUpdateJobNotes.mockReturnValue({ mutate: mockMutateNotes })
         mockUseAddTimeline.mockReturnValue({ mutate: mockMutateTimeline })

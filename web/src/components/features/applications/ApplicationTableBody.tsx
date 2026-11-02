@@ -1,79 +1,29 @@
 "use client"
 
-import { useJobs } from "@/hooks/jobs/useJobs"
 import StatusBadge from "./StatusBadge"
 import { format } from "date-fns"
-import type { StatusFilter } from "@/app/dashboard/applications/page"
-import type { SortField, SortOrder } from "./ApplicationsTable"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { Search, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
+import type { Job } from "@/types/job.types"
 
 type ApplicationTableBodyProps = {
-    statusFilter: StatusFilter
-    sortField: SortField
-    sortOrder: SortOrder
-    searchQuery: string
+    jobs: Job[]
 }
 
 export default function ApplicationTableBody({
-    statusFilter,
-    sortField,
-    sortOrder,
-    searchQuery,
+    jobs,
 }: ApplicationTableBodyProps) {
     const router = useRouter()
     const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
     const [deleteId, setDeleteId] = useState<string>("")
-    const { data: jobs = [] } = useJobs(statusFilter)
-
-    const filteredJobs = useMemo(() => {
-        const query = searchQuery.trim().toLowerCase()
-        return jobs.filter(
-            (job) =>
-                job.company.toLowerCase().includes(query) ||
-                job.role.toLowerCase().includes(query)
-        )
-    }, [jobs, searchQuery])
-
-    const sortedJobs = useMemo(
-        () =>
-            [...filteredJobs].sort((a, b) => {
-                let comparison = 0
-
-                switch (sortField) {
-                    case "company":
-                        comparison = a.company.localeCompare(b.company)
-                        break
-                    case "role":
-                        comparison = a.role.localeCompare(b.role)
-                        break
-                    case "status":
-                        comparison = a.status.localeCompare(b.status)
-                        break
-                    case "dateApplied":
-                        comparison =
-                            new Date(a.createdAt).getTime() -
-                            new Date(b.createdAt).getTime()
-                        break
-                    case "lastUpdate":
-                        comparison =
-                            new Date(a.updatedAt).getTime() -
-                            new Date(b.updatedAt).getTime()
-                        break
-                }
-
-                return sortOrder === "asc" ? comparison : -comparison
-            }),
-        [filteredJobs, sortField, sortOrder]
-    )
 
     return (
         <>
             <tbody>
-                {sortedJobs.length > 0 ? (
-                    sortedJobs.map((job) => (
+                {jobs.length > 0 ? (
+                    jobs.map((job) => (
                         <tr
                             key={job.id}
                             onClick={() =>

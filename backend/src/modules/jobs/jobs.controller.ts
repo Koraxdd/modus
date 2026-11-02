@@ -10,10 +10,18 @@ import type {
 import { jobsService } from "./jobs.service"
 import type { TypedRequest } from "../../types/api.types"
 import { getUserId } from "../../utils/getUserId"
-import type { StatusFilter } from "@shared/types/jobs.types"
+import type {
+    SortField,
+    SortOrder,
+    StatusFilter,
+} from "@shared/types/jobs.types"
 
-type GetJobsQuery = {
+export type GetJobsQuery = {
     status: StatusFilter
+    searchQuery?: string
+    sortField?: SortField
+    sortOrder?: SortOrder
+    page?: string
 }
 
 export async function createJob(
@@ -35,8 +43,11 @@ export async function getJobs(
     next: NextFunction
 ) {
     try {
-        const jobs = await jobsService.getJobs(getUserId(req), req.query.status)
-        res.status(200).json({ success: true, data: { jobs } })
+        const result = await jobsService.getJobs(getUserId(req), req.query)
+        res.status(200).json({
+            success: true,
+            data: { jobs: result.jobs, totalPages: result.totalPages },
+        })
     } catch (err) {
         next(err)
     }

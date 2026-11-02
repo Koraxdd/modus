@@ -1,4 +1,5 @@
 import ApplicationDialog from "@/components/features/applications/ApplicationDialog"
+import MobileNav from "@/components/layout/dashboard/MobileNav"
 import Sidebar from "@/components/layout/dashboard/Sidebar"
 import { getCurrentUser } from "@/lib/api/getCurrentUser"
 import { redirect } from "next/navigation"
@@ -16,10 +17,11 @@ export default async function DashboardLayout({
     return (
         <div className="min-h-dvh">
             <Sidebar />
-            <main className="min-w-0 ml-14 bg-dashboard min-h-screen">
+            <main className="min-w-0 md:ml-14 bg-dashboard min-h-screen">
                 {children}
                 <ApplicationDialog />
             </main>
+            <MobileNav />
         </div>
     )
 }

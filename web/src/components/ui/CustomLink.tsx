@@ -35,7 +35,7 @@ export default function CustomLink({
             )}
         >
             {isActive && (
-                <div className="absolute w-0.5 h-4 bg-primary left-0 top-1/2 -translate-y-1/2" />
+                <div className="hidden md:block absolute w-0.5 h-4 bg-primary left-0 top-1/2 -translate-y-1/2" />
             )}
             {children}
         </Link>

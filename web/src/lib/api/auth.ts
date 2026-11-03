@@ -1,7 +1,7 @@
 import type { ApiResult } from "@shared/types/api.types"
 import type { PublicUser } from "@shared/types/user.types"
-import { redirect } from "next/navigation"
 import { toast } from "sonner"
+import { useAuthStore } from "../stores/authStore"
 
 export async function demoLogin() {
     const res = await fetch(
@@ -28,7 +28,13 @@ export async function demoLogin() {
     >
     if (!result.success) {
         toast.error("Failed to login as demo account. Try again.")
+        return
     }
 
-    redirect("/dashboard")
+    if ("requires2FA" in result.data) return
+
+    const { setAccessToken } = useAuthStore.getState()
+    setAccessToken(result.data.accessToken)
+
+    window.location.href = "/dashboard"
 }

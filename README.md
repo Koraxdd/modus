@@ -83,7 +83,7 @@ Modus lets you track applications across a Kanban board and list view, keep a ti
 ### Setup
 
 ```bash
-git clone [REPO_URL]
+git clone https://github.com/Koraxdd/modus
 cd modus
 
 # API
@@ -169,14 +169,6 @@ Backend tests need a separate database (set its URL in `backend/.env.test`).
 **Application detail**
 
 <p align="center"> <img src="images/detail.png" alt="Application detail" width="900"> </p>
-
-**Match report**
-
-<p align="center"> <img src="images/ats.png" alt="Match report" width="900"> </p>
-
-**Enhance CV**
-
-<p align="center"> <img src="images/enhance.png" alt="Enhance CV" width="900"> </p>
 
 **2FA**
 
